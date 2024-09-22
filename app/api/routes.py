@@ -11,7 +11,10 @@ def get_user(user_id):
         return jsonify({
             'id': user.id,
             'username': user.username,
-            'balance': user.balance
+            'name': user.name,
+            'surname': user.surname,
+            'balance': user.balance,
+            'role': user.role
         })
     # Return a 404 response if the user is not found
     return jsonify({'error': 'User not found'}), 404
