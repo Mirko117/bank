@@ -16,11 +16,21 @@ class User(UserMixin, db.Model):
 
 class Card(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    card_rfid_code = db.Column(db.String(50), unique=True, nullable=False)
+    rfid_code = db.Column(db.String(50), unique=True, nullable=False)
+    pin = db.Column(db.String(4), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f'<Card {self.card_rfid_code}>'
+
+class Terminal(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    terminal_id = db.Column(db.String(50), unique=True, nullable=False)
+    location = db.Column(db.String(150))
+    status = db.Column(db.String(50), default='active')  # active, maintenance, etc.
+
+    def __repr__(self):
+        return f'<Terminal {self.terminal_id}>'
 
 class Transaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -29,6 +39,7 @@ class Transaction(db.Model):
     amount = db.Column(db.Float, nullable=False)
     transaction_type = db.Column(db.String(50))  # 'deposit', 'withdrawal', etc.
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    terminal_id = db.Column(db.String(50), db.ForeignKey('terminal.terminal_id')) 
 
     def __repr__(self):
         return f'<Transaction {self.id}>'
