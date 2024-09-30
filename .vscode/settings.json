@@ -6,6 +6,7 @@
         "savePath": "/app/static/css"
       }
     ],
+    
     "liveSassCompile.settings.generateMap": false
-  }
+}
   

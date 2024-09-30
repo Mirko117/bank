@@ -3,12 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
     {% block head %}{% endblock %}
 </head>
 <body>
+    <nav>
+        <ul id="sidebar">
+            <li><a href="#">LOGO HERE</a></li>
+            <li><a href="#">{{ t['navbar']['home'] }}</a></li>
+            <li><a href="#">{{ t['navbar']['about'] }}</a></li>
+            <li><a href="#">{{ t['navbar']['services'] }}</a></li>
+            <li><a href="#">{{ t['navbar']['contact'] }}</a></li>
+            <li><a href="#">{{ t['navbar']['login'] }}</a></li>
+        </ul>
+    </nav>
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#">LOGO HERE</a></li>
+                <li><a href="#">{{ t['navbar']['home'] }}</a></li>
+                <li><a href="#">{{ t['navbar']['about'] }}</a></li>
+                <li><a href="#">{{ t['navbar']['services'] }}</a></li>
+                <li><a href="#">{{ t['navbar']['contact'] }}</a></li>
+                <li><a href="#">{{ t['navbar']['login'] }}</a></li>
+            </ul>
+        </div>
+    </nav>
     {% block body %}{% endblock %}
 </body>
 </html>

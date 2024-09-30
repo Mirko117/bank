@@ -1,4 +1,13 @@
 {
     "lang": "si",
-    "main-title": "Varno in Zanseljivo Bankarstvo"
+
+    "navbar": {
+        "home": "Domov",
+        "about": "O nas",
+        "services": "Storitve",
+        "contact": "Kontakt",
+        "login": "Prijava"
+    },
+
+    "main-title": "Varno in Zanesljivo Bankarstvo"
 }

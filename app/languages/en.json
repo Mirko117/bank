@@ -1,4 +1,13 @@
 {
     "lang": "en",
+
+    "navbar": {
+        "home": "Home",
+        "about": "About",
+        "services": "Services",
+        "contact": "Contact",
+        "login": "Login"
+    },
+
     "main-title": "Secure and Reliable Banking"
 }
