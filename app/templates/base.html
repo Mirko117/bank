@@ -18,7 +18,12 @@
 </head>
 <body>
     <nav>
-        <ul id="sidebar">
+        <ul id="sidebar" class="hidden">
+            <li>
+                <a href="#" onclick="showSidebar()">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#020817"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                </a>
+            </li>
             <li><a href="#">LOGO HERE</a></li>
             <li><a href="#">{{ t['navbar']['home'] }}</a></li>
             <li><a href="#">{{ t['navbar']['about'] }}</a></li>
@@ -31,11 +36,16 @@
         <div class="container">
             <ul>
                 <li><a href="#">LOGO HERE</a></li>
-                <li><a href="#">{{ t['navbar']['home'] }}</a></li>
-                <li><a href="#">{{ t['navbar']['about'] }}</a></li>
-                <li><a href="#">{{ t['navbar']['services'] }}</a></li>
-                <li><a href="#">{{ t['navbar']['contact'] }}</a></li>
-                <li><a href="#">{{ t['navbar']['login'] }}</a></li>
+                <li><a href="#" class="hide-on-mobile">{{ t['navbar']['home'] }}</a></li>
+                <li><a href="#" class="hide-on-mobile">{{ t['navbar']['about'] }}</a></li>
+                <li><a href="#" class="hide-on-mobile">{{ t['navbar']['services'] }}</a></li>
+                <li><a href="#" class="hide-on-mobile">{{ t['navbar']['contact'] }}</a></li>
+                <li><a href="#" class="hide-on-mobile">{{ t['navbar']['login'] }}</a></li>
+                <li>
+                    <a href="#" id="menu-button" onclick="showSidebar()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#020817"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>

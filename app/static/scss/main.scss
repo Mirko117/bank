@@ -68,3 +68,18 @@ nav{
         width: 200px; 
     }
 }
+
+#menu-button{
+    display: none;
+}
+
+
+@media screen and (max-width: 768px) {
+    .hide-on-mobile{
+        display: none;
+    }
+
+    #menu-button{
+        display: flex;
+    }
+}
