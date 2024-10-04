@@ -3,7 +3,7 @@
 
     "navbar": {
         "home": "Home",
-        "about": "About",
+        "languages": "Languages",
         "services": "Services",
         "contact": "Contact",
         "login": "Login"

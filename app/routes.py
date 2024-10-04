@@ -7,7 +7,7 @@ main = Blueprint('main', __name__)
 def index():
     return render_template('index.html', t=get_translations())
 
-@main.route('/set_language/<lang>')
+@main.route('/set_language/<lang>', methods=['POST'])
 def set_language(lang):
     try:
         lang = lang.lower()

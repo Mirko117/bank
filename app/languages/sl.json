@@ -1,9 +1,9 @@
 {
-    "lang": "si",
+    "lang": "sl",
 
     "navbar": {
         "home": "Domov",
-        "about": "O nas",
+        "languages": "Jeziki",
         "services": "Storitve",
         "contact": "Kontakt",
         "login": "Prijava"
