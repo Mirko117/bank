@@ -6,7 +6,7 @@ import os
 # Load language files
 def load_language(lang:str):
     filepath = os.path.join(current_app.root_path, 'languages', f'{lang}.json')
-    with open(filepath, 'r') as f:
+    with open(filepath, 'r', encoding='utf-8') as f:
         return json.load(f)
 
 

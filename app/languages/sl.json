@@ -1,6 +1,10 @@
 {
     "lang": "sl",
 
+    "title": {
+        "home":"Domov"
+    },
+
     "navbar": {
         "home": "Domov",
         "languages": "Jeziki",
@@ -9,5 +13,11 @@
         "login": "Prijava"
     },
 
-    "main-title": "Varno in Zanesljivo Bankarstvo"
+    "hero": {
+        "title": "Varno in Zanesljivo Bankarstvo",
+        "subtitle": "Doživite prihodnost bančništva z IME Bank. Uživajte v brezhibnih digitalnih storitvah, vodilni varnosti v panogi in prilagojeni podpori.",
+        "sign-in": "Prijava",
+        "sign-up": "Registracija",
+        "image-alt": "Bančna kartica"
+    }
 }

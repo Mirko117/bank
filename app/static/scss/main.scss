@@ -34,9 +34,11 @@ nav{
         text-decoration: none;
         display: flex;
         align-items: center;
+        transition: all .3s;
         
         &:hover{
             background-color: $secondary-color;
+            transition: all .3s;
         }
     }
 }

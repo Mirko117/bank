@@ -1,6 +1,10 @@
 {
     "lang": "en",
 
+    "title": {
+        "home":"Home"
+    },
+
     "navbar": {
         "home": "Home",
         "languages": "Languages",
@@ -9,5 +13,11 @@
         "login": "Login"
     },
 
-    "main-title": "Secure and Reliable Banking"
+    "hero": {
+        "title": "Secure and Reliable Banking",
+        "subtitle": "Experience the future of banking with NAME Bank. Enjoy seamless digital services, industry-leading security, and personalized support.",
+        "sign-in": "Sign In",
+        "sign-up": "Sign Up",
+        "image-alt": "Bank card"
+    }
 }

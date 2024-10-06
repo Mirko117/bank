@@ -28,6 +28,120 @@ body {
   display: none !important;
 }
 
+section#hero {
+  height: calc(100vh - 45px);
+  background-color: #3A72EC;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+section#hero .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+section#hero .container .left {
+  display: block;
+  max-width: 690px;
+}
+section#hero .container .left h1 {
+  color: #fff;
+  font-size: 64px;
+}
+section#hero .container .left p {
+  color: #fff;
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+section#hero .container .left .buttons-wrapper {
+  display: flex;
+}
+section#hero .container .left .buttons-wrapper .button {
+  text-decoration: none;
+  padding: 12px 32px;
+  border-radius: 5px;
+  position: relative;
+  top: 0;
+  transition: all 0.3s;
+}
+section#hero .container .left .buttons-wrapper .button:hover {
+  top: -3px;
+  transition: all 0.3s;
+  box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.25);
+}
+section#hero .container .left .buttons-wrapper .sign-in {
+  background-color: #fff;
+  color: #3A72EC;
+}
+section#hero .container .left .buttons-wrapper .sign-up {
+  background-color: transparent;
+  color: #fff;
+  margin-left: 20px;
+  border: 1px solid #fff;
+}
+section#hero .container .right {
+  display: block;
+}
+
+@media (max-width: 1200px) {
+  section#hero .container .right img {
+    height: 400px;
+  }
+}
+@media (max-width: 992px) {
+  section#hero .container .left h1 {
+    font-size: 52px;
+  }
+  section#hero .container .left p {
+    font-size: 18px;
+  }
+  section#hero .container .left .buttons-wrapper .button {
+    padding: 10px 24px;
+  }
+  section#hero .container .right img {
+    height: 350px;
+  }
+}
+@media (max-width: 768px) {
+  section#hero .container {
+    flex-direction: column;
+    text-align: center;
+  }
+  section#hero .container .left h1 {
+    font-size: 42px;
+  }
+  section#hero .container .left .buttons-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  section#hero .container .left .buttons-wrapper .button {
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  section#hero .container .right img {
+    height: 300px;
+  }
+}
+@media (max-width: 576px) {
+  section#hero .container .left h1 {
+    font-size: 32px;
+  }
+  section#hero .container .left p {
+    font-size: 16px;
+  }
+  section#hero .container .left .buttons-wrapper .button {
+    font-size: 14px;
+    padding: 8px 20px;
+  }
+  section#hero .container .right img {
+    height: 250px;
+  }
+}
 nav {
   background-color: #fff;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
@@ -52,9 +166,11 @@ nav a {
   text-decoration: none;
   display: flex;
   align-items: center;
+  transition: all 0.3s;
 }
 nav a:hover {
   background-color: #F1F5F9;
+  transition: all 0.3s;
 }
 
 #sidebar {

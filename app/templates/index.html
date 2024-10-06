@@ -3,12 +3,24 @@
 {% block lang %}{{ t["lang"] }}{% endblock %}
 
 {% block head %}
-    <title>Home</title>
+    <title>{{ t['title']['home'] }}</title>
 {% endblock %}
 
 
 {% block body %}
-    <div class="container">
-        <h1>{{ t["main-title"] }}</h1>
-    </div>
+    <section id="hero">
+        <div class="container">
+            <div class="left">
+                <h1>{{ t["hero"]["title"] }}</h1>
+                <p>{{ t["hero"]["subtitle"] }}</p>
+                <div class="buttons-wrapper">
+                    <a href="#" class="button sign-in">{{ t["hero"]["sign-in"] }}</a>
+                    <a href="#" class="button sign-up">{{ t["hero"]["sign-up"] }}</a>
+                </div>
+            </div>
+            <div class="right">
+                <img src="{{ url_for('static', filename='images/index/hero-cards.png') }}" alt="{{ t['hero']['image-alt'] }}">
+            </div>
+        </div>
+    </section>
 {% endblock %}
