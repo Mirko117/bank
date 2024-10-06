@@ -49,6 +49,11 @@
                 <li><a href="#" class="hide-on-mobile group">{{ t['navbar']['contact'] }}</a></li>
                 <li><a href="#" class="hide-on-mobile group">{{ t['navbar']['login'] }}</a></li>
 
+                <li>
+                    <a href="#" id="show-languages-back" class="group hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#020817"><path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/></svg>
+                    </a>
+                </li>
                 <li><a href="#" class="hide-on-mobile group language-option hidden {% if session.get('lang') == 'en' %}selected{% endif %}" value="en">English</a></li>
                 <li><a href="#" class="hide-on-mobile group language-option hidden {% if session.get('lang') == 'sl' %}selected{% endif %}" value="sl">Slovenščina</a></li>
                 <li>
