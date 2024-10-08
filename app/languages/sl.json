@@ -2,7 +2,8 @@
     "lang": "sl",
 
     "title": {
-        "home":"Domov"
+        "home":"Domov",
+        "register": "Registracija"
     },
 
     "navbar": {
@@ -10,14 +11,26 @@
         "languages": "Jeziki",
         "services": "Storitve",
         "contact": "Kontakt",
-        "login": "Prijava"
+        "log-in": "Prijava"
     },
 
     "hero": {
         "title": "Varno in Zanesljivo Bankarstvo",
         "subtitle": "Doživite prihodnost bančništva z IME Bank. Uživajte v brezhibnih digitalnih storitvah, vodilni varnosti v panogi in prilagojeni podpori.",
-        "sign-in": "Prijava",
-        "sign-up": "Registracija",
+        "log-in": "Prijava",
+        "register": "Registracija",
         "image-alt": "Bančna kartica"
+    },
+
+    "register": {
+        "title": "Ustvari Račun",
+        "subtitle": "Začnite z uporabo naših storitev že danes. Izpolnite obrazec in se registrirajte.",
+        "name": "Ime",
+        "name-placeholder": "Janez Novak",
+        "email": "E-pošta",
+        "email-placeholder": "m@primer.com",
+        "password": "Geslo",
+        "confirm-password": "Potrdite geslo",
+        "submit": "Registriraj se"
     }
 }

@@ -20,6 +20,16 @@ body {
   }
 }
 
+.button {
+  text-decoration: none;
+  cursor: pointer;
+  padding: 12px 32px;
+  border-radius: 5px;
+  position: relative;
+  top: 0;
+  transition: all 0.3s;
+}
+
 .mb-20 {
   margin-bottom: 20px;
 }
@@ -29,7 +39,7 @@ body {
 }
 
 section#hero {
-  height: calc(100vh - 45px);
+  height: calc(100vh - 48px);
   background-color: #3A72EC;
   display: flex;
   justify-content: center;
@@ -57,14 +67,6 @@ section#hero .container .left p {
 }
 section#hero .container .left .buttons-wrapper {
   display: flex;
-}
-section#hero .container .left .buttons-wrapper .button {
-  text-decoration: none;
-  padding: 12px 32px;
-  border-radius: 5px;
-  position: relative;
-  top: 0;
-  transition: all 0.3s;
 }
 section#hero .container .left .buttons-wrapper .button:hover {
   top: -3px;
@@ -142,6 +144,49 @@ section#hero .container .right {
     height: 250px;
   }
 }
+.auth .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 48px);
+}
+.auth .container .wrapper {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.auth .container .wrapper h1 {
+  margin-bottom: 10px;
+}
+.auth .container .wrapper p {
+  margin-bottom: 20px;
+  color: #5E6D82;
+}
+.auth .container .wrapper label {
+  display: block;
+  margin-bottom: 5px;
+}
+.auth .container .wrapper input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.auth .container .wrapper button {
+  background-color: #3A72EC;
+  color: #fff;
+  font-size: 16px;
+  width: 100%;
+  border: none;
+  margin-top: 20px;
+}
+.auth .container .wrapper button:hover {
+  background-color: #2361ea;
+  transition: all 0.3s;
+}
+
 nav {
   background-color: #fff;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);

@@ -24,11 +24,11 @@
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#020817"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
                 </a>
             </li>
-            <li><a href="#">{{ t['navbar']['home'] }}</a></li>
+            <li><a href="/">{{ t['navbar']['home'] }}</a></li>
             <li><a href="#" id="show-languages-sidebar">{{ t['navbar']['languages'] }}</a></li>
             <li><a href="#">{{ t['navbar']['services'] }}</a></li>
             <li><a href="#">{{ t['navbar']['contact'] }}</a></li>
-            <li><a href="#">{{ t['navbar']['login'] }}</a></li>
+            <li><a href="/auth/login">{{ t['navbar']['log-in'] }}</a></li>
 
             <li class="hidden">
                 <a href="#" id="show-languages-sidebar-back">
@@ -42,12 +42,12 @@
     <nav id="main-nav">
         <div class="container">
             <ul>
-                <li><a href="#">LOGO HERE</a></li>
-                <li><a href="#" class="hide-on-mobile group">{{ t['navbar']['home'] }}</a></li>
+                <li><a href="/">LOGO HERE</a></li>
+                <li><a href="/" class="hide-on-mobile group">{{ t['navbar']['home'] }}</a></li>
                 <li><a href="#" class="hide-on-mobile group" id="show-languages">{{ t['navbar']['languages'] }}</a></li>
                 <li><a href="#" class="hide-on-mobile group">{{ t['navbar']['services'] }}</a></li>
                 <li><a href="#" class="hide-on-mobile group">{{ t['navbar']['contact'] }}</a></li>
-                <li><a href="#" class="hide-on-mobile group">{{ t['navbar']['login'] }}</a></li>
+                <li><a href="/auth/login" class="hide-on-mobile group">{{ t['navbar']['log-in'] }}</a></li>
 
                 <li>
                     <a href="#" id="show-languages-back" class="group hidden">

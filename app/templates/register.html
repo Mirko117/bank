@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block lang %}{{ t["lang"] }}{% endblock %}
+
+{% block head %}
+    <title>{{ t['title']['register'] }}</title>
+{% endblock %}
+
+{% block body %}
+    <section id="register" class="auth">
+        <div class="container">
+            <div class="wrapper">
+                <h1>{{ t['register']['title'] }}</h1>
+                <p>{{ t['register']['subtitle'] }}</p>
+
+                <form action="/auth/register" method="post">
+                    <label for="name">{{ t['register']['name'] }}</label>
+                    <input type="text" name="name" id="name" placeholder="{{ t['register']['name-placeholder'] }}">
+
+                    <label for="email">{{ t['register']['email'] }}</label>
+                    <input type="email" name="email" id="email" placeholder="{{ t['register']['email-placeholder'] }}">
+
+                    <label for="password">{{ t['register']['password'] }}</label>
+                    <input type="password" name="password" id="password">
+
+                    <label for="confirm-password">{{ t['register']['confirm-password'] }}</label>
+                    <input type="password" name="confirm-password" id="confirm-password">
+
+                    <button type="submit" class="button">{{ t['register']['submit'] }}</button>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

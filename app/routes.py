@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, session, jsonify
+from flask_login import login_required
 from app.functions import get_translations, check_language
 
 main = Blueprint('main', __name__)
@@ -18,10 +19,7 @@ def set_language(lang):
     except:
         return jsonify({"status": "Error changing language"}), 500
 
-@main.route('/login')
-def login():
-    return render_template('login.html')
-
 @main.route('/dashboard')
+@login_required
 def dashboard():
-    return render_template('dashboard.html')
+    return render_template('dashboard.html', t=get_translations())
