@@ -32,5 +32,14 @@
         "password": "Password",
         "confirm-password": "Confirm Password",
         "submit": "Register"
+    },
+
+    "login": {
+        "title": "Login to your account",
+        "subtitle": "Log in to your account to access our services.",
+        "username": "Username",
+        "username-placeholder": "user1234",
+        "password": "Password",
+        "submit": "Login"
     }
 }

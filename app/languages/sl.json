@@ -32,5 +32,14 @@
         "password": "Geslo",
         "confirm-password": "Potrdite geslo",
         "submit": "Registriraj se"
+    },
+
+    "login": {
+        "title": "Prijavite se v svoj račun",
+        "subtitle": "Prijavite se v svoj račun, da dostopate do naših storitev.",
+        "username": "Uporabniško ime",
+        "username-placeholder": "uporabnik1234",
+        "password": "Geslo",
+        "submit": "Prijava"
     }
 }

@@ -7,7 +7,22 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1>Login</h1>
-    </div>
+    <section id="login" class="auth">
+        <div class="container">
+            <div class="wrapper">
+                <h1>{{ t['login']['title'] }}</h1>
+                <p>{{ t['login']['subtitle'] }}</p>
+
+                <form action="/auth/login" method="post">
+                    <label for="username">{{ t['login']['username'] }}</label>
+                    <input type="text" name="username" id="username" placeholder="{{ t['login']['username-placeholder'] }}">
+
+                    <label for="password">{{ t['login']['password'] }}</label>
+                    <input type="password" name="password" id="password">
+
+                    <button type="submit" class="button">{{ t['login']['submit'] }}</button>
+                </form>
+            </div>
+        </div>
+    </section>
 {% endblock %}
