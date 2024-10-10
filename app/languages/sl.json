@@ -3,7 +3,8 @@
 
     "title": {
         "home":"Domov",
-        "register": "Registracija"
+        "register": "Registracija",
+        "login": "Prijava"
     },
 
     "navbar": {
@@ -26,7 +27,9 @@
         "title": "Ustvari Račun",
         "subtitle": "Začnite z uporabo naših storitev že danes. Izpolnite obrazec in se registrirajte.",
         "name": "Ime",
-        "name-placeholder": "Janez Novak",
+        "name-placeholder": "Janez",
+        "surname": "Priimek",
+        "surname-placeholder": "Novak",
         "email": "E-pošta",
         "email-placeholder": "m@primer.com",
         "password": "Geslo",

@@ -3,7 +3,8 @@
 
     "title": {
         "home":"Home",
-        "register": "Register"
+        "register": "Register",
+        "login": "Login"
     },
 
     "navbar": {
@@ -26,7 +27,9 @@
         "title": "Crate an Account",
         "subtitle": "Start using our services today. Fill out the form and register.",
         "name": "Name",
-        "name-placeholder": "John Doe",
+        "name-placeholder": "John",
+        "surname": "Surname",
+        "surname-placeholder": "Doe",
         "email": "Email",
         "email-placeholder": "m@example.com",
         "password": "Password",
