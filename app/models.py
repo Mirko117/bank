@@ -5,14 +5,19 @@ from datetime import datetime
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
-    name = db.Column(db.String(150))
-    surname = db.Column(db.String(150))
-    password_hash = db.Column(db.String(128), nullable=False)
-    balance = db.Column(db.Float, default=0.0)
+    name = db.Column(db.String(150), nullable=False)
+    surname = db.Column(db.String(150), nullable=False)
+    email = db.Column(db.String(150), unique=True, nullable=False)
+    password_hash = db.Column(db.String(200), nullable=False)
+    #balance = db.Column(db.Float, default=0.0)
     role = db.Column(db.String(50), default='user')  # 'user' or 'admin'
 
     def __repr__(self):
         return f'<User {self.username}>'
+
+'''
+dont need this right now. still not sure how it all should be structured
+commenting out for now, will need later
 
 class Card(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -43,3 +48,4 @@ class Transaction(db.Model):
 
     def __repr__(self):
         return f'<Transaction {self.id}>'
+'''

@@ -3,6 +3,7 @@
 {% block lang %}{{ t["lang"] }}{% endblock %}
 
 {% block head %}
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
     <title>{{ t['title']['login'] }}</title>
 {% endblock %}
 
@@ -15,10 +16,10 @@
 
                 <form action="/auth/login" method="post">
                     <label for="username">{{ t['login']['username'] }}</label>
-                    <input type="text" name="username" id="username" placeholder="{{ t['login']['username-placeholder'] }}">
+                    <input type="text" name="username" id="username" placeholder="{{ t['login']['username-placeholder'] }}" required>
 
                     <label for="password">{{ t['login']['password'] }}</label>
-                    <input type="password" name="password" id="password">
+                    <input type="password" name="password" id="password" required>
 
                     <button type="submit" class="button">{{ t['login']['submit'] }}</button>
                 </form>

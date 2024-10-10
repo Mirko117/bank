@@ -3,6 +3,7 @@
 {% block lang %}{{ t["lang"] }}{% endblock %}
 
 {% block head %}
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
     <title>{{ t['title']['register'] }}</title>
 {% endblock %}
 
@@ -15,19 +16,19 @@
 
                 <form action="/auth/register" method="post">
                     <label for="name">{{ t['register']['name'] }}</label>
-                    <input type="text" name="name" id="name" placeholder="{{ t['register']['name-placeholder'] }}">
+                    <input type="text" name="name" id="name" placeholder="{{ t['register']['name-placeholder'] }}" required>
 
                     <label for="surname">{{ t['register']['surname'] }}</label>
-                    <input type="text" name="surname" id="surname" placeholder="{{ t['register']['surname-placeholder'] }}">
+                    <input type="text" name="surname" id="surname" placeholder="{{ t['register']['surname-placeholder'] }}" required>
 
                     <label for="email">{{ t['register']['email'] }}</label>
-                    <input type="email" name="email" id="email" placeholder="{{ t['register']['email-placeholder'] }}">
+                    <input type="email" name="email" id="email" placeholder="{{ t['register']['email-placeholder'] }}" required>
 
                     <label for="password">{{ t['register']['password'] }}</label>
-                    <input type="password" name="password" id="password">
+                    <input type="password" name="password" id="password" required>
 
                     <label for="confirm-password">{{ t['register']['confirm-password'] }}</label>
-                    <input type="password" name="confirm-password" id="confirm-password">
+                    <input type="password" name="confirm-password" id="confirm-password" required>
 
                     <button type="submit" class="button">{{ t['register']['submit'] }}</button>
                 </form>
