@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template, redirect, url_for, session, jsonify, request
-from flask_login import login_required, login_user, logout_user
+from flask import Blueprint, render_template, redirect, url_for, jsonify, request
+from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.models import User, db
 from app.functions import get_translations
 import validators
+import random
+import string
 
 
 auth = Blueprint('auth', __name__)
@@ -32,7 +34,9 @@ def login():
         if user:
             login_user(user)
             return jsonify({"status": "Logged in successfully"}), 200
-
+        
+    if current_user.is_authenticated:
+        return redirect(url_for('main.dashboard'))
     return render_template('login.html', t=get_translations())
 
 @auth.route('/register', methods=['GET', 'POST'])
@@ -76,17 +80,22 @@ def register():
         if User.query.filter_by(email=email).first() is not None:
             return jsonify({"status": "Email already exists"}), 400
         
-        username = email.split('@')[0]
+        # Generate username
+        username = surname.lower()[:2] + name.lower()[:2]
+        username += "".join(random.choices(string.digits, k=4))
 
-        if User.query.filter_by(username=username).first() is not None:
-            username = username + str(User.query.filter_by(username=username).count() + 1)
+        # Check if username already exists, if so, add another 4 random digits
+        while User.query.filter_by(username=username).first() is not None:
+            username[:4] += "".join(random.choices(string.digits, k=4))
 
         new_user = User(username=username, name=name, surname=surname, email=email, password_hash=generate_password_hash(password))
 
         db.session.add(new_user)
         db.session.commit()
 
-        return jsonify({"status": "User created successfully"}), 201
+        # TODO: Send email to user with his username
+
+        return jsonify({"status": "User created successfully, please check your email for username."}), 201
 
     return render_template('register.html', t=get_translations())
 
