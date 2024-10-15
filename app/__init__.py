@@ -29,11 +29,13 @@ def create_app():
     # Import routes and blueprints
     from app.routes import main
     from app.auth import auth
-    from app.api.routes import api_bp
+    from app.api.routes import api
+    from app.dashboard import dashboard
 
     # Register blueprints
     app.register_blueprint(main)
     app.register_blueprint(auth, url_prefix='/auth')
-    app.register_blueprint(api_bp, url_prefix='/api')
+    app.register_blueprint(api, url_prefix='/api')
+    app.register_blueprint(dashboard, url_prefix='/dashboard')
 
     return app

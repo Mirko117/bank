@@ -36,8 +36,8 @@ def login():
             return jsonify({"status": "Logged in successfully"}), 200
         
     if current_user.is_authenticated:
-        return redirect(url_for('main.dashboard'))
-    return render_template('login.html', t=get_translations())
+        return redirect(url_for('dashboard.index'))
+    return render_template('auth/login.html', t=get_translations())
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
@@ -97,7 +97,7 @@ def register():
 
         return jsonify({"status": "User created successfully, please check your email for username."}), 201
 
-    return render_template('register.html', t=get_translations())
+    return render_template('auth/register.html', t=get_translations())
 
 @auth.route('/logout')
 @login_required
