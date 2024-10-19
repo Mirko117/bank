@@ -16,13 +16,13 @@ function registrationAjax(){
             success: function(response){
                 if(response.status.includes("User created")){
                     alert(response.status);
-                    window.location.href = '/auth/login';
+                    authDialog(response.status, "Success", '/auth/login');
                 } else {
-                    alert(response.status);
+                    authDialog(response.status, "Error");
                 }
             },
             error: function(response){
-                alert(response.responseJSON.status);
+                authDialog(response.responseJSON.status, "Error");
             }
         });
     });
@@ -41,15 +41,33 @@ function loginAjax(){
             data: formData,
             success: function(response){
                 if(response.status.includes("Logged in")){
-                    alert(response.status);
-                    window.location.href = '/dashboard';
+                    authDialog(response.status, "Success", '/dashboard');
                 } else {
-                    alert(response.status);
+                    authDialog(response.status, "Error");
                 }
             },
             error: function(response){
-                alert(response.responseJSON.status);
+                authDialog(response.responseJSON.status, "Error");
             }
         });
+    });
+}
+
+
+function authDialog(text, title, redirect=false){
+    $("<div>" + text + "</div>").dialog({
+        title: title,
+        modal: true,
+        buttons: {
+            Ok: function(){
+                $(this).dialog('close');
+                return true;
+            }
+        },
+        close: function(){
+            if(redirect){
+                window.location.href = redirect;
+            }
+        }
     });
 }
