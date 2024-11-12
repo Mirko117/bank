@@ -15,7 +15,6 @@ function registrationAjax(){
             data: formData,
             success: function(response){
                 if(response.status.includes("User created")){
-                    alert(response.status);
                     authDialog(response.status, "Success", '/auth/login');
                 } else {
                     authDialog(response.status, "Error");

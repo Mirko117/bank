@@ -1,13 +1,13 @@
 from flask import Blueprint, render_template, session, jsonify
 from app.functions import get_translations, check_language
 
-main = Blueprint('main', __name__)
+main_bp = Blueprint('main', __name__)
 
-@main.route('/')
+@main_bp.route('/')
 def index():
     return render_template('index.html', t=get_translations())
 
-@main.route('/set_language/<lang>', methods=['POST'])
+@main_bp.route('/set_language/<lang>', methods=['POST'])
 def set_language(lang):
     try:
         lang = lang.lower()

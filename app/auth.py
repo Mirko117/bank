@@ -8,9 +8,9 @@ import random
 import string
 
 
-auth = Blueprint('auth', __name__)
+auth_bp = Blueprint('auth', __name__)
 
-@auth.route('/login', methods=['GET', 'POST'])
+@auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
 
@@ -39,7 +39,7 @@ def login():
         return redirect(url_for('dashboard.index'))
     return render_template('auth/login.html', t=get_translations())
 
-@auth.route('/register', methods=['GET', 'POST'])
+@auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         name = request.form['name']
@@ -99,7 +99,7 @@ def register():
 
     return render_template('auth/register.html', t=get_translations())
 
-@auth.route('/logout')
+@auth_bp.route('/logout')
 @login_required
 def logout():
     logout_user()

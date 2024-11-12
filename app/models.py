@@ -12,6 +12,16 @@ class User(UserMixin, db.Model):
     #balance = db.Column(db.Float, default=0.0)
     role = db.Column(db.String(50), default='user')  # 'user' or 'admin'
 
+    def serialize(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "name": self.name,
+            "surname": self.surname,
+            "email": self.email,
+            "role": self.role
+        }
+
     def __repr__(self):
         return f'<User {self.username}>'
 
