@@ -22,23 +22,7 @@ The physical component will be the POS terminal, built using an ESP32 microcontr
     pip install -r requirements.txt
     ```
 
-2. Set up the database
-
-- Ensure PostgreSQL is installed and running on your machine
-- Create a database for the project using the following command:
-
-    ```bash
-    createdb web_bank_db
-    ```
-
-- Apply the database migrations by running:
-    ```bash
-    flask db init
-    flask db migrate
-    flask db upgrade
-    ```
-
-3. Set up environment variables:
+2. Set up environment variables:
 
 - In the project directory, create a `.env` file with the following content:
 
@@ -51,6 +35,22 @@ The physical component will be the POS terminal, built using an ESP32 microcontr
 
     ```makefile
     DATABASE_URL="sqlite:///web_bank_db.sqlite3"
+    ```
+
+3. Set up the database
+
+- Ensure PostgreSQL is installed and running on your machine
+- Create a database for the project using the following command:
+
+    ```
+    createdb web_bank_db
+    ```
+
+- Apply the database migrations by running:
+    ```bash
+    flask db init
+    flask db migrate
+    flask db upgrade
     ```
 
 4. Start the Flask application
@@ -76,3 +76,7 @@ The physical component will be the POS terminal, built using an ESP32 microcontr
 5. Access the website
 
 - Open a browser and navigate to `http://localhost:5000` to view the web bank.
+
+## Testing
+
+You can run tests by typing `pytest` in terminal.
