@@ -1,15 +1,19 @@
-from manage import app
+from app import create_app, db
 from app.models import User
 import pytest
 
-@pytest.fixture
+# Create a test app instance
+app = create_app(config_object='config.TestingConfig')
+
+@pytest.fixture(scope='session')
 def client():
-    # Setup the Flask test client
-    app.config['TESTING'] = True
+    # Create the database and the database tables, then delete them after the test
+    with app.app_context():
+        db.create_all()
     with app.test_client() as client:
         yield client
-
-# TODO: Make a seperate database for testing
+    with app.app_context():
+        db.drop_all()
 
 ### Registration tests ###
 

@@ -8,11 +8,11 @@ db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
 
-def create_app():
+def create_app(config_object='config.Config'):
     app = Flask(__name__)
     
     # Load configuration
-    app.config.from_object('config.Config')
+    app.config.from_object(config_object)
     login_manager.login_view = 'auth.login'
 
     from app.models import User
