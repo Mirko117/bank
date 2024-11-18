@@ -15,13 +15,13 @@ function registrationAjax(){
             data: formData,
             success: function(response){
                 if(response.status.includes("User created")){
-                    authDialog(response.status, "Success", '/auth/login');
+                    authDialog(response.status, response.title, '/auth/login');
                 } else {
-                    authDialog(response.status, "Error");
+                    authDialog(response.status, response.title);
                 }
             },
             error: function(response){
-                authDialog(response.responseJSON.status, "Error");
+                authDialog(response.responseJSON.status, response.responseJSON.title);
             }
         });
     });
@@ -57,6 +57,9 @@ function authDialog(text, title, redirect=false){
     $("<div>" + text + "</div>").dialog({
         title: title,
         modal: true,
+        resizable: false,
+        draggable: false,
+        position: { my: "top+100", at: "top", of: window },
         buttons: {
             Ok: function(){
                 $(this).dialog('close');

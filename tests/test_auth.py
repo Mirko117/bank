@@ -27,7 +27,7 @@ def test_register_success(client):
         'confirm-password': 'Password123'
     })
     assert response.status_code == 201
-    assert response.json['status'] == 'User created successfully, please check your email for username.'
+    assert response.json['status'] == 'User created successfully, please check your email for username'
 
 def test_register_empty_name(client):
     # Test registration with an empty name

@@ -1,6 +1,30 @@
 {
     "lang": "en",
 
+    "auth": {
+        "username-required": "Username is required",
+        "password-required": "Password is required",
+        "invalid-credentials": "Invalid credentials",
+        "login-successful": "Logged in successfully",
+
+        "name-required": "Name is required",
+        "name-short": "Name is too short",
+        "name-number": "Name must not contain a number",
+        "surname-required": "Surname is required",
+        "surname-short": "Surname is too short",
+        "surname-number": "Surname must not contain a number",
+        "email-required": "Email is required",
+        "email-invalid": "Invalid email",
+        "password-short": "Password is too short",
+        "password-number": "Password must contain a number",
+        "password-mismatch": "Passwords do not match",
+        "email-exists": "Email already exists",
+        "registration-successful": "User created successfully, please check your email for username",
+
+        "title-error": "Error",
+        "title-success": "Success"
+    },
+
     "title": {
         "home":"Home",
         "register": "Register",

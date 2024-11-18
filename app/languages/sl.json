@@ -1,6 +1,30 @@
 {
     "lang": "sl",
 
+    "auth": {
+        "username-required": "Uporabniško ime je obvezno",
+        "password-required": "Geslo je obvezno",
+        "invalid-credentials": "Napačni podatki za prijavo",
+        "login-successful": "Prijava uspešna",
+
+        "name-required": "Ime je obvezno",
+        "name-short": "Ime je prekratko",
+        "name-number": "Ime ne sme vsebovati številke",
+        "surname-required": "Priimek je obvezen",
+        "surname-short": "Priimek je prekratek",
+        "surname-number": "Priimek ne sme vsebovati številke",
+        "email-required": "E-pošta je obvezna",
+        "email-invalid": "Neveljavna e-pošta",
+        "password-short": "Geslo je prekratko",
+        "password-number": "Geslo mora vsebovati številko",
+        "password-mismatch": "Gesli se ne ujemata",
+        "email-exists": "E-pošta že obstaja",
+        "registration-successful": "Uporabnik uspešno ustvarjen, preverite e-pošto za uporabniško ime",
+
+        "title-error": "Napaka",
+        "title-success": "Uspeh"
+    },
+
     "title": {
         "home":"Domov",
         "register": "Registracija",

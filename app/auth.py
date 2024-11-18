@@ -17,23 +17,25 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
+        t = get_translations()
+
         if not username:
-            return jsonify({"status": "Username is required"}), 400
+            return jsonify({"status": t["auth"]["username-required"], "title": t["auth"]["title-error"]}), 400
         
         if not password:
-            return jsonify({"status": "Password is required"}), 400
+            return jsonify({"status": t["auth"]["password-required"], "title": t["auth"]["title-error"]}), 400
         
         user = User.query.filter_by(username=username).first()
         
         if not user:
-            return jsonify({"status": "Invalid credentials"}), 401
+            return jsonify({"status": t["auth"]["invalid-credentials"], "title": t["auth"]["title-error"]}), 401
         
         if not check_password_hash(user.password_hash, password):
-            return jsonify({"status": "Invalid credentials"}), 401
+            return jsonify({"status": t["auth"]["invalid-credentials"], "title": t["auth"]["title-error"]}), 401
         
         if user:
             login_user(user)
-            return jsonify({"status": "Logged in successfully"}), 200
+            return jsonify({"status": t["auth"]["login-successful"], "title": t["auth"]["title-success"]}), 200
         
     if current_user.is_authenticated:
         return redirect(url_for('dashboard.index'))
@@ -48,37 +50,39 @@ def register():
         password = request.form['password']
         confirm_password = request.form['confirm-password']
 
+        t = get_translations()
+
         if not name:
-            return jsonify({"status": "Name is required"}), 400
+            return jsonify({"status": t["auth"]["name-required"], "title": t["auth"]["title-error"]}), 400
         if len(name) < 3:
-            return jsonify({"status": "Name is too short"}), 400
+            return jsonify({"status": t["auth"]["name-short"], "title": t["auth"]["title-error"]}), 400
         if any(char.isdigit() for char in name):
-            return jsonify({"status": "Name must not contain a number"}), 400
+            return jsonify({"status": t["auth"]["name-number"], "title": t["auth"]["title-error"]}), 400
         
         if not surname:
-            return jsonify({"status": "Surname is required"}), 400
+            return jsonify({"status": t["auth"]["surname-required"], "title": t["auth"]["title-error"]}), 400
         if len(surname) < 3:
-            return jsonify({"status": "Surname is too short"}), 400
+            return jsonify({"status": t["auth"]["surname-short"], "title": t["auth"]["title-error"]}), 400
         if any(char.isdigit() for char in surname):
-            return jsonify({"status": "Surname must not contain a number"}), 400
+            return jsonify({"status": t["auth"]["surname-number"], "title": t["auth"]["title-error"]}), 400
         
         if not email:
-            return jsonify({"status": "Email is required"}), 400
+            return jsonify({"status": t["auth"]["email-required"], "title": t["auth"]["title-error"]}), 400
         if not validators.email(email):
-            return jsonify({"status": "Invalid email"}), 400
+            return jsonify({"status": t["auth"]["email-invalid"], "title": t["auth"]["title-error"]}), 400
         
         if not password:
-            return jsonify({"status": "Password is required"}), 400
+            return jsonify({"status": t["auth"]["password-required"], "title": t["auth"]["title-error"]}), 400
         if len(password) <= 6:
-            return jsonify({"status": "Password is too short"}), 400
+            return jsonify({"status": t["auth"]["password-short"], "title": t["auth"]["title-error"]}), 400
         if not any(char.isdigit() for char in password):
-            return jsonify({"status": "Password must contain a number"}), 400
+            return jsonify({"status": t["auth"]["password-number"], "title": t["auth"]["title-error"]}), 400
 
         if password != confirm_password:
-            return jsonify({"status": "Passwords do not match"}), 400
+            return jsonify({"status": t["auth"]["password-mismatch"], "title": t["auth"]["title-error"]}), 400
 
         if User.query.filter_by(email=email).first() is not None:
-            return jsonify({"status": "Email already exists"}), 400
+            return jsonify({"status": t["auth"]["email-exists"], "title": t["auth"]["title-error"]}), 400
         
         # Generate username
         username = surname.lower()[:2] + name.lower()[:2]
@@ -95,7 +99,7 @@ def register():
 
         # TODO: Send email to user with his username
 
-        return jsonify({"status": "User created successfully, please check your email for username."}), 201
+        return jsonify({"status": t["auth"]["registration-successful"], "title": t["auth"]["title-success"]}), 201
 
     return render_template('auth/register.html', t=get_translations())
 
