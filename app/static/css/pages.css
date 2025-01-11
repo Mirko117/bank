@@ -217,6 +217,9 @@ nav a:hover {
   background-color: #F1F5F9;
   transition: all 0.3s;
 }
+nav #logo {
+  height: 30px;
+}
 
 #sidebar {
   position: fixed;

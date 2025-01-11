@@ -26,9 +26,9 @@
     },
 
     "title": {
-        "home":"Domov",
-        "register": "Registracija",
-        "login": "Prijava"
+        "home":"Domov | MiBank",
+        "register": "Registracija | MiBank",
+        "login": "Prijava | MiBank"
     },
 
     "navbar": {

@@ -17,10 +17,13 @@
             integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM="
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
     
     <script src="{{ url_for('static', filename='js/pages.js') }}"></script>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
 
     {% block head %}{% endblock %}
 </head>
@@ -50,7 +53,11 @@
     <nav id="main-nav">
         <div class="container">
             <ul>
-                <li><a href="/">LOGO HERE</a></li>
+                <li>
+                    <a href="/">
+                        <img id="logo" src="{{ url_for('static', filename='images/logo/logo-blue-tr.png') }}" alt="MiBank">
+                    </a>
+                </li>
                 <li><a href="/" class="hide-on-mobile group">{{ t['navbar']['home'] }}</a></li>
                 <li><a href="#" class="hide-on-mobile group" id="show-languages">{{ t['navbar']['languages'] }}</a></li>
                 <li><a href="#" class="hide-on-mobile group">{{ t['navbar']['services'] }}</a></li>

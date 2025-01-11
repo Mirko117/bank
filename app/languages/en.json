@@ -26,9 +26,9 @@
     },
 
     "title": {
-        "home":"Home",
-        "register": "Register",
-        "login": "Login"
+        "home":"Home | MiBank",
+        "register": "Register | MiBank",
+        "login": "Login | MiBank"
     },
 
     "navbar": {
