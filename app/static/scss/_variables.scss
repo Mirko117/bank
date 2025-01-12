@@ -1,14 +1,24 @@
-$primary-color: #3A72EC;
-$secondary-color: #F1F5F9;
+/// UNIVERSAL COLORS
+$primary: #3A72EC;
+$text-black: #020817;
 
-$bg-color: #fff;
-$text-color: #020817;
-$small-text-color: #5E6D82;
-
+/// WEBSITE COLORS
+$web-light-gray: #F1F5F9;
+$web-bg-white: #fff;
+$web-small-text: #5E6D82;
 
 // HERO SECTION
-$section-hero-color: #fff;
-$section-hero-button: #fff;
+$web-section-hero-white: #fff;
 
 // NAV
-$nav-height: 48px;
+$web-nav-height: 48px;
+
+
+/// DASHBOARD COLORS
+$dash-bg: #F8FAFC;
+$dash-white: #fff;
+$dash-gray: #475569;
+$dash-gray-border: #B9B9B9;
+$dash-text-white: #fff;
+$dash-green: #16A34A;
+$dash-red: #DC2626;

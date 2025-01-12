@@ -1,6 +1,6 @@
 section#hero{
-    height: calc(100vh - $nav-height);
-    background-color: $primary-color;
+    height: calc(100vh - $web-nav-height);
+    background-color: $primary;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,12 +16,12 @@ section#hero{
             max-width: 690px;
 
             h1{
-                color: $section-hero-color;
+                color: $web-section-hero-white;
                 font-size: 64px;
             }
 
             p{
-                color: $section-hero-color;
+                color: $web-section-hero-white;
                 font-size: 20px;
                 margin-top: 20px;
                 margin-bottom: 30px;
@@ -34,20 +34,20 @@ section#hero{
                     &:hover{
                         top: -3px;
                         transition: all .3s;
-                        box-shadow: 0px 0px 15px rgba($section-hero-button, .25);
+                        box-shadow: 0px 0px 15px rgba($web-section-hero-white, .25);
                     }
                 }
 
                 .sign-in{
-                    background-color: $section-hero-button;
-                    color: $primary-color;
+                    background-color: $web-section-hero-white;
+                    color: $primary;
                 }
 
                 .sign-up{
                     background-color: transparent;
-                    color: $section-hero-button;
+                    color: $web-section-hero-white;
                     margin-left: 20px;
-                    border: 1px solid $section-hero-button;
+                    border: 1px solid $web-section-hero-white;
                 }
             }
         }

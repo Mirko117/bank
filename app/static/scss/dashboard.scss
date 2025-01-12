@@ -7,3 +7,115 @@
 
 @import "dashboard/dashboard";
 
+body{
+    background-color: $dash-bg;
+}
+
+// DASHBOARD LAYOUT DIMENSIONS
+$navbar-height: 70px;
+$navbar-width: calc(100% - 300px);
+$sidebar-width: 300px;
+$sidebar-height: 100%;
+
+#navbar{
+    position: fixed;
+    top: 0;
+    left: $sidebar-width;
+    width: $navbar-width;
+    max-height: $navbar-height;
+    border-bottom: 1px solid $dash-gray-border;
+    background-color: $dash-white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+
+    .page-name{
+        font-size: 20px;
+        font-weight: 500;
+        color: $text-black;
+    }
+
+    .options{
+        display: flex;
+        flex-direction: row;
+
+        .option{
+            text-decoration: none;
+            color: $text-black;
+            font-size: 20px;
+            font-weight: 300;
+            border: 1px solid $dash-gray-border;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            max-height: 40px;
+
+            img{
+                height: 20px;
+                width: 20px;
+            }
+        }
+
+        .option:first-child{
+            margin-right: 10px;
+
+             img{
+                margin-right: 5px;
+             }
+        }
+    }
+}
+
+#sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: $sidebar-width;
+    height: $sidebar-height;
+    border-right: 1px solid $dash-gray-border;
+    background-color: $dash-white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 30px;
+
+    img{
+        height: 30px;
+        margin-bottom: 40px;
+    }
+    
+    a{
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 500;
+        width: 100%;
+        color: $dash-gray;
+        font-weight: medium;
+        margin: 5px 0 5px 0;
+        padding: 12px 20px;
+        border-radius: 8px;
+        transition: all .2s;
+
+        &:hover{
+            color: $primary;
+            background-color: rgba($primary, .1);
+        }
+    }
+
+    .selected{
+        color: $primary;
+        font-weight: 600;
+        background-color: rgba($primary, .1);
+    }
+}
+
+#shell{
+    margin-left: 300px;
+    margin-top: 70px;
+    padding: 20px;
+}

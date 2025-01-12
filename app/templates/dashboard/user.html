@@ -1,11 +1,59 @@
-{% extends "dashboard/dashboard.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% block lang %}en{% endblock %}
+    <!-- Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
-{% block head %}
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js"
+            integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
     <title>User</title>
-{% endblock %}
+</head>
+<body>
+    <div id="navbar">
+        <h1 class="page-name">Dashboard</h1>
 
-{% block body %}
-    <h1>User</h1>
-{% endblock %}
+        <div class="options">
+            <a href="#" class="option">
+                <img src="{{ url_for('static', filename='images/dashboard/solar_user-outline.svg') }}" alt="Account">
+                user1234
+            </a>
+            <a href="#" class="option">
+                <img src="{{ url_for('static', filename='images/dashboard/mynaui_bell.svg') }}" alt="Notifications">
+            </a>
+        </div>
+    </div>
+
+    <div id="sidebar">
+        <img src="{{ url_for('static', filename='images/logo/logo-blue-tr.png') }}" alt="MiBank">
+        <a href="#" class="selected">Dashboard</a>
+        <a href="#">Transactions</a>
+        <a href="#">Transfers</a>
+        <a href="#">Analytics</a>
+        <a href="#">Settings</a>
+    </div>
+
+    <div id="shell">
+        <h1>Lorem ipsum dolor sit amet.</h1>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi unde excepturi quibusdam, nam praesentium cum iure laboriosam dolorum perferendis repellendus?</p>
+    </div>
+</body>
+</html>
