@@ -44,11 +44,11 @@
 
     <div id="sidebar">
         <img src="{{ url_for('static', filename='images/logo/logo-blue-tr.png') }}" alt="MiBank">
-        <a href="#" class="selected">Dashboard</a>
-        <a href="#">Transactions</a>
-        <a href="#">Transfers</a>
-        <a href="#">Analytics</a>
-        <a href="#">Settings</a>
+        <a href="#" class="selected" data-shell="dashboard">Dashboard</a>
+        <a href="#" data-shell="transactions">Transactions</a>
+        <a href="#" data-shell="transfers">Transfers</a>
+        <a href="#" data-shell="analytics">Analytics</a>
+        <a href="#" data-shell="settings">Settings</a>
     </div>
 
     <div id="shell"></div>
