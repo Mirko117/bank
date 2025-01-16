@@ -28,8 +28,16 @@ class DashboardGetPageEndpoint(Resource):
             response = make_response({"status": "error", "message": "No shell provided"}, 400)
             return response
 
-        # Render the shell
-        rendered_shell = render_template(f"dashboard/shells/{shell}.html")
+        try:
+            # Render the shell
+            rendered_shell = render_template(f"dashboard/shells/{shell}.html")
+        except Exception as e:
+            response = make_response({"status": "error", "message": "Shell not found"}, 404)
+            return response   
+
+        if not rendered_shell:
+            response = make_response({"status": "error", "message": "Shell not found"}, 404)
+            return response
 
         # Return the rendered shell
         response = make_response({"status": "success", "shell": rendered_shell}, 200)
