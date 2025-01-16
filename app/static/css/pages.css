@@ -6,6 +6,7 @@
 
 body {
   font-family: "Inter", sans-serif;
+  color: #020817;
 }
 
 .container {
@@ -36,6 +37,10 @@ body {
 
 .hidden {
   display: none !important;
+}
+
+.mt-20 {
+  margin-top: 20px;
 }
 
 section#hero {

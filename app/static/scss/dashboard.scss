@@ -5,8 +5,6 @@
 @import "components";
 @import "utilities";
 
-@import "dashboard/dashboard";
-
 body{
     background-color: $dash-bg;
 }
@@ -34,7 +32,6 @@ $sidebar-height: 100%;
     .page-name{
         font-size: 20px;
         font-weight: 500;
-        color: $text-black;
     }
 
     .options{
@@ -43,7 +40,6 @@ $sidebar-height: 100%;
 
         .option{
             text-decoration: none;
-            color: $text-black;
             font-size: 20px;
             font-weight: 300;
             border: 1px solid $dash-gray-border;
@@ -123,4 +119,173 @@ $sidebar-height: 100%;
     margin-left: 300px;
     margin-top: 70px;
     padding: 20px;
+    overflow-y: auto;
+
+    #dashboard-shell{
+        .balance-summary{
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+
+            .text-small{
+                font-size: 16px;
+                font-weight: 500;
+            }
+
+            .balance{
+                font-size: 30px;
+                font-weight: 700;
+                margin: 10px 0;
+            }
+
+            .total-balance{
+                width: 100%;
+                background-color: $primary;
+                padding: $boxes-padding;
+                border-radius: 8px;
+
+                .balance{ color: $dash-text-white; }
+                .text-small{ color: rgba($dash-text-white, .8); }
+            }
+
+            .monthly-income{
+                width: 100%;
+                background-color: $dash-white;
+                border: 1px solid $dash-gray-border;
+                border-radius: 8px;
+                padding: $boxes-padding;
+
+                .balance{ color: $primary; }
+                .text-small{ color: $dash-gray; }
+            }
+        }
+
+        .other{
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            margin-top: 20px;
+
+            .recent-transactions{
+                width: 100%;
+                background-color: $dash-white;
+                border: 1px solid $dash-gray-border;
+                border-radius: 8px;
+                padding: $boxes-padding;
+
+                .transactions{
+                    .transaction{
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 15px 0;
+
+                        .name{
+                            font-size: 20px;
+                            font-weight: 500;
+                        }
+
+                        .date{
+                            font-size: 14px;
+                            color: rgba($dash-gray, .6);
+                        }
+
+                        &:nth-child(2){
+                            border-top: 1px solid $dash-gray-border;
+                            border-bottom: 1px solid $dash-gray-border;
+                        }
+                    }
+                }
+            
+                .all-transactions{
+                    width: 100%;
+                    text-decoration: none;
+                    color: $text-black;
+                    font-size: 16px;
+                    font-weight: 600;
+                    padding: 10px 0;
+                    margin-top: 40px;
+                    border: 1px solid $dash-gray-border;
+                    border-radius: 5px;
+                    display: flex;
+                    justify-content: center;
+                    transition: all .2s;
+
+                    &:hover{
+                        background-color: rgba($dash-gray, .1);
+                    }
+                }
+            }
+
+            .quick-transfer{
+                width: 70%;
+                background-color: $dash-white;
+                border: 1px solid $dash-gray-border;
+                border-radius: 8px;
+                padding: $boxes-padding;
+
+                .heading{
+                    font-size: 20px;
+                    font-weight: 500;
+                    margin-bottom: 5px;
+                }
+
+                input{
+                    width: 100%;
+                    padding: 10px;
+                    font-size: 16px;
+                    border: 1px solid $dash-gray-border;
+                    border-radius: 5px;
+                }
+
+                .buttons-wrapper{
+                    display: flex;
+                    flex-direction: row;
+                    gap: 10px;
+                    margin-top: 40px;
+
+                    .cancel, .transfer{
+                        text-decoration: none;
+                        width: 100%;
+                        padding: 10px;
+                        border-radius: 5px;
+                        font-size: 16px;
+                        font-weight: 600;
+                        display: flex;
+                        justify-content: center;
+                        transition: all .2s;
+                    }
+
+                    .cancel{
+                        color: $text-black;
+                        background-color: $dash-white;
+                        border: 1px solid $dash-gray-border;
+                    
+                        &:hover{
+                            background-color: rgba($dash-gray, .1);
+                        }
+                    }
+                    
+                    .transfer{
+                        color: $dash-text-white;
+                        background-color: $primary;
+                    
+                        &:hover{
+                            background-color: darken($primary, 10%);
+                        }
+                    }
+                }
+            }
+
+            h2{
+                margin-bottom: 30px;
+            }
+        }
+    }
+
+    h2{
+        font-size: 32px;
+        font-weight: 500;
+    }
 }

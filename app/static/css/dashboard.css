@@ -6,6 +6,7 @@
 
 body {
   font-family: "Inter", sans-serif;
+  color: #020817;
 }
 
 .container {
@@ -38,6 +39,10 @@ body {
   display: none !important;
 }
 
+.mt-20 {
+  margin-top: 20px;
+}
+
 body {
   background-color: #F8FAFC;
 }
@@ -59,7 +64,6 @@ body {
 #navbar .page-name {
   font-size: 20px;
   font-weight: 500;
-  color: #020817;
 }
 #navbar .options {
   display: flex;
@@ -67,7 +71,6 @@ body {
 }
 #navbar .options .option {
   text-decoration: none;
-  color: #020817;
   font-size: 20px;
   font-weight: 300;
   border: 1px solid #B9B9B9;
@@ -137,4 +140,151 @@ body {
   margin-left: 300px;
   margin-top: 70px;
   padding: 20px;
+  overflow-y: auto;
+}
+#shell #dashboard-shell .balance-summary {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+#shell #dashboard-shell .balance-summary .text-small {
+  font-size: 16px;
+  font-weight: 500;
+}
+#shell #dashboard-shell .balance-summary .balance {
+  font-size: 30px;
+  font-weight: 700;
+  margin: 10px 0;
+}
+#shell #dashboard-shell .balance-summary .total-balance {
+  width: 100%;
+  background-color: #3A72EC;
+  padding: 30px;
+  border-radius: 8px;
+}
+#shell #dashboard-shell .balance-summary .total-balance .balance {
+  color: #fff;
+}
+#shell #dashboard-shell .balance-summary .total-balance .text-small {
+  color: rgba(255, 255, 255, 0.8);
+}
+#shell #dashboard-shell .balance-summary .monthly-income {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #B9B9B9;
+  border-radius: 8px;
+  padding: 30px;
+}
+#shell #dashboard-shell .balance-summary .monthly-income .balance {
+  color: #3A72EC;
+}
+#shell #dashboard-shell .balance-summary .monthly-income .text-small {
+  color: #475569;
+}
+#shell #dashboard-shell .other {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-top: 20px;
+}
+#shell #dashboard-shell .other .recent-transactions {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #B9B9B9;
+  border-radius: 8px;
+  padding: 30px;
+}
+#shell #dashboard-shell .other .recent-transactions .transactions .transaction {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+}
+#shell #dashboard-shell .other .recent-transactions .transactions .transaction .name {
+  font-size: 20px;
+  font-weight: 500;
+}
+#shell #dashboard-shell .other .recent-transactions .transactions .transaction .date {
+  font-size: 14px;
+  color: rgba(71, 85, 105, 0.6);
+}
+#shell #dashboard-shell .other .recent-transactions .transactions .transaction:nth-child(2) {
+  border-top: 1px solid #B9B9B9;
+  border-bottom: 1px solid #B9B9B9;
+}
+#shell #dashboard-shell .other .recent-transactions .all-transactions {
+  width: 100%;
+  text-decoration: none;
+  color: #020817;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 0;
+  margin-top: 40px;
+  border: 1px solid #B9B9B9;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  transition: all 0.2s;
+}
+#shell #dashboard-shell .other .recent-transactions .all-transactions:hover {
+  background-color: rgba(71, 85, 105, 0.1);
+}
+#shell #dashboard-shell .other .quick-transfer {
+  width: 70%;
+  background-color: #fff;
+  border: 1px solid #B9B9B9;
+  border-radius: 8px;
+  padding: 30px;
+}
+#shell #dashboard-shell .other .quick-transfer .heading {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+#shell #dashboard-shell .other .quick-transfer input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #B9B9B9;
+  border-radius: 5px;
+}
+#shell #dashboard-shell .other .quick-transfer .buttons-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 40px;
+}
+#shell #dashboard-shell .other .quick-transfer .buttons-wrapper .cancel, #shell #dashboard-shell .other .quick-transfer .buttons-wrapper .transfer {
+  text-decoration: none;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  transition: all 0.2s;
+}
+#shell #dashboard-shell .other .quick-transfer .buttons-wrapper .cancel {
+  color: #020817;
+  background-color: #fff;
+  border: 1px solid #B9B9B9;
+}
+#shell #dashboard-shell .other .quick-transfer .buttons-wrapper .cancel:hover {
+  background-color: rgba(71, 85, 105, 0.1);
+}
+#shell #dashboard-shell .other .quick-transfer .buttons-wrapper .transfer {
+  color: #fff;
+  background-color: #3A72EC;
+}
+#shell #dashboard-shell .other .quick-transfer .buttons-wrapper .transfer:hover {
+  background-color: #1554de;
+}
+#shell #dashboard-shell .other h2 {
+  margin-bottom: 30px;
+}
+#shell h2 {
+  font-size: 32px;
+  font-weight: 500;
 }
