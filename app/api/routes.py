@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request, render_template, make_response
 from flask_restx import Api, Resource, Namespace
-from app.models import User
+from flask_login import current_user
+from app.functions import get_user_translations
 
 
 # Create blueprint, API and namespace for API
@@ -22,7 +23,7 @@ class DashboardGetPageEndpoint(Resource):
 
         try:
             # Render the shell
-            rendered_shell = render_template(f"dashboard/shells/{shell}.html")
+            rendered_shell = render_template(f"dashboard/shells/{shell}.html", t=get_user_translations(), user=current_user)
         except Exception as e:
             response = make_response({"status": "error", "message": "Shell not found"}, 404)
             return response   

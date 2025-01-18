@@ -28,7 +28,8 @@
     "title": {
         "home":"Home | MiBank",
         "register": "Register | MiBank",
-        "login": "Login | MiBank"
+        "login": "Login | MiBank",
+        "dashboard": "Dashboard | MiBank"
     },
 
     "navbar": {
@@ -68,5 +69,26 @@
         "username-placeholder": "user1234",
         "password": "Password",
         "submit": "Login"
+    },
+
+    "dashboard": {
+        "dashboard": "Dashboard",
+        "transactions": "Transactions",
+        "transfers": "Transfers",
+        "analytics": "Analytics",
+        "settings": "Settings",
+
+        "total-balance": "Total Balance",
+        "from-last-month": "from last month",
+        "monthly-income": "Monthly Income",
+        "recent-transactions": "Recent Transactions",
+        "view-all-transactions": "View All Transactions",
+        "quick-transfer": "Quick Transfer",
+        "recipiant": "Recipiant",
+        "enter-recipiant": "Enter recipiant",
+        "amount": "Amount",
+        "enter-amount": "Enter amount",
+        "cancel": "Cancel",
+        "transfer": "Transfer"
     }
 }

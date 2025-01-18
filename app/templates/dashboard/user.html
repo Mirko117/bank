@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='{{ t["lang"] }}'>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,16 +25,16 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 
-    <title>User</title>
+    <title>{{ t["title"]["dashboard"] }}</title>
 </head>
 <body>
     <div id="navbar">
-        <h1 class="page-name">Dashboard</h1>
+        <h1 class="page-name">{{ t["dashboard"]["dashboard"] }}</h1>
 
         <div class="options">
             <a href="#" class="option">
                 <img src="{{ url_for('static', filename='images/dashboard/solar_user-outline.svg') }}" alt="Account">
-                user1234
+                {{ user.username }}
             </a>
             <a href="#" class="option">
                 <img src="{{ url_for('static', filename='images/dashboard/mynaui_bell.svg') }}" alt="Notifications">
@@ -44,11 +44,11 @@
 
     <div id="sidebar">
         <img src="{{ url_for('static', filename='images/logo/logo-blue-tr.png') }}" alt="MiBank">
-        <a href="#" class="selected" data-shell="dashboard">Dashboard</a>
-        <a href="#" data-shell="transactions">Transactions</a>
-        <a href="#" data-shell="transfers">Transfers</a>
-        <a href="#" data-shell="analytics">Analytics</a>
-        <a href="#" data-shell="settings">Settings</a>
+        <a href="#" class="selected" data-shell="dashboard">{{ t["dashboard"]["dashboard"] }}</a>
+        <a href="#" data-shell="transactions">{{ t["dashboard"]["transactions"] }}</a>
+        <a href="#" data-shell="transfers">{{ t["dashboard"]["transfers"] }}</a>
+        <a href="#" data-shell="analytics">{{ t["dashboard"]["analytics"] }}</a>
+        <a href="#" data-shell="settings">{{ t["dashboard"]["settings"] }}</a>
     </div>
 
     <div id="shell"></div>

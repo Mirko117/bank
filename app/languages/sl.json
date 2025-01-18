@@ -28,7 +28,8 @@
     "title": {
         "home":"Domov | MiBank",
         "register": "Registracija | MiBank",
-        "login": "Prijava | MiBank"
+        "login": "Prijava | MiBank",
+        "dashboard": "Nadzorna plošča | MiBank"
     },
 
     "navbar": {
@@ -68,5 +69,26 @@
         "username-placeholder": "uporabnik1234",
         "password": "Geslo",
         "submit": "Prijava"
+    },
+
+    "dashboard": {
+        "dashboard": "Nadzorna plošča",
+        "transactions": "Transakcije",
+        "transfers": "Prenosi",
+        "analytics": "Analitika",
+        "settings": "Nastavitve",
+
+        "total-balance": "Skupno stanje",
+        "from-last-month": "od prejšnjega meseca",
+        "monthly-income": "Mesečni dohodek",
+        "recent-transactions": "Nedavne transakcije",
+        "view-all-transactions": "Ogled vseh transakcij",
+        "quick-transfer": "Hiter prenos",
+        "recipiant": "Prejemnik",
+        "enter-recipiant": "Vnesite prejemnika",
+        "amount": "Znesek",
+        "enter-amount": "Vnesite znesek",
+        "cancel": "Prekliči",
+        "transfer": "Prenesi"
     }
 }

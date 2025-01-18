@@ -1,19 +1,19 @@
 <div id="dashboard-shell">
     <div class="balance-summary">
         <div class="total-balance">
-            <p class="text-small">Total Balance</p>
-            <p class="balance">€2.345,67</p>
-            <p class="text-small">+20,1% from last month</p>
+            <p class="text-small">{{ t["dashboard"]["total-balance"] }}</p>
+            <p class="balance">€{{ user.balance }}</p>
+            <p class="text-small">+20,1% {{ t["dashboard"]["from-last-month"] }}</p>
         </div>
         <div class="monthly-income">
-            <p class="text-small">Total Balance</p>
-            <p class="balance">€2.345,67</p>
-            <p class="text-small">+20,1% from last month</p>
+            <p class="text-small">{{ t["dashboard"]["monthly-income"] }}</p>
+            <p class="balance">€{{ user.balance }}</p>
+            <p class="text-small">+20,1% {{ t["dashboard"]["from-last-month"] }}</p>
         </div>
     </div>
     <div class="other">
         <div class="recent-transactions">
-            <h2>Recent Transactions</h2>
+            <h2>{{ t["dashboard"]["recent-transactions"] }}</h2>
             <div class="transactions">
                 <div class="transaction">
                     <div class="name-wrapper">
@@ -37,17 +37,17 @@
                     <p class="amount">+1.434,65</p>
                 </div>
             </div>
-            <a href="#" class="all-transactions">View All Transactions</a>
+            <a href="#" class="all-transactions">{{ t["dashboard"]["view-all-transactions"] }}</a>
         </div>
         <div class="quick-transfer">
-            <h2>Quick transfer</h2>
-            <p class="heading">Recipiant</p>
-            <input type="text" placeholder="Enter recipiant">
-            <p class="heading mt-20">Amount</p>
-            <input type="text" placeholder="Enter amount">
+            <h2>{{ t["dashboard"]["quick-transfer"] }}</h2>
+            <p class="heading">{{ t["dashboard"]["recipiant"] }}</p>
+            <input type="text" placeholder='{{ t["dashboard"]["enter-recipiant"] }}'>
+            <p class="heading mt-20">{{ t["dashboard"]["amount"] }}</p>
+            <input type="text" placeholder='{{ t["dashboard"]["enter-amount"] }}'>
             <div class="buttons-wrapper">
-                <a href="#" class="cancel">Cancel</a>
-                <a href="#" class="transfer">Transfer</a>
+                <a href="#" class="cancel">{{ t["dashboard"]["cancel"] }}</a>
+                <a href="#" class="transfer">{{ t["dashboard"]["transfer"] }}</a>
             </div>
         </div>
     </div>
