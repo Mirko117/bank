@@ -1,4 +1,6 @@
 from app import db
+from flask import session
+from sqlalchemy import event
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 import time
@@ -37,7 +39,7 @@ class Transaction(db.Model):
     timestamp = db.Column(db.Integer, default=lambda: int(time.time()), nullable=False)
 
     def __repr__(self):
-        return f'<Transaction {self.id}>'
+        return f'<Transaction {self.id}, {self.amount}, {self.status}>'
 
 
 class Card(db.Model):
@@ -56,7 +58,7 @@ class Card(db.Model):
         return check_password_hash(self.pin_hash, pin)
 
     def __repr__(self):
-        return f'<Card {self.rfid_code}>'
+        return f'<Card {self.rfid_code}, {self.status}>'
 
 
 class Settings(db.Model):
@@ -68,4 +70,22 @@ class Settings(db.Model):
     def __repr__(self):
         return f'<Settings {self.user_id}, {self.language}>'
 
+class Log(db.Model):
+    __tablename__ = 'logs'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=True)
+    action_type = db.Column(db.String(100), nullable=False) # 'login', 'logout', 'transaction', etc.
+    description = db.Column(db.Text, nullable=True)
+    status = db.Column(db.String(50), default='success', nullable=False)  # 'success', 'failed', etc.
+    timestamp = db.Column(db.DateTime, default=lambda: int(time.time()), nullable=False)
+
+    def __repr__(self):
+        return f'<Log {self.id}, {self.action_type}, {self.status}>'
+
+
+# Automatically add settings when a user is created
+@event.listens_for(User, 'after_insert')
+def create_settings(mapper, connection, target):
+    new_settings = Settings(user_id=target.id, language=session.get('lang', 'en'))
+    db.session.add(new_settings)
 
