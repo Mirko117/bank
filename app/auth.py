@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, jsonify, request
 from flask_login import login_required, login_user, logout_user, current_user
-from werkzeug.security import generate_password_hash, check_password_hash
 from app.models import User, db
 from app.functions import get_translations
 import validators
@@ -30,7 +29,7 @@ def login():
         if not user:
             return jsonify({"status": t["auth"]["invalid-credentials"], "title": t["auth"]["title-error"]}), 401
         
-        if not check_password_hash(user.password_hash, password):
+        if not user.check_password(password):
             return jsonify({"status": t["auth"]["invalid-credentials"], "title": t["auth"]["title-error"]}), 401
         
         if user:
@@ -92,7 +91,9 @@ def register():
         while User.query.filter_by(username=username).first() is not None:
             username[:4] += "".join(random.choices(string.digits, k=4))
 
-        new_user = User(username=username, name=name, surname=surname, email=email, password_hash=generate_password_hash(password))
+        # Create new user
+        new_user = User(username=username, first_name=name, last_name=surname, email=email)
+        new_user.set_password(password)
 
         db.session.add(new_user)
         db.session.commit()

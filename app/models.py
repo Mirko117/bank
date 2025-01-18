@@ -1,61 +1,71 @@
 from app import db
 from flask_login import UserMixin
-from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+import time
 
 class User(UserMixin, db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
-    name = db.Column(db.String(150), nullable=False)
-    surname = db.Column(db.String(150), nullable=False)
+    first_name = db.Column(db.String(150), nullable=False)
+    last_name = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
-    #balance = db.Column(db.Float, default=0.0)
-    role = db.Column(db.String(50), default='user')  # 'user' or 'admin'
+    balance = db.Column(db.Float, default=0.0, nullable=False)
+    role = db.Column(db.String(50), default='user', nullable=False)  # 'user' or 'admin'
+    created_at = db.Column(db.Integer, default=lambda: int(time.time()), nullable=False) # Unix timestamp
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "username": self.username,
-            "name": self.name,
-            "surname": self.surname,
-            "email": self.email,
-            "role": self.role
-        }
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return f'<User {self.username}>'
 
-'''
-dont need this right now. still not sure how it all should be structured
-commenting out for now, will need later
-
-class Card(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    rfid_code = db.Column(db.String(50), unique=True, nullable=False)
-    pin = db.Column(db.String(4), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-
-    def __repr__(self):
-        return f'<Card {self.card_rfid_code}>'
-
-class Terminal(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    terminal_id = db.Column(db.String(50), unique=True, nullable=False)
-    location = db.Column(db.String(150))
-    status = db.Column(db.String(50), default='active')  # active, maintenance, etc.
-
-    def __repr__(self):
-        return f'<Terminal {self.terminal_id}>'
 
 class Transaction(db.Model):
+    __tablename__ = 'transactions'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    admin_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)  # For admin actions
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     amount = db.Column(db.Float, nullable=False)
-    transaction_type = db.Column(db.String(50))  # 'deposit', 'withdrawal', etc.
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-    terminal_id = db.Column(db.String(50), db.ForeignKey('terminal.terminal_id')) 
+    status = db.Column(db.String(50), default='pending', nullable=False)  # 'pending', 'success', 'failed', etc.
+    transaction_type = db.Column(db.String(50), nullable=False)  # 'deposit', 'withdrawal', etc.
+    description = db.Column(db.Text, nullable=True)
+    timestamp = db.Column(db.Integer, default=lambda: int(time.time()), nullable=False)
 
     def __repr__(self):
         return f'<Transaction {self.id}>'
-'''
+
+
+class Card(db.Model):
+    __tablename__ = 'cards'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    rfid_code = db.Column(db.String(100), unique=True, nullable=False)
+    pin_hash = db.Column(db.String(200), nullable=False)
+    status = db.Column(db.String(50), default='active', nullable=False)  # 'active', 'blocked', etc.
+    created_at = db.Column(db.Integer, default=lambda: int(time.time()), nullable=False)
+
+    def set_pin(self, pin):
+        self.pin_hash = generate_password_hash(pin)
+
+    def check_pin(self, pin):
+        return check_password_hash(self.pin_hash, pin)
+
+    def __repr__(self):
+        return f'<Card {self.rfid_code}>'
+
+
+class Settings(db.Model):
+    __tablename__ = 'settings'
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
+    language = db.Column(db.String(2), nullable=False, default='en')  # 'en', 'si'
+    user = db.relationship('User', backref=db.backref('settings', uselist=False, cascade='all, delete-orphan'))
+
+    def __repr__(self):
+        return f'<Settings {self.user_id}, {self.language}>'
+
+

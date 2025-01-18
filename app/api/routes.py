@@ -11,14 +11,6 @@ api_ns = Namespace("api", description="Main operations")
 # Create namespace for dashboard
 dashbpard_ns = Namespace("dashboard", description="Dashboard operations")
 
-
-@api_ns.route('/users')
-class UsersEndpoint(Resource):
-    def get(self):
-        users = User.query.all()
-        return jsonify([user.serialize() for user in users])
-
-
 @dashbpard_ns.route('/get-shell')
 class DashboardGetPageEndpoint(Resource):
     def get(self):
