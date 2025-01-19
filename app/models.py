@@ -22,6 +22,13 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+    # Relationship to transactions
+    transactions = db.relationship(
+        'Transaction',
+        primaryjoin="or_(User.id == Transaction.user_id, User.id == Transaction.receiver_id)",
+        lazy='dynamic'
+    )
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -30,6 +37,7 @@ class User(UserMixin, db.Model):
 class Transaction(db.Model):
     __tablename__ = 'transactions'
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(150), default=".", nullable=False) # 'Spotify', 'Netflix', etc.
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     amount = db.Column(db.Float, nullable=False)

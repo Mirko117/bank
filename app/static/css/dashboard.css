@@ -213,6 +213,12 @@ body {
   border-top: 1px solid #B9B9B9;
   border-bottom: 1px solid #B9B9B9;
 }
+#shell #dashboard-shell .other .recent-transactions .transactions .transaction .red {
+  color: #DC2626;
+}
+#shell #dashboard-shell .other .recent-transactions .transactions .transaction .green {
+  color: #16A34A;
+}
 #shell #dashboard-shell .other .recent-transactions .all-transactions {
   width: 100%;
   text-decoration: none;
