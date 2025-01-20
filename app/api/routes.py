@@ -1,8 +1,11 @@
 from flask import Blueprint, jsonify, request, render_template, make_response
 from flask_restx import Api, Resource, Namespace
 from flask_login import current_user
+from sqlalchemy import func
+from datetime import datetime, timedelta
 from app.functions import get_user_translations, is_valid_number_format
 from app.models import db, Transaction, User
+from app.api.queries import calculate_monthly_income_and_change
 
 # Create blueprint, API and namespace for API
 api_bp = Blueprint('api', __name__)
@@ -16,7 +19,6 @@ dashbpard_ns = Namespace("dashboard", description="Dashboard operations")
 class DashboardGetPageEndpoint(Resource):
     def get(self):
         shell = request.args.get('shell')
-        
         if not shell:
             response = make_response({"status": "error", "message": "No shell provided"}, 400)
             return response
@@ -24,11 +26,13 @@ class DashboardGetPageEndpoint(Resource):
         try:
             # Render the shell
             if shell == "dashboard":
+                monthly_income = calculate_monthly_income_and_change()
                 recent_transactions = current_user.transactions.order_by(Transaction.timestamp.desc()).limit(3).all()
-                rendered_shell = render_template("dashboard/shells/dashboard.html", t=get_user_translations(), user=current_user, recent_transactions=recent_transactions)
+                rendered_shell = render_template("dashboard/shells/dashboard.html", t=get_user_translations(), user=current_user, recent_transactions=recent_transactions, monthly_income=monthly_income)
             else:
                 rendered_shell = render_template(f"dashboard/shells/{shell}.html", t=get_user_translations(), user=current_user)
         except Exception as e:
+            print(e)
             response = make_response({"status": "error", "message": "Shell not found"}, 404)
             return response   
 

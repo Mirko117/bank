@@ -7,7 +7,7 @@
         </div>
         <div class="monthly-income">
             <p class="text-small">{{ t["dashboard"]["monthly-income"] }}</p>
-            <p class="balance">€{{ user.balance }}</p>
+            <p class="balance">€{{ monthly_income }}</p>
             <p class="text-small">+20,1% {{ t["dashboard"]["from-last-month"] }}</p>
         </div>
     </div>
@@ -26,6 +26,9 @@
                         </p>
                     </div>
                 {% endfor %}
+                {% if not recent_transactions %}
+                    <p class="no-transactions">{{ t["dashboard"]["no-transactions"] }}</p>
+                {% endif %}
             </div>
             <a href="#" class="all-transactions">{{ t["dashboard"]["view-all-transactions"] }}</a>
         </div>
