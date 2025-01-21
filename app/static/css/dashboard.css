@@ -294,3 +294,39 @@ body {
   font-size: 32px;
   font-weight: 500;
 }
+
+#all-transactions-dialog .transactions {
+  max-height: 60vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding-right: 10px;
+}
+#all-transactions-dialog .transactions .transaction {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-top: 1px solid #B9B9B9;
+  border-bottom: 1px solid #B9B9B9;
+}
+#all-transactions-dialog .transactions .transaction .name {
+  font-size: 20px;
+  font-weight: 500;
+}
+#all-transactions-dialog .transactions .transaction .date {
+  font-size: 14px;
+  color: rgba(71, 85, 105, 0.6);
+}
+#all-transactions-dialog .transactions .transaction:nth-child(1) {
+  border-top: none;
+}
+#all-transactions-dialog .transactions .transaction:last-child {
+  border-bottom: none;
+}
+#all-transactions-dialog .transactions .transaction .red {
+  color: #DC2626;
+}
+#all-transactions-dialog .transactions .transaction .green {
+  color: #16A34A;
+}

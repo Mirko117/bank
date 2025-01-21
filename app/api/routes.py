@@ -18,7 +18,12 @@ dashbpard_ns = Namespace("dashboard", description="Dashboard operations")
 @dashbpard_ns.route('/get-shell')
 class DashboardGetPageEndpoint(Resource):
     def get(self):
+        if not current_user.is_authenticated:
+            response = make_response({"status": "error", "message": "Unauthorized"}, 401)
+            return response
+        
         shell = request.args.get('shell')
+        
         if not shell:
             response = make_response({"status": "error", "message": "No shell provided"}, 400)
             return response
@@ -103,7 +108,24 @@ class DashboardMakeQuickTransferEndpoint(Resource):
             response = make_response({"status": "error", "message": "An error occurred"}, 500)
         
         return response
-    
+
+@dashbpard_ns.route('/get-all-transactions')
+class DashboardGetAllTransactionsEndpoint(Resource):
+    def get(self):
+        if not current_user.is_authenticated:
+            response = make_response({"status": "error", "message": "Unauthorized"}, 401)
+            return response
+        
+        try:
+            transactions = current_user.transactions.order_by(Transaction.timestamp.desc()).all()
+            html = render_template("api/all_transactions.html",user=current_user, transactions=transactions)
+
+            response = make_response({"status": "success", "html": html}, 200)
+            return response
+        except Exception as e:
+            response = make_response({"status": "error", "message": "An error occurred"}, 500)
+            return response
+
 
 # Add namespaces to API
 api.add_namespace(api_ns, path='/')

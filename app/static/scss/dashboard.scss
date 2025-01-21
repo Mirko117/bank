@@ -292,3 +292,43 @@ $sidebar-height: 100%;
         font-weight: 500;
     }
 }
+
+#all-transactions-dialog{
+    .transactions{
+        max-height: 60vh;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        padding-right: 10px;
+
+        .transaction{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-top: 1px solid $dash-gray-border;
+            border-bottom: 1px solid $dash-gray-border;
+
+            .name{
+                font-size: 20px;
+                font-weight: 500;
+            }
+
+            .date{
+                font-size: 14px;
+                color: rgba($dash-gray, .6);
+            }
+
+            &:nth-child(1){
+                border-top: none;
+            }
+
+            &:last-child{
+                border-bottom: none;
+            }
+
+            .red{ color: $dash-red; }
+            .green{ color: $dash-green; }
+        }
+    }
+}
