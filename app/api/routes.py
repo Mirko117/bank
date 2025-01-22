@@ -64,8 +64,14 @@ class DashboardMakeQuickTransferEndpoint(Resource):
             response = make_response({"status": "error", "message": "Recipient and amount required"}, 400)
             return response
 
-        if User.query.filter_by(username=recipient).first() is None:
+        recipient_query = User.query.filter_by(username=recipient).first()
+
+        if recipient_query is None:
             response = make_response({"status": "error", "message": "Recipient not found"}, 404)
+            return response
+        
+        if recipient_query.id == current_user.id:
+            response = make_response({"status": "error", "message": "Cannot transfer to yourself"}, 400)
             return response
         
         if not is_valid_number_format(amount):

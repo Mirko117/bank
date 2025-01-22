@@ -100,7 +100,7 @@ $sidebar-height: 100%;
         margin: 5px 0 5px 0;
         padding: 12px 20px;
         border-radius: 8px;
-        transition: all .2s;
+        transition: background-color 0.2s, color 0.2s;
 
         &:hover{
             color: $primary;
@@ -196,6 +196,7 @@ $sidebar-height: 100%;
                             border-bottom: 1px solid $dash-gray-border;
                         }
 
+                        .amount{ margin-right: 5px; }
                         .red{ color: $dash-red; }
                         .green{ color: $dash-green; }
                     }
@@ -327,6 +328,7 @@ $sidebar-height: 100%;
                 border-bottom: none;
             }
 
+            .amount{ margin-right: 5px; }
             .red{ color: $dash-red; }
             .green{ color: $dash-green; }
         }

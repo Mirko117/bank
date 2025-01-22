@@ -19,6 +19,7 @@ $(document).ready(function() {
             success: function (response) {
                 $("#shell").html(response.shell);
                 $("#navbar .page-name").text(text);
+                loadShellEventListeners();
             },
             error: function (response) {
                 showDialog(response.responseJSON.message, "Error");
@@ -42,7 +43,7 @@ $(document).ready(function() {
 });
 
 
-function showDialog(text, title){
+function showDialog(text, title, relaod = false) {
     $("<div>" + text + "</div>").dialog({
         title: title,
         modal: true,
@@ -55,6 +56,11 @@ function showDialog(text, title){
                 return true;
             }
         },
+        close: function(){
+            if (relaod) {
+                location.reload();
+            }
+        }
     });
 }
 
@@ -70,6 +76,7 @@ function loadShellEventListeners(){
         $("#dashboard-shell .quick-transfer input.amount").val("");
     });
 
+    // When the transfer button is clicked, send a POST request to the server
     $("#dashboard-shell .quick-transfer .transfer").on("click", function(e) {
         e.preventDefault();
 
@@ -83,7 +90,7 @@ function loadShellEventListeners(){
             url: "/api/dashboard/quick-transfer",
             data: data,
             success: function (response) {
-                showDialog(response.message, "Success");
+                showDialog(response.message, "Success", reload=true);
             },
             error: function (response) {
                 showDialog(response.responseJSON.message, "Error");
@@ -91,6 +98,7 @@ function loadShellEventListeners(){
         });
     });
 
+    // When the all transactions button is clicked, send a GET request to the server
     $("#dashboard-shell .recent-transactions .all-transactions").on("click", function(e) {
         e.preventDefault();
 
@@ -104,7 +112,6 @@ function loadShellEventListeners(){
                     resizable: false,
                     draggable: false,
                     width: 500,
-                    position: { my: "top+100", at: "top", of: window },
                     buttons: {
                         Ok: function(){
                             $(this).dialog('close');

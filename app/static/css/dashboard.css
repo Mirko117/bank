@@ -124,7 +124,7 @@ body {
   margin: 5px 0 5px 0;
   padding: 12px 20px;
   border-radius: 8px;
-  transition: all 0.2s;
+  transition: background-color 0.2s, color 0.2s;
 }
 #sidebar a:hover {
   color: #3A72EC;
@@ -212,6 +212,9 @@ body {
 #shell #dashboard-shell .other .recent-transactions .transactions .transaction:nth-child(2) {
   border-top: 1px solid #B9B9B9;
   border-bottom: 1px solid #B9B9B9;
+}
+#shell #dashboard-shell .other .recent-transactions .transactions .transaction .amount {
+  margin-right: 5px;
 }
 #shell #dashboard-shell .other .recent-transactions .transactions .transaction .red {
   color: #DC2626;
@@ -323,6 +326,9 @@ body {
 }
 #all-transactions-dialog .transactions .transaction:last-child {
   border-bottom: none;
+}
+#all-transactions-dialog .transactions .transaction .amount {
+  margin-right: 5px;
 }
 #all-transactions-dialog .transactions .transaction .red {
   color: #DC2626;
