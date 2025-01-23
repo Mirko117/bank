@@ -1,5 +1,5 @@
 from app import db
-from flask import session
+from flask import session, has_request_context
 from sqlalchemy import event
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -85,7 +85,7 @@ class Log(db.Model):
     action_type = db.Column(db.String(100), nullable=False) # 'login', 'logout', 'transaction', etc.
     description = db.Column(db.Text, nullable=True)
     status = db.Column(db.String(50), default='success', nullable=False)  # 'success', 'failed', etc.
-    timestamp = db.Column(db.DateTime, default=lambda: int(time.time()), nullable=False)
+    timestamp = db.Column(db.Integer, default=lambda: int(time.time()), nullable=False)
 
     def __repr__(self):
         return f'<Log {self.id}, {self.action_type}, {self.status}>'
@@ -94,6 +94,12 @@ class Log(db.Model):
 # Automatically add settings when a user is created
 @event.listens_for(User, 'after_insert')
 def create_settings(mapper, connection, target):
-    new_settings = Settings(user_id=target.id, language=session.get('lang', 'en'))
+    # Check if there's a request context and use 'lang' from the session if available
+    # This is used for testing purposes (when populating with mock users/data)
+    if has_request_context():
+        language = session.get('lang', 'en')
+    else:
+        language = 'en'
+    new_settings = Settings(user_id=target.id, language=language)
     db.session.add(new_settings)
 
