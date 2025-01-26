@@ -1,3 +1,10 @@
+import sys
+from pathlib import Path
+
+# This runs script from the project root directory
+project_root = Path(__file__).resolve().parent.parent
+sys.path.append(str(project_root))
+
 from faker import Faker
 from random import choice, randint, uniform
 from app import db, create_app
@@ -7,7 +14,7 @@ fake = Faker()
 
 def generate_users(num_users=100):
     users = []
-    with open("users_and_passwords.txt", "w") as file:
+    with open("scripts/users_and_passwords.txt", "w") as file:
         file.write("Generated Users and Passwords\n")
         file.write("=" * 30 + "\n")
         
@@ -18,7 +25,7 @@ def generate_users(num_users=100):
                 first_name=fake.first_name(),
                 last_name=fake.last_name(),
                 email=fake.unique.email(),
-                role=choice(['user', 'admin']),
+                role="user",
                 balance=round(uniform(0, 10000), 2),
                 created_at=int(fake.date_time_between(start_date='-1y', end_date='now').timestamp()),
             )

@@ -18,6 +18,8 @@ def index():
 @login_required
 def user():
     if current_user.is_authenticated:
+        if current_user.role == 'admin':
+            return redirect(url_for('dashboard.admin'))
         return render_template('dashboard/user.html', t=get_user_translations(), user=current_user)
 
 
@@ -25,4 +27,6 @@ def user():
 @login_required
 def admin():
     if current_user.is_authenticated:
+        if current_user.role == 'user':
+            return redirect(url_for('dashboard.user'))
         return render_template('dashboard/admin.html')
