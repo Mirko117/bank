@@ -83,7 +83,6 @@
         "monthly-income": "Mesečni dohodek",
         "recent-transactions": "Nedavne transakcije",
         "no-transactions": "Ni transakcij",
-        "view-all-transactions": "Ogled vseh transakcij",
         "quick-transfer": "Hiter prenos",
         "recipiant": "Prejemnik",
         "enter-recipiant": "Vnesite prejemnika",
@@ -91,5 +90,14 @@
         "enter-amount": "Vnesite znesek",
         "cancel": "Prekliči",
         "transfer": "Prenesi"
+    },
+
+    "transactions": {
+        "transaction-history": "Zgodovina transakcij",
+        "search": "Išči transakcije",
+        "date": "Datum",
+        "name": "Ime",
+        "amount": "Znesek",
+        "description": "Opis"
     }
 }

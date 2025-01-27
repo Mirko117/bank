@@ -32,8 +32,11 @@ class DashboardGetPageEndpoint(Resource):
             # Render the shell
             if shell == "dashboard":
                 monthly_income = calculate_monthly_income_and_change()
-                recent_transactions = current_user.transactions.order_by(Transaction.timestamp.desc()).limit(3).all()
+                recent_transactions = current_user.transactions.order_by(Transaction.timestamp.desc()).limit(4).all()
                 rendered_shell = render_template("dashboard/shells/dashboard.html", t=get_user_translations(), user=current_user, recent_transactions=recent_transactions, monthly_income=monthly_income)
+            elif shell == "transactions":
+                transactions = current_user.transactions.order_by(Transaction.timestamp.desc()).all()
+                rendered_shell = render_template("dashboard/shells/transactions.html", t=get_user_translations(), user=current_user, transactions=transactions)
             else:
                 rendered_shell = render_template(f"dashboard/shells/{shell}.html", t=get_user_translations(), user=current_user)
         except Exception as e:
@@ -115,22 +118,6 @@ class DashboardMakeQuickTransferEndpoint(Resource):
         
         return response
 
-@dashbpard_ns.route('/get-all-transactions')
-class DashboardGetAllTransactionsEndpoint(Resource):
-    def get(self):
-        if not current_user.is_authenticated:
-            response = make_response({"status": "error", "message": "Unauthorized"}, 401)
-            return response
-        
-        try:
-            transactions = current_user.transactions.order_by(Transaction.timestamp.desc()).all()
-            html = render_template("api/all_transactions.html",user=current_user, transactions=transactions)
-
-            response = make_response({"status": "success", "html": html}, 200)
-            return response
-        except Exception as e:
-            response = make_response({"status": "error", "message": "An error occurred"}, 500)
-            return response
 
 
 # Add namespaces to API

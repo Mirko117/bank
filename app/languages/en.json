@@ -83,7 +83,6 @@
         "monthly-income": "Monthly Income",
         "recent-transactions": "Recent Transactions",
         "no-transactions": "No transactions",
-        "view-all-transactions": "View All Transactions",
         "quick-transfer": "Quick Transfer",
         "recipiant": "Recipiant",
         "enter-recipient": "Enter recipient",
@@ -91,5 +90,14 @@
         "enter-amount": "Enter amount",
         "cancel": "Cancel",
         "transfer": "Transfer"
+    },
+
+    "transactions": {
+        "transaction-history": "Transaction History",
+        "search": "Search transactions",
+        "date": "Date",
+        "name": "Name",
+        "amount": "Amount",
+        "description": "Description"
     }
 }

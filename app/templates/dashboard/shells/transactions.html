@@ -1,1 +1,35 @@
-<h1>Transactions</h1>
+<div id="transactions-shell">
+    <h2>{{ t["transactions"]["transaction-history"] }}</h2>
+    <div class="search-wrapper">
+        <input type="text" class="search" placeholder='{{ t["transactions"]["search"] }}'>
+    </div>
+    <table class="transactions">
+        <thead>
+            <tr>
+                <td>{{ t["transactions"]["date"] }}</td>
+                <td>{{ t["transactions"]["name"] }}</td>
+                <td>{{ t["transactions"]["description"] }}</td>
+                <td>{{ t["transactions"]["amount"] }}</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.timestamp | datetime(format="%d.%m.%Y %H:%M") }}</td>
+                <td>{{ transaction.name }}</td>
+                <td>{{ transaction.description }}</td>
+                <td class="{{'red' if transaction.user_id == user.id else 'green' }}">
+                    {{'-' if transaction.user_id == user.id else '+' }}{{ transaction.amount }}€
+                </td>
+            </tr>
+        {% endfor %}
+        {% if not transactions %}
+            <tr>
+                <td colspan="4">
+                    {{ t["dashboard"]["no-transactions"] }}
+                </td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>

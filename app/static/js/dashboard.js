@@ -97,33 +97,5 @@ function loadShellEventListeners(){
             }
         });
     });
-
-    // When the all transactions button is clicked, send a GET request to the server
-    $("#dashboard-shell .recent-transactions .all-transactions").on("click", function(e) {
-        e.preventDefault();
-
-        $.ajax({
-            type: "GET",
-            url: "/api/dashboard/get-all-transactions",
-            success: function (response) {
-                $("<div id='all-transactions-dialog'>" + response.html + "</div>").dialog({
-                    title: "All Transactions",
-                    modal: true,
-                    resizable: false,
-                    draggable: false,
-                    width: 500,
-                    buttons: {
-                        Ok: function(){
-                            $(this).dialog('close');
-                            return true;
-                        }
-                    }
-                });
-            },
-            error: function (response) {
-                showDialog(response.responseJSON.message, "Error");
-            }
-        });
-    });
 }
 

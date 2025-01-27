@@ -100,7 +100,8 @@ def register():
 
         # TODO: Send email to user with his username
 
-        return jsonify({"status": t["auth"]["registration-successful"], "title": t["auth"]["title-success"]}), 201
+        # REMOVE: +username is for testing purposes, will be removed in production
+        return jsonify({"status": t["auth"]["registration-successful"], "title": t["auth"]["title-success"] + username}), 201
 
     return render_template('auth/register.html', t=get_translations())
 

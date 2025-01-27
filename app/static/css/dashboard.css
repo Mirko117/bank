@@ -47,6 +47,14 @@ body {
   background-color: #F8FAFC;
 }
 
+.red {
+  color: #DC2626;
+}
+
+.green {
+  color: #16A34A;
+}
+
 #navbar {
   position: fixed;
   top: 0;
@@ -204,6 +212,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 15px 0;
+  border-top: 1px solid #B9B9B9;
 }
 #shell #dashboard-shell .other .recent-transactions .transactions .transaction .name {
   font-size: 20px;
@@ -213,35 +222,11 @@ body {
   font-size: 14px;
   color: rgba(71, 85, 105, 0.6);
 }
-#shell #dashboard-shell .other .recent-transactions .transactions .transaction:nth-child(2) {
-  border-top: 1px solid #B9B9B9;
-  border-bottom: 1px solid #B9B9B9;
+#shell #dashboard-shell .other .recent-transactions .transactions .transaction:nth-child(1) {
+  border-top: none;
 }
 #shell #dashboard-shell .other .recent-transactions .transactions .transaction .amount {
   margin-right: 5px;
-}
-#shell #dashboard-shell .other .recent-transactions .transactions .transaction .red {
-  color: #DC2626;
-}
-#shell #dashboard-shell .other .recent-transactions .transactions .transaction .green {
-  color: #16A34A;
-}
-#shell #dashboard-shell .other .recent-transactions .all-transactions {
-  width: 100%;
-  text-decoration: none;
-  color: #020817;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 10px 0;
-  margin-top: 40px;
-  border: 1px solid #B9B9B9;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  transition: all 0.2s;
-}
-#shell #dashboard-shell .other .recent-transactions .all-transactions:hover {
-  background-color: rgba(71, 85, 105, 0.1);
 }
 #shell #dashboard-shell .other .quick-transfer {
   width: 70%;
@@ -300,43 +285,39 @@ body {
 #shell h2 {
   font-size: 32px;
   font-weight: 500;
+  margin-bottom: 20px;
 }
-
-#all-transactions-dialog .transactions {
-  max-height: 60vh;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  padding-right: 10px;
+#shell #transactions-shell {
+  width: 100%;
+  background-color: #fff;
+  padding: 30px;
+  border: 1px solid #B9B9B9;
+  border-radius: 8px;
 }
-#all-transactions-dialog .transactions .transaction {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 0;
+#shell #transactions-shell .search-wrapper .search {
+  width: 300px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #B9B9B9;
+  border-radius: 5px;
+}
+#shell #transactions-shell table.transactions {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+#shell #transactions-shell table.transactions thead tr td {
+  padding: 10px 0;
+  font-size: 18px;
+  color: rgba(2, 8, 23, 0.6);
+}
+#shell #transactions-shell table.transactions tbody tr {
+  transition: all 0.2s;
+}
+#shell #transactions-shell table.transactions tbody tr td {
   border-top: 1px solid #B9B9B9;
-  border-bottom: 1px solid #B9B9B9;
+  padding: 10px 0;
 }
-#all-transactions-dialog .transactions .transaction .name {
-  font-size: 20px;
-  font-weight: 500;
-}
-#all-transactions-dialog .transactions .transaction .date {
-  font-size: 14px;
-  color: rgba(71, 85, 105, 0.6);
-}
-#all-transactions-dialog .transactions .transaction:nth-child(1) {
-  border-top: none;
-}
-#all-transactions-dialog .transactions .transaction:last-child {
-  border-bottom: none;
-}
-#all-transactions-dialog .transactions .transaction .amount {
-  margin-right: 5px;
-}
-#all-transactions-dialog .transactions .transaction .red {
-  color: #DC2626;
-}
-#all-transactions-dialog .transactions .transaction .green {
-  color: #16A34A;
+#shell #transactions-shell table.transactions tbody tr:hover {
+  background-color: rgba(71, 85, 105, 0.1);
 }
