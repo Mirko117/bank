@@ -97,5 +97,16 @@ function loadShellEventListeners(){
             }
         });
     });
+
+    // When the search input is typed in, filter the transactions table
+    $("#transactions-shell .search-wrapper .search").on("keyup", function(e){
+        e.preventDefault();
+
+        var search = $(this).val().toLowerCase();
+
+        $("#transactions-shell table.transactions tbody tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(search) > -1);
+        });
+    });
 }
 
