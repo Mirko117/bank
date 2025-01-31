@@ -1,7 +1,13 @@
 <div id="transactions-shell">
     <h2>{{ t["transactions"]["transaction-history"] }}</h2>
-    <div class="search-wrapper">
-        <input type="text" class="search" placeholder='{{ t["transactions"]["search"] }}'>
+    <div class="actions">
+        <div class="search-wrapper">
+            <input type="text" class="search" placeholder='{{ t["transactions"]["search"] }}'>
+        </div>
+        <a href="#" class="export">
+            <img src="{{ url_for('static', filename='images/dashboard/download.svg') }}" alt="Download">
+            {{ t["transactions"]["export-transactions"] }}
+        </a>
     </div>
     <table class="transactions">
         <thead>

@@ -108,5 +108,24 @@ function loadShellEventListeners(){
             $(this).toggle($(this).text().toLowerCase().indexOf(search) > -1);
         });
     });
+
+    // When export button is clicked
+    $("#transactions-shell .actions .export").on("click", function(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: "GET",
+            url: "/api/dashboard/export-transactions-dialog",
+            success: function (response) {
+                var html = response.html;
+                var title = response.title;
+                showDialog(html, title);
+            },
+            error: function (response) {
+                showDialog(response.responseJSON.message, "Error");
+            }
+        });
+
+    });
 }
 

@@ -98,6 +98,8 @@
         "date": "Date",
         "name": "Name",
         "amount": "Amount",
-        "description": "Description"
+        "description": "Description",
+        "export-transactions": "Export Transactions",
+        "export-as": "Export as"
     }
 }

@@ -98,6 +98,8 @@
         "date": "Datum",
         "name": "Ime",
         "amount": "Znesek",
-        "description": "Opis"
+        "description": "Opis",
+        "export-transactions": "Izvoz transakcij",
+        "export-as": "Izvozi kot"
     }
 }

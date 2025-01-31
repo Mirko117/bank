@@ -1,5 +1,6 @@
 from flask import current_app, session
 from flask_login import current_user
+from datetime import datetime
 import json
 import os
 import re
@@ -33,3 +34,8 @@ def is_valid_number_format(s):
     # Regular expression to match numbers with only one comma or period
     pattern = r'^\d+(?:[.,]\d{1,2})?$'
     return bool(re.match(pattern, s))
+
+
+def unix_to_datetime(value, format='%Y-%m-%d %H:%M:%S'):
+    '''Convert timestamp to datetime and format it'''
+    return datetime.fromtimestamp(value).strftime(format)
