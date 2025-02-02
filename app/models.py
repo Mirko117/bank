@@ -13,7 +13,7 @@ class User(UserMixin, db.Model):
     last_name = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
-    balance = db.Column(db.Float, default=0.0, nullable=False)
+    balance = db.Column(db.Numeric(15, 2), default=0.0, nullable=False)
     role = db.Column(db.String(50), default='user', nullable=False)  # 'user' or 'admin'
     created_at = db.Column(db.Integer, default=lambda: int(time.time()), nullable=False) # Unix timestamp
 
@@ -40,7 +40,7 @@ class Transaction(db.Model):
     name = db.Column(db.String(150), default=".", nullable=False) # 'Spotify', 'Netflix', etc.
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
-    amount = db.Column(db.Float, nullable=False)
+    amount = db.Column(db.Numeric(15, 2), nullable=False)
     status = db.Column(db.String(50), default='pending', nullable=False)  # 'pending', 'success', 'failed', etc.
     transaction_type = db.Column(db.String(50), nullable=False)  # 'deposit', 'withdrawal', etc.
     description = db.Column(db.Text, nullable=True)

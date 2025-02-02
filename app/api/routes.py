@@ -102,7 +102,8 @@ class DashboardMakeQuickTransferEndpoint(Resource):
                 receiver_id=receiver.id,
                 amount=amount,
                 status="success",
-                transaction_type="transfer"
+                transaction_type="transfer",
+                description=f"From {current_user.username} to {receiver.username}"
             )
 
             # Update balances
