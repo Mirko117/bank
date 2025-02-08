@@ -172,7 +172,7 @@ class DashboardExportTransactionsEndpoint(Resource):
                 return send_file(output, as_attachment=True, download_name="MiBank_transactions.xml", mimetype="application/xml")
 
             if file_type == "json":
-                transactions_data = [{"date": unix_to_datetime(transaction.timestamp), "name": transaction.name, "description": transaction.description, "amount": transaction.amount} for transaction in transactions]
+                transactions_data = [{"date": unix_to_datetime(transaction.timestamp), "name": transaction.name, "description": transaction.description, "amount": float(transaction.amount)} for transaction in transactions]
 
                 output = BytesIO()
                 output.write(json.dumps(transactions_data).encode("utf-8"))

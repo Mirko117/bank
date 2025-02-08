@@ -120,6 +120,7 @@ function loadShellEventListeners(){
                 var html = response.html;
                 var title = response.title;
                 showDialog(html, title);
+                loadExportTransactionsDialogListeners()
             },
             error: function (response) {
                 showDialog(response.responseJSON.message, "Error");
@@ -127,5 +128,24 @@ function loadShellEventListeners(){
         });
 
     });
+
+    function loadExportTransactionsDialogListeners(){
+        $("#export-transactions-dialog .export-option").on("click", function(e){
+            e.preventDefault();
+    
+            var url = $(this).attr("href");
+    
+            $.ajax({
+                type: "HEAD",
+                url: url,
+                success: function (response) {
+                    window.location.href = url;
+                },
+                error: function (response) {
+                    showDialog(response.responseJSON.message, "Error");
+                }
+            });
+        });
+    }
 }
 
