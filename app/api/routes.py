@@ -41,7 +41,6 @@ class DashboardGetPageEndpoint(Resource):
             else:
                 rendered_shell = render_template(f"dashboard/shells/{shell}.html", t=get_user_translations(), user=current_user)
         except Exception as e:
-            print(e)
             response = make_response({"status": "error", "message": "Shell not found"}, 404)
             return response   
 
@@ -88,7 +87,7 @@ class DashboardMakeQuickTransferEndpoint(Resource):
             response = make_response({"status": "error", "message": "Invalid amount"}, 400)
             return response
 
-        if current_user.balance < amount:
+        if current_user.get_balance(current_user.settings.default_currency) < amount:
             response = make_response({"status": "error", "message": "Insufficient funds"}, 400)
             return response
         
@@ -101,14 +100,15 @@ class DashboardMakeQuickTransferEndpoint(Resource):
                 user_id=current_user.id,
                 receiver_id=receiver.id,
                 amount=amount,
+                currency = current_user.settings.default_currency,
                 status="success",
                 transaction_type="transfer",
                 description=f"From {current_user.username} to {receiver.username}"
             )
 
             # Update balances
-            current_user.balance = round(current_user.balance - amount, 2)
-            receiver.balance = round(receiver.balance + amount, 2)
+            current_user.remove_balance(amount, current_user.settings.default_currency)
+            receiver.add_balance(amount, current_user.settings.default_currency)
 
             db.session.add(transaction)
             db.session.commit()
@@ -161,7 +161,7 @@ class DashboardExportTransactionsEndpoint(Resource):
             if file_type == "xml":
                 transactions_data = ""
                 for transaction in transactions:
-                    transactions_data += f"<transaction><date>{unix_to_datetime(transaction.timestamp)}</date><name>{transaction.name}</name><description>{transaction.description}</description><amount>{transaction.amount}</amount></transaction>"
+                    transactions_data += f"<transaction><date>{unix_to_datetime(transaction.timestamp)}</date><name>{transaction.name}</name><description>{transaction.description}</description><amount>{transaction.amount}</amount><currency>{transaction.currency}</currency></transaction>"
                 
                 xml_content = f"<transactions>{transactions_data}</transactions>"
                 
@@ -172,7 +172,7 @@ class DashboardExportTransactionsEndpoint(Resource):
                 return send_file(output, as_attachment=True, download_name="MiBank_transactions.xml", mimetype="application/xml")
 
             if file_type == "json":
-                transactions_data = [{"date": unix_to_datetime(transaction.timestamp), "name": transaction.name, "description": transaction.description, "amount": float(transaction.amount)} for transaction in transactions]
+                transactions_data = [{"date": unix_to_datetime(transaction.timestamp), "name": transaction.name, "description": transaction.description, "amount": float(transaction.amount), "currency": transaction.currency} for transaction in transactions]
 
                 output = BytesIO()
                 output.write(json.dumps(transactions_data).encode("utf-8"))
@@ -181,7 +181,7 @@ class DashboardExportTransactionsEndpoint(Resource):
                 return send_file(output, as_attachment=True, download_name="MiBank_transactions.json", mimetype="application/json")
             
             if file_type == "excel":
-                transactions_data = [{"Date": unix_to_datetime(transaction.timestamp), "Name": transaction.name, "Description": transaction.description, "Amount": transaction.amount} for transaction in transactions]
+                transactions_data = [{"Date": unix_to_datetime(transaction.timestamp), "Name": transaction.name, "Description": transaction.description, "Amount": transaction.amount, "Currency": transaction.currency} for transaction in transactions]
 
                 df = pd.DataFrame(transactions_data)
 

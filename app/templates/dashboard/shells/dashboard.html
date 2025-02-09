@@ -2,12 +2,12 @@
     <div class="balance-summary">
         <div class="total-balance">
             <p class="text-small">{{ t["dashboard"]["total-balance"] }}</p>
-            <p class="balance">€{{ user.balance }}</p>
+            <p class="balance">{{ user.get_balance(user.settings.default_currency) }}{{ user.settings.default_currency }}</p>
             <p class="text-small">+20,1% {{ t["dashboard"]["from-last-month"] }}</p>
         </div>
         <div class="monthly-income">
             <p class="text-small">{{ t["dashboard"]["monthly-income"] }}</p>
-            <p class="balance">€{{ monthly_income }}</p>
+            <p class="balance">{{ monthly_income }}{{ user.settings.default_currency }}</p>
             <p class="text-small">+20,1% {{ t["dashboard"]["from-last-month"] }}</p>
         </div>
     </div>
@@ -22,7 +22,7 @@
                             <p class="date">{{ transaction.timestamp | datetime(format="%d.%m.%Y") }}</p>
                         </div>
                         <p class="amount {{'red' if transaction.user_id == user.id else 'green' }}">
-                            {{'-' if transaction.user_id == user.id else '+' }}{{ transaction.amount }}€
+                            {{'-' if transaction.user_id == user.id else '+' }}{{ transaction.amount }}{{ transaction.currency }}
                         </p>
                     </div>
                 {% endfor %}

@@ -2,6 +2,7 @@ from flask_login import current_user
 from sqlalchemy import func
 from datetime import datetime, timedelta
 from app.models import db, Transaction, User
+from decimal import Decimal
 
 
 def calculate_monthly_income_and_change():
@@ -13,11 +14,11 @@ def calculate_monthly_income_and_change():
     monthly_earnings = db.session.query(func.sum(Transaction.amount)).filter(
         Transaction.receiver_id == current_user.id,
         Transaction.timestamp >= last_month_timestamp,
-    ).scalar() or 0
+    ).scalar() or Decimal(0.00)
     monthly_expenses = db.session.query(func.sum(Transaction.amount)).filter(
         Transaction.user_id == current_user.id,
         Transaction.timestamp >= last_month_timestamp,
-    ).scalar() or 0
+    ).scalar() or Decimal(0.00)
 
     # Calculate monthly income
     monthly_income = round(monthly_earnings - monthly_expenses, 2)

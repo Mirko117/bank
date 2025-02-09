@@ -26,7 +26,6 @@ def generate_users(num_users=100):
                 last_name=fake.last_name(),
                 email=fake.unique.email(),
                 role="user",
-                balance=round(uniform(0, 10000), 2),
                 created_at=int(fake.date_time_between(start_date='-1y', end_date='now').timestamp()),
             )
             user.set_password(password)
@@ -42,6 +41,11 @@ def generate_users(num_users=100):
     db.session.commit()
     return users
 
+def generate_balances(users):
+    for user in users:
+        user.add_balance(round(uniform(100, 10000), 2), "EUR")
+    db.session.commit()
+
 def generate_transactions(users, num_transactions=1000):
     for _ in range(num_transactions):
         sender = choice(users)
@@ -54,6 +58,7 @@ def generate_transactions(users, num_transactions=1000):
             user_id=sender.id,
             receiver_id=receiver.id,
             amount=round(uniform(1, 1000), 2),
+            currency="EUR",
             status=choice(['pending', 'success', 'failed']),
             transaction_type=choice(['deposit', 'withdrawal', 'transfer']),
             description=fake.sentence(),
@@ -93,10 +98,15 @@ def populate_database():
     users = generate_users(100)
     print(f"Generated {len(users)} users. Check 'users_and_passwords.txt' for login details.")
 
+    print("Generating balances...")
+    generate_balances(users)
+    print("Generated balances.")
+
     print("Generating transactions...")
     generate_transactions(users, 1000)
     print("Generated 1000 transactions.")
 
+''' Dont need right now
     print("Generating cards...")
     generate_cards(users, 200)
     print("Generated 200 cards.")
@@ -104,6 +114,7 @@ def populate_database():
     print("Generating logs...")
     generate_logs(users, 500)
     print("Generated 500 logs.")
+'''
 
 if __name__ == "__main__":
     app = create_app()
