@@ -358,6 +358,41 @@ $sidebar-height: 100%;
             }
         }
     }
+
+    #currencies-shell{
+        .all-currencies{
+            border: 1px solid $dash-gray-border;
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
+            gap: 20px;
+            border-radius: 8px;
+            width: 100%;
+            padding: $boxes-padding;
+            background-color: $dash-white;
+
+            .currency{
+                border: 1px solid $dash-gray-border;
+                border-radius: 5px;
+                width: 100%;
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                transition: all .2s;
+
+                &:hover{
+                    background-color: rgba($dash-gray, .1);
+                }
+            }
+
+            .add-currency{
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+        }
+    }
 }
 
 #export-transactions-dialog{

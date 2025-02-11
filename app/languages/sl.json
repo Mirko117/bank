@@ -74,6 +74,7 @@
     "dashboard": {
         "dashboard": "Nadzorna plošča",
         "transactions": "Transakcije",
+        "currencies": "Valute",
         "transfers": "Prenosi",
         "analytics": "Analitika",
         "settings": "Nastavitve",
@@ -101,5 +102,9 @@
         "description": "Opis",
         "export-transactions": "Izvoz transakcij",
         "export-as": "Izvozi kot"
+    },
+
+    "currencies": {
+        "add-currency": "Dodaj valuto"
     }
 }

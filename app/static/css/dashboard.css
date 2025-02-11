@@ -347,6 +347,33 @@ body {
 #shell #transactions-shell table.transactions tbody tr:hover {
   background-color: rgba(71, 85, 105, 0.1);
 }
+#shell #currencies-shell .all-currencies {
+  border: 1px solid #B9B9B9;
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
+  gap: 20px;
+  border-radius: 8px;
+  width: 100%;
+  padding: 30px;
+  background-color: #fff;
+}
+#shell #currencies-shell .all-currencies .currency {
+  border: 1px solid #B9B9B9;
+  border-radius: 5px;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all 0.2s;
+}
+#shell #currencies-shell .all-currencies .currency:hover {
+  background-color: rgba(71, 85, 105, 0.1);
+}
+#shell #currencies-shell .all-currencies .add-currency:hover {
+  cursor: pointer;
+}
 
 #export-transactions-dialog {
   display: flex;

@@ -74,6 +74,7 @@
     "dashboard": {
         "dashboard": "Dashboard",
         "transactions": "Transactions",
+        "currencies": "Currencies",
         "transfers": "Transfers",
         "analytics": "Analytics",
         "settings": "Settings",
@@ -101,5 +102,9 @@
         "description": "Description",
         "export-transactions": "Export Transactions",
         "export-as": "Export as"
+    },
+
+    "currencies": {
+        "add-currency": "Add currency"
     }
 }

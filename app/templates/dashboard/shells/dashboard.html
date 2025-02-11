@@ -2,12 +2,12 @@
     <div class="balance-summary">
         <div class="total-balance">
             <p class="text-small">{{ t["dashboard"]["total-balance"] }}</p>
-            <p class="balance">{{ user.get_balance(user.settings.default_currency) }}{{ user.settings.default_currency }}</p>
+            <p class="balance">{{ user.get_balance(user.settings.default_currency) }} <span class="currency">{{ user.settings.default_currency }}</span></p>
             <p class="text-small">+20,1% {{ t["dashboard"]["from-last-month"] }}</p>
         </div>
         <div class="monthly-income">
             <p class="text-small">{{ t["dashboard"]["monthly-income"] }}</p>
-            <p class="balance">{{ monthly_income }}{{ user.settings.default_currency }}</p>
+            <p class="balance">{{ monthly_income }} <span class="currency">{{ user.settings.default_currency }}</span></p>
             <p class="text-small">+20,1% {{ t["dashboard"]["from-last-month"] }}</p>
         </div>
     </div>
@@ -22,7 +22,7 @@
                             <p class="date">{{ transaction.timestamp | datetime(format="%d.%m.%Y") }}</p>
                         </div>
                         <p class="amount {{'red' if transaction.user_id == user.id else 'green' }}">
-                            {{'-' if transaction.user_id == user.id else '+' }}{{ transaction.amount }}{{ transaction.currency }}
+                            {{'-' if transaction.user_id == user.id else '+' }}{{ transaction.amount }} {{ transaction.currency }}
                         </p>
                     </div>
                 {% endfor %}
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="quick-transfer">
-            <h2>{{ t["dashboard"]["quick-transfer"] }}</h2>
+            <h2>{{ t["dashboard"]["quick-transfer"] }} ({{ user.settings.default_currency }})</h2>
             <p class="heading">{{ t["dashboard"]["recipiant"] }}</p>
             <input type="text" class="recipient" placeholder='{{ t["dashboard"]["enter-recipient"] }}'>
             <p class="heading mt-20">{{ t["dashboard"]["amount"] }}</p>

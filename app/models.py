@@ -28,19 +28,19 @@ class User(UserMixin, db.Model):
         return balance.amount if balance else Decimal(0.00)
     
     def add_balance(self, amount, symbol):
+        # Need to commit the session after calling this method
         balance = self.balances.filter_by(symbol=symbol).first()
         if balance:
             balance.amount += Decimal(amount)
         else:
             balance = Balance(user_id=self.id, symbol=symbol, amount=amount)
             db.session.add(balance)
-        db.session.commit()
 
     def remove_balance(self, amount, symbol):
+        # Need to commit the session after calling this method
         balance = self.balances.filter_by(symbol=symbol).first()
         if balance:
             balance.amount -= Decimal(amount)
-            db.session.commit()
     
     # Relationship to transactions
     transactions = db.relationship(
@@ -48,9 +48,6 @@ class User(UserMixin, db.Model):
         primaryjoin="or_(User.id == Transaction.user_id, User.id == Transaction.receiver_id)",
         lazy='dynamic'
     )
-
-    # Relationship to balances
-    balances = db.relationship('Balance', backref='user', lazy='dynamic')
 
 
     def __repr__(self):
@@ -80,6 +77,7 @@ class Balance(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     symbol = db.Column(db.String(3), nullable=False, default='EUR')  # 'EUR', 'USD', etc.
     amount = db.Column(db.Numeric(15, 2), nullable=False, default=0.0)
+    user = db.relationship('User', backref=db.backref('balances', lazy='dynamic'))
 
     def __repr__(self):
         return f'<Balance {self.id}, {self.symbol}, {self.amount}>'
