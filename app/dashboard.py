@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for
 from flask_login import current_user, login_required
-from app.functions import get_user_translations
+from app.functions import get_user_translations, update_exchange_rates
 
 dashboard_bp = Blueprint('dashboard', __name__)
 
@@ -20,6 +20,7 @@ def user():
     if current_user.is_authenticated:
         if current_user.role == 'admin':
             return redirect(url_for('dashboard.admin'))
+        update_exchange_rates()
         return render_template('dashboard/user.html', t=get_user_translations(), user=current_user)
 
 

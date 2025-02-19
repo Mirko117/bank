@@ -49,7 +49,6 @@ class User(UserMixin, db.Model):
         lazy='dynamic'
     )
 
-
     def __repr__(self):
         return f'<User {self.username}>'
 
@@ -81,6 +80,25 @@ class Balance(db.Model):
 
     def __repr__(self):
         return f'<Balance {self.id}, {self.symbol}, {self.amount}>'
+
+
+class ExchangeRate(db.Model):
+    __tablename__ = 'exchange_rates'
+    id = db.Column(db.Integer, primary_key=True)
+    symbol = db.Column(db.String(3), unique=True, nullable=False)
+    rate = db.Column(db.Numeric(15, 4), nullable=False)
+
+    def __repr__(self):
+        return f'<ExchangeRate {self.symbol}, {self.rate}>'
+    
+
+class ExchangeRateLastUpdate(db.Model):
+    __tablename__ = 'exchange_rates_last_update'
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.Integer, default=lambda: int(time.time()), nullable=False)
+
+    def __repr__(self):
+        return f'<ExchangeRateLastUpdate {self.timestamp}>'
 
 
 class Card(db.Model):
