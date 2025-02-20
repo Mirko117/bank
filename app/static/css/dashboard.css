@@ -398,3 +398,8 @@ body {
 #export-transactions-dialog .export-option:visited {
   color: #020817;
 }
+
+#add-currency-dialog #select-currency {
+  margin-top: 12px;
+  padding: 5px;
+}

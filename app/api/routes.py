@@ -5,8 +5,8 @@ from io import BytesIO
 import pandas as pd
 import json
 from app.functions import get_user_translations, is_valid_number_format, unix_to_datetime
-from app.models import db, Transaction, User
-from app.api.queries import calculate_monthly_income_and_change
+from app.models import db, Transaction, User, Balance
+from app.api.queries import calculate_monthly_income_and_change, get_new_currencies
 
 # Create blueprint, API and namespace for API
 api_bp = Blueprint('api', __name__)
@@ -15,6 +15,8 @@ api_ns = Namespace("api", description="Main operations")
 
 # Create namespace for dashboard
 dashboard_ns = Namespace("dashboard", description="Dashboard operations")
+
+### TODO: Add translations to API responses ###
 
 @dashboard_ns.route('/get-shell')
 class DashboardGetPageEndpoint(Resource):
@@ -198,6 +200,53 @@ class DashboardExportTransactionsEndpoint(Resource):
         except Exception as e:
             response = make_response({"status": "error", "message": "An error occurred"}, 500)
             return response
+
+@dashboard_ns.route('/add-currency-dialog')
+class DashboardAddCurrencyDialogEndpoint(Resource):
+    def get(self):
+        if not current_user.is_authenticated:
+            response = make_response({"status": "error", "message": "Unauthorized"}, 401)
+            return response
+        
+        try:
+            html = render_template("api/add_currency_dialog.html", currencies=get_new_currencies())
+
+            response = make_response({"status": "success", "html": html, "title": get_user_translations()["currencies"]["add-currency"]}, 200)
+            return response
+
+        except Exception as e:
+            response = make_response({"status": "error", "message": "An error occurred"}, 500)
+            return response
+
+@dashboard_ns.route('/add-currency')
+class DashboardAddCurrencyEndpoint(Resource):
+    def post(self):
+        if not current_user.is_authenticated:
+            response = make_response({"status": "error", "message": "Unauthorized"}, 401)
+            return response
+        
+        try:
+            currency = request.form.get("currency")
+
+            if not currency:
+                response = make_response({"status": "error", "message": "Currency required"}, 400)
+                return response
+
+            if currency not in get_new_currencies():
+                response = make_response({"status": "error", "message": "Invalid currency"}, 400)
+                return response
+            
+            new_balance = Balance(user_id=current_user.id, symbol=currency, amount=0.0)
+            db.session.add(new_balance)
+            db.session.commit()
+
+            response = make_response({"status": "success", "message": "Currency added"}, 200)
+            return response
+
+        except Exception as e:
+            response = make_response({"status": "error", "message": "An error occurred"}, 500)
+            return response
+
 
 
 # Add namespaces to API

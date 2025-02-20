@@ -129,6 +129,53 @@ function loadShellEventListeners(){
 
     });
 
+    // When add transaction button is clicked
+    $("#currencies-shell .all-currencies .add-currency").on("click", function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: "GET",
+            url: "/api/dashboard/add-currency-dialog",
+            success: function (response) {
+                var html = response.html;
+                var title = response.title;
+
+                $("<div>" + html + "</div>").dialog({
+                    title: title,
+                    modal: true,
+                    resizable: false,
+                    draggable: false,
+                    position: { my: "top+100", at: "top", of: window },
+                    buttons: {
+                        Ok: function(){
+                            currency = $("#add-currency-dialog #select-currency").val();
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/api/dashboard/add-currency",
+                                data: { currency: currency },
+                                success: function (response) {
+                                    showDialog(response.message, "Success", reload=true);
+                                },
+                                error: function (response) {
+                                    showDialog(response.responseJSON.message, "Error");
+                                }
+                            });
+                            $(this).dialog('close');
+                            return true;
+                        }
+                    },
+                    close: function(){
+                        $(this).dialog('destroy');
+                    }
+                });
+            },
+            error: function (response) {
+                showDialog(response.responseJSON.message, "Error");
+            }
+        });
+    });
+
     function loadExportTransactionsDialogListeners(){
         $("#export-transactions-dialog .export-option").on("click", function(e){
             e.preventDefault();
