@@ -28,7 +28,11 @@ The physical component will be the POS terminal, built using an ESP32 microcontr
 
     ```makefile
     SECRET_KEY="your_secret_key"
-    DATABASE_URL="postgresql://username:password@localhost/web_bank_db"
+    FLASK_ENV="production" # or deveopment
+    DATABASE_URL="postgresql://username:password@localhost/
+    web_bank_db"
+    EXCHANGE_RATE_API_KEY="api_key"
+
     ```
 
 - If you want to use SQLite it also should work by adding
@@ -40,7 +44,7 @@ The physical component will be the POS terminal, built using an ESP32 microcontr
 3. Set up the database
 
 - Ensure PostgreSQL is installed and running on your machine
-- Create a database for the project using the following command:
+- Create a database for the project using the following command (if you plan to tun on sqlite3 you should skip this step):
 
     ```
     createdb web_bank_db
@@ -48,7 +52,6 @@ The physical component will be the POS terminal, built using an ESP32 microcontr
 
 - Apply the database migrations by running:
     ```bash
-    flask db init
     flask db migrate
     flask db upgrade
     ```
@@ -58,19 +61,7 @@ The physical component will be the POS terminal, built using an ESP32 microcontr
 - Run the following command to start the web server:
 
     ```bash
-    py manage.py
-    ```
-
-- If it doesn't work also try:
-
-    ```bash
     python manage.py
-    ```
-
-- or
-
-    ```bash
-    python3 manage.py
     ```
 
 5. Access the website
@@ -79,4 +70,10 @@ The physical component will be the POS terminal, built using an ESP32 microcontr
 
 ## Testing
 
+### Tests
 You can run tests by typing `pytest` in terminal.
+
+### Mock data for testing UI
+```bash
+python scripts/generate_mock_data.py
+```

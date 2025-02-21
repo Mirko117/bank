@@ -10,6 +10,16 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     EXCHANGE_RATE_API_KEY=os.getenv('EXCHANGE_RATE_API_KEY')
 
+# For pytest
 class TestingConfig(Config):
-    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
     TESTING = True
+    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+
+# For development
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+# For production
+class ProductionConfig(Config):
+    DEBUG = False
+    TESTING = False
