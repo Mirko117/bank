@@ -40,6 +40,7 @@ $sidebar-height: 100%;
     .options{
         display: flex;
         flex-direction: row;
+        gap: 10px;
 
         .option{
             text-decoration: none;
@@ -71,8 +72,6 @@ $sidebar-height: 100%;
         }
 
         .option:first-child{
-            margin-right: 10px;
-
              img{
                 margin-right: 5px;
              }

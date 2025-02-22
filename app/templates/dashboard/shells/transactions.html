@@ -25,7 +25,7 @@
                 <td>{{ transaction.name }}</td>
                 <td>{{ transaction.description }}</td>
                 <td class="{{'red' if transaction.user_id == user.id else 'green' }}">
-                    {{'-' if transaction.user_id == user.id else '+' }}{{ transaction.amount }} {{ transaction.currency }}
+                    {{'-' if transaction.user_id == user.id else '+' }}{{ transaction.amount | format_money }} {{ transaction.currency }}
                 </td>
             </tr>
         {% endfor %}

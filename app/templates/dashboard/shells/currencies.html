@@ -3,7 +3,7 @@
         {% for balance in user.balances %}
             <div class="currency">
                 <p class="symbol">{{ balance.symbol }}</p>
-                <p class="balance">{{ balance.amount }}</p>
+                <p class="balance">{{ balance.amount | format_money }}</p>
             </div>
             {% if loop.last %}
                 <div class="currency add-currency">

@@ -38,6 +38,9 @@ def is_valid_number_format(s):
     pattern = r'^\d+(?:[.,]\d{1,2})?$'
     return bool(re.match(pattern, s))
 
+def format_money(value, decimals=2):
+    '''Format a number as money'''
+    return f"{value:,.{decimals}f}"
 
 def unix_to_datetime(value, format='%Y-%m-%d %H:%M:%S'):
     '''Convert timestamp to datetime and format it'''

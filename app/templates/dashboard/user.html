@@ -32,13 +32,15 @@
         <h1 class="page-name">{{ t["dashboard"]["dashboard"] }}</h1>
 
         <div class="options">
-            <!-- REMOVE: href="/auth/logout" will be there till i implement context menu -->
-            <a href="/auth/logout" class="option">
+            <a href="#" class="option">
                 <img src="{{ url_for('static', filename='images/dashboard/solar_user-outline.svg') }}" alt="Account">
                 {{ user.username }}
             </a>
             <a href="#" class="option">
                 <img src="{{ url_for('static', filename='images/dashboard/mynaui_bell.svg') }}" alt="Notifications">
+            </a>
+            <a href="/auth/logout" class="option">
+                <img src="{{ url_for('static', filename='images/dashboard/logout-rounded.svg') }}" alt="Log Out">
             </a>
         </div>
     </div>

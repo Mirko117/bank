@@ -76,6 +76,7 @@ body {
 #navbar .options {
   display: flex;
   flex-direction: row;
+  gap: 10px;
 }
 #navbar .options .option {
   text-decoration: none;
@@ -101,9 +102,6 @@ body {
 }
 #navbar .options .option:visited {
   color: #020817;
-}
-#navbar .options .option:first-child {
-  margin-right: 10px;
 }
 #navbar .options .option:first-child img {
   margin-right: 5px;

@@ -5,7 +5,7 @@ from io import BytesIO
 from decimal import Decimal, ROUND_DOWN
 import pandas as pd
 import json
-from app.functions import get_user_translations, is_valid_number_format, unix_to_datetime
+from app.functions import get_user_translations, is_valid_number_format, unix_to_datetime, format_money
 from app.models import db, Transaction, User, Balance
 from app.api.queries import *
 
@@ -291,6 +291,9 @@ class DashboardExchangeCurrenciesEndpoint(Resource):
             result = amount * exchange_rate
 
             result = (result * Decimal("0.99")).quantize(Decimal("0.00"), rounding=ROUND_DOWN)  # 1% fee
+
+            result = format_money(result)
+            exchange_rate = format_money(exchange_rate, decimals=4)
 
             response = make_response({"status": "success", "exchange_rate": exchange_rate, "result": result}, 200)
             return response
