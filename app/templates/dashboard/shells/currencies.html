@@ -12,4 +12,48 @@
             {% endif %}
         {% endfor %}
     </div>
+    <div class="row">
+        <div class="currency-exchange">
+            <h2>{{ t["currencies"]["currency-exchange"] }}</h2>
+            <div class="exchange-fields">
+                <div class="field amount">
+                    <p>{{ t["currencies"]["amount"] }}</p>
+                    <input type="number" name="amount" id="amount" placeholder="0">
+                </div>
+                <div class="field from">
+                    <p>{{ t["currencies"]["from"] }}</p>
+                    <select name="from" id="from">
+                        {% for balance in user.balances %}
+                            <option value="{{ balance.symbol }}">{{ balance.symbol }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="field to">
+                    <p>{{ t["currencies"]["to"] }}</p>
+                    <select name="to" id="to">
+                        <option value=""></option>
+                        {% for currency in all_currencies %}
+                            <option value="{{ currency }}">{{ currency }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="exchange-result hidden">
+                <div class="result-wrapper">
+                    <p class="exchange-rate">
+                        <span>{{ t["currencies"]["exchange-rate"] }}:</span>
+                        <span id="exchange-rate"></span>
+                    </p>
+                    <p class="result">
+                        <span>{{ t["currencies"]["result"] }}:</span>
+                        <span id="result"></span>
+                    </p>
+                </div>
+                <div class="buttons-wrapper">
+                    <a href="#" id="exchange-currency">{{ t["currencies"]["exchange-currency"] }}</a>
+                    <a href="#" id="cancel-exchange">{{ t["currencies"]["cancel"] }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

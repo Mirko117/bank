@@ -129,7 +129,7 @@ function loadShellEventListeners(){
 
     });
 
-    // When add transaction button is clicked
+    // When add currency button is clicked
     $("#currencies-shell .all-currencies .add-currency").on("click", function(e) {
         e.preventDefault();
 
@@ -175,6 +175,77 @@ function loadShellEventListeners(){
             }
         });
     });
+
+    // Currency exchange input listener
+    $("#currencies-shell .currency-exchange input").on("input", function(e){
+        handleCurrencyExchange();
+    });
+
+    // Currency exchange select listener
+    $("#currencies-shell .currency-exchange select").on("input", function(e){
+        handleCurrencyExchange();
+    });
+    
+    // Handle currency exchange 
+    function handleCurrencyExchange(){
+        var amount = $("#currencies-shell .currency-exchange #amount").val();
+        var from = $("#currencies-shell .currency-exchange #from").val();
+        var to = $("#currencies-shell .currency-exchange #to").val();
+
+        if(parseFloat(amount) <= 0 || from == to){
+            return;
+        }
+
+        if(amount && from && to){
+            $.ajax({
+                type: "GET",
+                url: "/api/dashboard/exchange-currencies",
+                data: { amount: amount, from: from, to: to },
+                success: function (response) {
+                    $("#currencies-shell .exchange-result").removeClass("hidden");
+                    $("#currencies-shell .currency-exchange #exchange-rate").text(response.exchange_rate);
+                    $("#currencies-shell .currency-exchange #result").text(response.result);
+                },
+                error: function (response) {
+                    showDialog(response.responseJSON.message, "Error");
+                }
+            });
+        }
+    }
+
+    // When exchange currency button is clicked
+    $("#currencies-shell .exchange-result #exchange-currency").on("click", function(e){
+        e.preventDefault();
+
+        var amount = $("#currencies-shell .currency-exchange #amount").val();
+        var from = $("#currencies-shell .currency-exchange #from").val();
+        var to = $("#currencies-shell .currency-exchange #to").val();
+
+        if(parseFloat(amount) <= 0 || from == to){
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/api/dashboard/exchange-currencies",
+            data: { amount: amount, from: from, to: to },
+            success: function (response) {
+                showDialog(response.message, "Success", reload=true);
+            },
+            error: function (response) {
+                showDialog(response.responseJSON.message, "Error");
+            }
+        });
+    });
+
+    // When cancel exchange button is clicked
+    $("#currencies-shell .exchange-result #cancel-exchange").on("click", function(e){
+        e.preventDefault();
+        $("#currencies-shell .exchange-result").addClass("hidden");
+        $("#currencies-shell .currency-exchange #amount").val("");
+        $("#currencies-shell .currency-exchange #to").val("");
+    });
+
 
     function loadExportTransactionsDialogListeners(){
         $("#export-transactions-dialog .export-option").on("click", function(e){

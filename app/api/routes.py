@@ -2,11 +2,12 @@ from flask import Blueprint, jsonify, request, render_template, make_response, s
 from flask_restx import Api, Resource, Namespace
 from flask_login import current_user
 from io import BytesIO
+from decimal import Decimal, ROUND_DOWN
 import pandas as pd
 import json
 from app.functions import get_user_translations, is_valid_number_format, unix_to_datetime
 from app.models import db, Transaction, User, Balance
-from app.api.queries import calculate_monthly_income_and_change, get_new_currencies
+from app.api.queries import *
 
 # Create blueprint, API and namespace for API
 api_bp = Blueprint('api', __name__)
@@ -41,7 +42,7 @@ class DashboardGetPageEndpoint(Resource):
                 transactions = current_user.transactions.order_by(Transaction.timestamp.desc()).all()
                 rendered_shell = render_template("dashboard/shells/transactions.html", t=get_user_translations(), user=current_user, transactions=transactions)
             elif shell == "currencies":
-                rendered_shell = render_template("dashboard/shells/currencies.html", t=get_user_translations(), user=current_user)
+                rendered_shell = render_template("dashboard/shells/currencies.html", t=get_user_translations(), user=current_user, all_currencies=get_all_currencies())
             else:
                 rendered_shell = render_template(f"dashboard/shells/{shell}.html", t=get_user_translations(), user=current_user)
         except Exception as e:
@@ -247,7 +248,135 @@ class DashboardAddCurrencyEndpoint(Resource):
             response = make_response({"status": "error", "message": "An error occurred"}, 500)
             return response
 
+@dashboard_ns.route('/exchange-currencies')
+class DashboardExchangeCurrenciesEndpoint(Resource):
+    def get(self):
+        if not current_user.is_authenticated:
+            response = make_response({"status": "error", "message": "Unauthorized"}, 401)
+            return response
+        
+        try:
+            amount = request.args.get("amount")
+            from_currency = request.args.get("from")
+            to_currency = request.args.get("to")
 
+            if not amount or not from_currency or not to_currency:
+                response = make_response({"status": "error", "message": "Amount, from and to currency required"}, 400)
+                return response
+
+            if not is_valid_number_format(amount):
+                response = make_response({"status": "error", "message": "Invalid amount format. Use 0000.00 or 0000,00"}, 400)
+                return response
+            
+            amount = Decimal(amount.replace(",", "."))
+
+            if amount <= 0:
+                response = make_response({"status": "error", "message": "Invalid amount"}, 400)
+                return response
+            
+            if from_currency == to_currency:
+                response = make_response({"status": "error", "message": "Cannot exchange the same currency"}, 400)
+                return response
+            
+            all_currencies = get_all_currencies()
+            if from_currency not in all_currencies or to_currency not in all_currencies:
+                response = make_response({"status": "error", "message": "Invalid currency"}, 400)
+                return response
+            
+            if current_user.get_balance(from_currency) < amount:
+                response = make_response({"status": "error", "message": "Insufficient funds"}, 400)
+                return response
+            
+            exchange_rate = get_exchange_rate(from_currency, to_currency)
+            result = amount * exchange_rate
+
+            result = (result * Decimal("0.99")).quantize(Decimal("0.00"), rounding=ROUND_DOWN)  # 1% fee
+
+            response = make_response({"status": "success", "exchange_rate": exchange_rate, "result": result}, 200)
+            return response
+
+        except Exception as e:
+            print(e)
+            response = make_response({"status": "error", "message": "An error occurred"}, 500)
+            return response
+
+    def post(self):
+        if not current_user.is_authenticated:
+            response = make_response({"status": "error", "message": "Unauthorized"}, 401)
+            return response
+        
+        try:
+            amount = request.form.get("amount")
+            from_currency = request.form.get("from")
+            to_currency = request.form.get("to")
+
+            if not amount or not from_currency or not to_currency:
+                response = make_response({"status": "error", "message": "Amount, from and to currency required"}, 400)
+                return response
+
+            if not is_valid_number_format(amount):
+                response = make_response({"status": "error", "message": "Invalid amount format. Use 0000.00 or 0000,00"}, 400)
+                return response
+            
+            amount = Decimal(amount.replace(",", "."))
+
+            if amount <= 0:
+                response = make_response({"status": "error", "message": "Invalid amount"}, 400)
+                return response
+            
+            if from_currency == to_currency:
+                response = make_response({"status": "error", "message": "Cannot exchange the same currency"}, 400)
+                return response
+            
+            all_currencies = get_all_currencies()
+            if from_currency not in all_currencies or to_currency not in all_currencies:
+                response = make_response({"status": "error", "message": "Invalid currency"}, 400)
+                return response
+            
+            if current_user.get_balance(from_currency) < amount:
+                response = make_response({"status": "error", "message": "Insufficient funds"}, 400)
+                return response
+            
+            exchange_rate = get_exchange_rate(from_currency, to_currency)
+            result = amount * exchange_rate
+
+            result = (result * Decimal("0.99")).quantize(Decimal("0.00"), rounding=ROUND_DOWN)  # 1% fee
+
+            # Create transaction
+            transaction1 = Transaction(
+                name="Currency exchange",
+                user_id=current_user.id,
+                amount=amount,
+                currency=from_currency,
+                status="success",
+                transaction_type="exchange",
+                description=f"Exchanged {amount} {from_currency} to {result} {to_currency}"
+            )
+
+            transaction2 = Transaction(
+                name="Currency exchange",
+                receiver_id=current_user.id,
+                amount=result,
+                currency=to_currency,
+                status="success",
+                transaction_type="exchange",
+                description=f"Exchanged {amount} {from_currency} to {result} {to_currency}"
+            )
+
+            # Update balances
+            current_user.remove_balance(amount, from_currency)
+            current_user.add_balance(result, to_currency)
+
+            db.session.add(transaction1)
+            db.session.add(transaction2)
+            db.session.commit()
+
+            response = make_response({"status": "success", "message": "Exchange successful"}, 200)
+            return response
+
+        except Exception as e:
+            response = make_response({"status": "error", "message": "An error occurred"}, 500)
+            return response
 
 # Add namespaces to API
 api.add_namespace(api_ns, path='/')

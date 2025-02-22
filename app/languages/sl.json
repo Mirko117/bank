@@ -105,6 +105,14 @@
     },
 
     "currencies": {
-        "add-currency": "Dodaj valuto"
+        "add-currency": "Dodaj valuto",
+        "currency-exchange": "Menjava valut",
+        "amount": "Znesek",
+        "from": "Iz",
+        "to": "V",
+        "exchange-rate": "Menjalni tečaj",
+        "result": "Prejeli boste (vključno z 1% provizijo)",
+        "exchange-currency": "Zamenjaj valuto",
+        "cancel": "Prekliči"
     }
 }

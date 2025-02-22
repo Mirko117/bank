@@ -38,3 +38,19 @@ def get_new_currencies():
     new_currencies = list(set(all_currencies) - set(user_currencies))
 
     return sorted(new_currencies)
+
+def get_all_currencies():
+    '''Get all currencies'''
+    all_currencies = db.session.query(ExchangeRate.symbol).all()
+    all_currencies = [currency[0] for currency in all_currencies]
+
+    return sorted(all_currencies)
+
+def get_exchange_rate(from_currency, to_currency):
+    '''Get exchange rate from one currency to another'''
+    from_currency_rate = db.session.query(ExchangeRate.rate).filter_by(symbol=from_currency).scalar()
+    to_currency_rate = db.session.query(ExchangeRate.rate).filter_by(symbol=to_currency).scalar()
+
+    exchange_rate = round(to_currency_rate / from_currency_rate, 4)
+
+    return Decimal(exchange_rate)
