@@ -192,7 +192,8 @@ function loadShellEventListeners(){
         var from = $("#currencies-shell .currency-exchange #from").val();
         var to = $("#currencies-shell .currency-exchange #to").val();
 
-        if(parseFloat(amount) <= 0 || from == to){
+        if(parseFloat(amount) <= 0 || from == to || !amount || !from || !to){
+            $("#currencies-shell .exchange-result").addClass("hidden");
             return;
         }
 

@@ -83,7 +83,7 @@ class DashboardMakeQuickTransferEndpoint(Resource):
             return response
         
         if not is_valid_number_format(amount):
-            response = make_response({"status": "error", "message": "Invalid amount formar. Use 0000.00 or 0000,00"}, 400)
+            response = make_response({"status": "error", "message": "Invalid amount format. Use 0000.00 or 0000,00"}, 400)
             return response
         
         amount = float(amount.replace(",", "."))
@@ -299,7 +299,6 @@ class DashboardExchangeCurrenciesEndpoint(Resource):
             return response
 
         except Exception as e:
-            print(e)
             response = make_response({"status": "error", "message": "An error occurred"}, 500)
             return response
 

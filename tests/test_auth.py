@@ -1,229 +1,152 @@
 from app import create_app, db
 from app.models import User
+from config import TestingConfig
 import pytest
 
-# Create a test app instance
-app = create_app(config_object='config.TestingConfig')
+@pytest.fixture(scope='session')
+def app():
+    """Create and configure a Flask app for testing"""
+    app = create_app(TestingConfig)
+    return app
 
 @pytest.fixture(scope='session')
-def client():
-    # Create the database and the database tables, then delete them after the test
+def test_client(app):
+    """Create a test client for the app"""
     with app.app_context():
         db.create_all()
-    with app.test_client() as client:
-        yield client
-    with app.app_context():
+        yield app.test_client()
+        db.session.remove()
         db.drop_all()
 
-### Registration tests ###
-
-def test_register_success(client):
-    # Test a successful registration
-    response = client.post('/auth/register', data={
+@pytest.fixture(scope='module')
+def registered_user(test_client, app):
+    """Create a test user that can be reused across tests"""
+    user_data = {
         'name': 'John',
         'surname': 'Doe',
         'email': 'john.doe@example.com',
         'password': 'Password123',
         'confirm-password': 'Password123'
-    })
-    assert response.status_code == 201
-    assert response.json['status'] == 'User created successfully, please check your email for username'
-
-def test_register_empty_name(client):
-    # Test registration with an empty name
-    response = client.post('/auth/register', data={
-        'name': '',
-        'surname': 'Doe',
-        'email': 'john.doe@example.com',
-        'password': 'Password123',
-        'confirm-password': 'Password123'
-    })
-    assert response.status_code == 400
-    assert response.json['status'] == 'Name is required'
-
-def test_register_invalid_name(client):
-    # Test registration with an invalid name
-    response = client.post('/auth/register', data={
-        'name': 'Jo',
-        'surname': 'Doe',
-        'email': 'john.doe@example.com',
-        'password': 'Password123',
-        'confirm-password': 'Password123'
-    })
-    assert response.status_code == 400
-    assert response.json['status'] == 'Name is too short'
-
-def test_register_invalid_name_with_number(client):
-    # Test registration with an invalid name
-    response = client.post('/auth/register', data={
-        'name': 'Jo1',
-        'surname': 'Doe',
-        'email': 'john.doe@example.com',
-        'password': 'Password123',
-        'confirm-password': 'Password123'
-    })
-    assert response.status_code == 400
-    assert response.json['status'] == 'Name must not contain a number'
-
-def test_register_empty_surname(client):
-    # Test registration with an empty surname
-    response = client.post('/auth/register', data={
-        'name': 'John',
-        'surname': '',
-        'email': 'john.doe@example.com',
-        'password': 'Password123',
-        'confirm-password': 'Password123'
-    })
-    assert response.status_code == 400
-    assert response.json['status'] == 'Surname is required'
-
-def test_register_invalid_surname(client):
-    # Test registration with an invalid surname
-    response = client.post('/auth/register', data={
-        'name': 'John',
-        'surname': 'Do',
-        'email': 'john.doe@example.com',
-        'password': 'Password123',
-        'confirm-password': 'Password123'
-    })
-    assert response.status_code == 400
-    assert response.json['status'] == 'Surname is too short'
-
-def test_register_invalid_surname_with_number(client):
-    # Test registration with an invalid surname
-    response = client.post('/auth/register', data={
-        'name': 'John',
-        'surname': 'Do1',
-        'email': 'john.doe@example.com',
-        'password': 'Password123',
-        'confirm-password': 'Password123'
-    })
-    assert response.status_code == 400
-    assert response.json['status'] == 'Surname must not contain a number'
-
-def test_register_empty_email(client):
-    # Test registration with an empty email
-    response = client.post('/auth/register', data={
-        'name': 'John',
-        'surname': 'Doe',
-        'email': '',
-        'password': 'Password123',
-        'confirm-password': 'Password123'
-    })
-    assert response.status_code == 400
-    assert response.json['status'] == 'Email is required'
-
-def test_register_invalid_email(client):
-    # Test registration with an invalid email
-    response = client.post('/auth/register', data={
-        'name': 'John',
-        'surname': 'Doe',
-        'email': 'john.doeexample.com',
-        'password': 'Password123',
-        'confirm-password': 'Password123'
-    })
-    assert response.status_code == 400
-    assert response.json['status'] == 'Invalid email'
-
-def test_register_empty_password(client):
-    # Test registration with an empty password
-    response = client.post('/auth/register', data={
-        'name': 'John',
-        'surname': 'Doe',
-        'email': 'john.doe@example.com',
-        'password': '',
-        'confirm-password': 'Password123'
-    })
-    assert response.status_code == 400
-    assert response.json['status'] == 'Password is required'
-
-def test_register_password_mismatch(client):
-    # Test registration with password mismatch
-    response = client.post('/auth/register', data={
-        'name': 'John',
-        'surname': 'Doe',
-        'email': 'john.doe@example.com',
-        'password': 'Password123',
-        'confirm-password': 'Password1234'
-    })
-    assert response.status_code == 400
-    assert response.json['status'] == 'Passwords do not match'
-
-def test_register_password_without_number(client):
-    # Test registration with password without a number
-    response = client.post('/auth/register', data={
-        'name': 'John',
-        'surname': 'Doe',
-        'email': 'john.doe@example.com',
-        'password': 'Password',
-        'confirm-password': 'Password123'
-    })
-    assert response.status_code == 400
-    assert response.json['status'] == 'Password must contain a number'
-
-def test_register_existing_email(client):
-    # Test registration with an existing email
-    response = client.post('/auth/register', data={
-        'name': 'John',
-        'surname': 'Doe',
-        'email': 'john.doe@example.com',
-        'password': 'Password123',
-        'confirm-password': 'Password123'
-    })
-    assert response.status_code == 400
-    assert response.json['status'] == 'Email already exists'
-
-
-## Login tests ###
-
-def test_login_empty_username(client):
-    global username
-    # Test login with an empty username
-    # Get the username of the user we created in the previous test
-    with app.app_context():
-        user = User.query.filter_by(email='john.doe@example.com').first()
-        assert user is not None
-        username = user.username
+    }
     
-    response = client.post('/auth/login', data={
-        'username': '',
-        'password': 'Password123'
-    })
-    assert response.status_code == 400
-    assert response.json['status'] == 'Username is required'
+    test_client.post('/auth/register', data=user_data)
+    
+    with app.app_context():
+        user = User.query.filter_by(email=user_data['email']).first()
+        return {'username': user.username, 'email': user.email, 'password': 'Password123'}
 
-def test_login_empty_password(client):
-    # Test login with an empty password
-    response = client.post('/auth/login', data={
-        'username': 'Username',
-        'password': ''
-    })
-    assert response.status_code == 400
-    assert response.json['status'] == 'Password is required'
+class TestRegistration:
+    """Tests for the registration functionality"""
+    
+    def test_register_success(self, test_client):
+        """Test successful registration with valid data"""
+        response = test_client.post('/auth/register', data={
+            'name': 'Jane',
+            'surname': 'Smith',
+            'email': 'jane.smith@example.com',
+            'password': 'Password123',
+            'confirm-password': 'Password123'
+        })
+        assert response.status_code == 201
 
-def test_login_invalid_username(client):
-    # Test login with invalid credentials
-    response = client.post('/auth/login', data={
-        'username': 'InvalidUsername',
-        'password': 'Password123'
-    })
-    assert response.status_code == 401
-    assert response.json['status'] == 'Invalid credentials'
+        # Original code:
+        # assert response.json['status'] == 'User created successfully, please check your email for username'
+        # Changed it because there is +username in the response rn for testing purposes
+        # This will be removed in production
+        assert 'User created successfully, please check your email for username' in response.json['status'] 
+    
+    @pytest.mark.parametrize('field, value, status_code, message', [
+        ('name', '', 400, 'Name is required'),
+        ('name', 'Jo', 400, 'Name is too short'),
+        ('name', 'Jo1', 400, 'Name must not contain a number'),
+        ('surname', '', 400, 'Surname is required'),
+        ('surname', 'Do', 400, 'Surname is too short'),
+        ('surname', 'Do1', 400, 'Surname must not contain a number'),
+        ('email', '', 400, 'Email is required'),
+        ('email', 'john.doeexample.com', 400, 'Invalid email'),
+        ('password', '', 400, 'Password is required'),
+        ('password', 'Password', 400, 'Password must contain a number'),
+    ])
+    def test_register_invalid_fields(self, test_client, field, value, status_code, message):
+        """Test registration with various invalid inputs"""
+        data = {
+            'name': 'John',
+            'surname': 'Doe',
+            'email': 'new.user@example.com',
+            'password': 'Password123',
+            'confirm-password': 'Password123'
+        }
+        # Override the specified field with the test value
+        data[field] = value
+        
+        response = test_client.post('/auth/register', data=data)
+        assert response.status_code == status_code
+        assert response.json['status'] == message
+    
+    def test_register_password_mismatch(self, test_client):
+        """Test registration with mismatched passwords"""
+        response = test_client.post('/auth/register', data={
+            'name': 'John',
+            'surname': 'Doe',
+            'email': 'another.user@example.com',
+            'password': 'Password123',
+            'confirm-password': 'Password1234'
+        })
+        assert response.status_code == 400
+        assert response.json['status'] == 'Passwords do not match'
+    
+    def test_register_existing_email(self, test_client, registered_user):
+        """Test registration with an email that already exists"""
+        response = test_client.post('/auth/register', data={
+            'name': 'Different',
+            'surname': 'Person',
+            'email': registered_user['email'],
+            'password': 'Password123',
+            'confirm-password': 'Password123'
+        })
+        assert response.status_code == 400
+        assert response.json['status'] == 'Email already exists'
 
-def test_login_invalid_password(client):
-    # Test login with invalid credentials
-    response = client.post('/auth/login', data={
-        'username': username,
-        'password': 'Password12'
-    })
-    assert response.status_code == 401
-    assert response.json['status'] == 'Invalid credentials'
 
-def test_login_success(client):
-    # Test a successful login
-    response = client.post('/auth/login', data={
-        'username': username,
-        'password': 'Password123'
-    })
-    assert response.status_code == 200
-    assert response.json['status'] == 'Logged in successfully'
+class TestLogin:
+    """Tests for the login functionality"""
+    
+    @pytest.mark.parametrize('field, value, status_code, message', [
+        ('username', '', 400, 'Username is required'),
+        ('password', '', 400, 'Password is required'),
+    ])
+    def test_login_empty_fields(self, test_client, field, value, status_code, message):
+        """Test login with empty required fields"""
+        data = {'username': 'someusername', 'password': 'Password123'}
+        data[field] = value
+        
+        response = test_client.post('/auth/login', data=data)
+        assert response.status_code == status_code
+        assert response.json['status'] == message
+    
+    def test_login_invalid_username(self, test_client):
+        """Test login with an invalid username"""
+        response = test_client.post('/auth/login', data={
+            'username': 'InvalidUsername',
+            'password': 'Password123'
+        })
+        assert response.status_code == 401
+        assert response.json['status'] == 'Invalid credentials'
+    
+    def test_login_invalid_password(self, test_client, registered_user):
+        """Test login with an invalid password"""
+        response = test_client.post('/auth/login', data={
+            'username': registered_user['username'],
+            'password': 'WrongPassword123'
+        })
+        assert response.status_code == 401
+        assert response.json['status'] == 'Invalid credentials'
+    
+    def test_login_success(self, test_client, registered_user):
+        """Test successful login with valid credentials"""
+        response = test_client.post('/auth/login', data={
+            'username': registered_user['username'],
+            'password': registered_user['password']
+        })
+        assert response.status_code == 200
+        assert response.json['status'] == 'Logged in successfully'

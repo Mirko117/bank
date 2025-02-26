@@ -152,12 +152,29 @@ def create_settings(mapper, connection, target):
         language = session.get('lang', 'en')
     else:
         language = 'en'
-    new_settings = Settings(user_id=target.id, language=language, default_currency='EUR')
-    db.session.add(new_settings)
+    
+    # Insert the default settings for the user
+    # Replacement of the following code:
+    # db.session.add(Settings(user_id=target.id, language=language, default_currency='EUR'))
+    connection.execute(
+        Settings.__table__.insert().values(
+            user_id=target.id,
+            language=language,
+            default_currency='EUR'
+        )
+    )
 
 
 # Automatically add a balance when a user is created
 @event.listens_for(User, 'after_insert')
 def create_balance(mapper, connection, target):
-    new_balance = Balance(user_id=target.id, symbol='EUR', amount=0.0)
-    db.session.add(new_balance)
+    # Insert the default balance for the user
+    # Replacement of the following code:
+    # db.session.add(Balance(user_id=target.id, symbol='EUR', amount=0.00))
+    connection.execute(
+        Balance.__table__.insert().values(
+            user_id=target.id,
+            symbol='EUR',
+            amount=0.00
+        )
+    )
