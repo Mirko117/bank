@@ -33,6 +33,12 @@ class DashboardGetPageEndpoint(Resource):
             return response
 
         try:
+            valid_shells = ["dashboard", "transactions", "currencies", "transfers", "analytics", "settings"]
+
+            if shell not in valid_shells:
+                response = make_response({"status": "error", "message": "Shell not found"}, 404)
+                return response
+            
             # Render the shell
             if shell == "dashboard":
                 monthly_income, monthly_change = calculate_monthly_income_and_change()
@@ -93,7 +99,7 @@ class DashboardMakeQuickTransferEndpoint(Resource):
             response = make_response({"status": "error", "message": "Invalid amount format. Use 0000.00 or 0000,00"}, 400)
             return response
         
-        amount = float(amount.replace(",", "."))
+        amount = Decimal(amount.replace(",", "."))
 
         if amount <= 0:
             response = make_response({"status": "error", "message": "Invalid amount"}, 400)
@@ -104,23 +110,21 @@ class DashboardMakeQuickTransferEndpoint(Resource):
             return response
         
         try:
-            receiver = User.query.filter_by(username=recipient).first()
-            
             # Create transaction
             transaction = Transaction(
                 name="Quick transfer",
                 user_id=current_user.id,
-                receiver_id=receiver.id,
+                receiver_id=recipient_query.id,
                 amount=amount,
                 currency = current_user.settings.default_currency,
                 status="success",
                 transaction_type="transfer",
-                description=f"From {current_user.username} to {receiver.username}"
+                description=f"From {current_user.username} to {recipient_query.username}"
             )
 
             # Update balances
             current_user.remove_balance(amount, current_user.settings.default_currency)
-            receiver.add_balance(amount, current_user.settings.default_currency)
+            recipient_query.add_balance(amount, current_user.settings.default_currency)
 
             db.session.add(transaction)
             db.session.commit()
@@ -128,6 +132,7 @@ class DashboardMakeQuickTransferEndpoint(Resource):
             response = make_response({"status": "success", "message": "Transfer successful"}, 200)
 
         except Exception as e:
+            db.session.rollback()
             response = make_response({"status": "error", "message": "An error occurred"}, 500)
         
         return response
@@ -252,6 +257,7 @@ class DashboardAddCurrencyEndpoint(Resource):
             return response
 
         except Exception as e:
+            db.session.rollback()
             response = make_response({"status": "error", "message": "An error occurred"}, 500)
             return response
 
@@ -384,6 +390,7 @@ class DashboardExchangeCurrenciesEndpoint(Resource):
             return response
 
         except Exception as e:
+            db.session.rollback()
             response = make_response({"status": "error", "message": "An error occurred"}, 500)
             return response
 

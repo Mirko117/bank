@@ -18,6 +18,7 @@ class User(UserMixin, db.Model):
     created_at = db.Column(db.Integer, default=lambda: int(time.time()), nullable=False) # Unix timestamp
 
     def set_password(self, password):
+        # Need to commit the session after calling this method
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
@@ -123,6 +124,7 @@ class Card(db.Model):
     created_at = db.Column(db.Integer, default=lambda: int(time.time()), nullable=False)
 
     def set_pin(self, pin):
+        # Need to commit the session after calling this method
         self.pin_hash = generate_password_hash(pin)
 
     def check_pin(self, pin):
