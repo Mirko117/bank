@@ -43,7 +43,7 @@ def generate_users(num_users=100):
 
 def generate_balances(users):
     for user in users:
-        user.add_balance(round(uniform(100, 10000), 2), "EUR")
+        user.add_balance(round(uniform(100, 20000), 2), "EUR")
     db.session.commit()
 
 def generate_transactions(users, num_transactions=1000):
@@ -62,7 +62,7 @@ def generate_transactions(users, num_transactions=1000):
             status=choice(['pending', 'success', 'failed']),
             transaction_type=choice(['deposit', 'withdrawal', 'transfer']),
             description=fake.sentence(),
-            timestamp=int(fake.date_time_between(start_date='-1y', end_date='now').timestamp()),
+            timestamp=int(fake.date_time_between(start_date='-3M', end_date='now').timestamp()),
         )
         db.session.add(transaction)
     db.session.commit()
@@ -94,17 +94,20 @@ def generate_logs(users, num_logs=500):
     db.session.commit()
 
 def populate_database():
+    USERS = 50
+    TRANSACTIONS = 1000
+
     print("Generating users...")
-    users = generate_users(100)
-    print(f"Generated {len(users)} users. Check 'users_and_passwords.txt' for login details.")
+    users = generate_users(USERS)
+    print(f"Generated {USERS} users. Check 'users_and_passwords.txt' for login details.")
 
     print("Generating balances...")
     generate_balances(users)
     print("Generated balances.")
 
     print("Generating transactions...")
-    generate_transactions(users, 1000)
-    print("Generated 1000 transactions.")
+    generate_transactions(users, TRANSACTIONS)
+    print(f"Generated {TRANSACTIONS} transactions.")
 
 ''' Dont need right now
     print("Generating cards...")
@@ -117,6 +120,6 @@ def populate_database():
 '''
 
 if __name__ == "__main__":
-    app = create_app()
+    app = create_app(config_object='config.DevelopmentConfig')
     with app.app_context():
         populate_database()

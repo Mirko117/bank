@@ -3,12 +3,12 @@
         <div class="total-balance">
             <p class="text-small">{{ t["dashboard"]["total-balance"] }}</p>
             <p class="balance">{{ user.get_balance(user.settings.default_currency) | format_money }} <span class="currency">{{ user.settings.default_currency }}</span></p>
-            <p class="text-small">+20,1% {{ t["dashboard"]["from-last-month"] }}</p>
+            <p class="text-small">{{ total_balance_change }}% {{ t["dashboard"]["from-last-month"] }}</p>
         </div>
         <div class="monthly-income">
             <p class="text-small">{{ t["dashboard"]["monthly-income"] }}</p>
             <p class="balance">{{ monthly_income | format_money }} <span class="currency">{{ user.settings.default_currency }}</span></p>
-            <p class="text-small">+20,1% {{ t["dashboard"]["from-last-month"] }}</p>
+            <p class="text-small">{{ monthly_change }}% {{ t["dashboard"]["from-last-month"] }}</p>
         </div>
     </div>
     <div class="other">

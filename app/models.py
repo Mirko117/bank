@@ -82,6 +82,18 @@ class Balance(db.Model):
         return f'<Balance {self.id}, {self.symbol}, {self.amount}>'
 
 
+class BalanceHistory(db.Model):
+    __tablename__ = 'balance_history'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    symbol = db.Column(db.String(3), nullable=False, default='EUR')  # 'EUR', 'USD', etc.
+    amount = db.Column(db.Numeric(15, 2), nullable=False, default=0.0)
+    timestamp = db.Column(db.Integer, default=lambda: int(time.time()), nullable=False)
+
+
+    def __repr__(self):
+        return f'<BalanceHistory {self.id}, {self.symbol}, {self.amount}>'
+
 class ExchangeRate(db.Model):
     __tablename__ = 'exchange_rates'
     id = db.Column(db.Integer, primary_key=True)
@@ -176,5 +188,29 @@ def create_balance(mapper, connection, target):
             user_id=target.id,
             symbol='EUR',
             amount=0.00
+        )
+    )
+
+# Automatically add a balance history when a user is created
+@event.listens_for(User, 'after_insert')
+def create_balance_history(mapper, connection, target):
+    # Insert the default balance history for the user
+    connection.execute(
+        BalanceHistory.__table__.insert().values(
+            user_id=target.id,
+            symbol='EUR',
+            amount=0.00
+        )
+    )
+
+# Automatically add balanbe history when a balance is updated
+@event.listens_for(Balance, 'after_update')
+def create_balance_history(mapper, connection, target):
+    # Insert the default balance history for the user
+    connection.execute(
+        BalanceHistory.__table__.insert().values(
+            user_id=target.user_id,
+            symbol=target.symbol,
+            amount=target.amount
         )
     )

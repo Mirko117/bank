@@ -35,16 +35,23 @@ class DashboardGetPageEndpoint(Resource):
         try:
             # Render the shell
             if shell == "dashboard":
-                monthly_income = calculate_monthly_income_and_change()
+                monthly_income, monthly_change = calculate_monthly_income_and_change()
                 recent_transactions = current_user.transactions.order_by(Transaction.timestamp.desc()).limit(4).all()
-                rendered_shell = render_template("dashboard/shells/dashboard.html", t=get_user_translations(), user=current_user, recent_transactions=recent_transactions, monthly_income=monthly_income)
+                total_balance_change = calculate_total_balance_change()
+                rendered_shell = render_template("dashboard/shells/dashboard.html", t=get_user_translations(),
+                                                 user=current_user, recent_transactions=recent_transactions, 
+                                                 monthly_income=monthly_income, monthly_change=monthly_change,
+                                                 total_balance_change=total_balance_change)
             elif shell == "transactions":
                 transactions = current_user.transactions.order_by(Transaction.timestamp.desc()).all()
-                rendered_shell = render_template("dashboard/shells/transactions.html", t=get_user_translations(), user=current_user, transactions=transactions)
+                rendered_shell = render_template("dashboard/shells/transactions.html", t=get_user_translations(),
+                                                 user=current_user, transactions=transactions)
             elif shell == "currencies":
-                rendered_shell = render_template("dashboard/shells/currencies.html", t=get_user_translations(), user=current_user, all_currencies=get_all_currencies())
+                rendered_shell = render_template("dashboard/shells/currencies.html", t=get_user_translations(),
+                                                 user=current_user, all_currencies=get_all_currencies())
             else:
-                rendered_shell = render_template(f"dashboard/shells/{shell}.html", t=get_user_translations(), user=current_user)
+                rendered_shell = render_template(f"dashboard/shells/{shell}.html", t=get_user_translations(),
+                                                 user=current_user)
         except Exception as e:
             response = make_response({"status": "error", "message": "Shell not found"}, 404)
             return response   
