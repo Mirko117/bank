@@ -114,5 +114,18 @@
         "result": "You'll recieve (incl. 1% fee)",
         "exchange-currency": "Exchange Currency",
         "cancel": "Cancel"
-    }
+    },
+
+    "transfers": {
+        "details": "Transfer Details",
+        "summary": "Transfer Summary",
+        "currency": "Currency",
+        "amount": "Amount",
+        "recipient": "Recipient",
+        "description": "Description (optional)",
+        "cancel": "Cancel",
+        "transfer": "Transfer",
+        "fee": "Fee",
+        "total": "Total"
+    }   
 }

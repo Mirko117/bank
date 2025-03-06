@@ -114,5 +114,18 @@
         "result": "Prejeli boste (vključno z 1% provizijo)",
         "exchange-currency": "Zamenjaj valuto",
         "cancel": "Prekliči"
+    },
+
+    "transfers": {
+        "details": "Podrobnosti nakazila",
+        "summary": "Povzetek nakazila",
+        "currency": "Valuta",
+        "amount": "Znesek",
+        "recipient": "Prejemnik",
+        "description": "Opis (neobvezno)",
+        "cancel": "Prekliči",
+        "transfer": "Nakaži",
+        "fee": "Provizija",
+        "total": "Skupaj"
     }
 }

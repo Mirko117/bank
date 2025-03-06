@@ -476,6 +476,101 @@ $sidebar-height: 100%;
             }
         }
     }
+
+    #transfers-shell{
+        .row{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+
+            .transfer-details, .transfer-summary{
+                width: 100%;
+                background-color: $dash-white;
+                padding: $boxes-padding;
+                border: 1px solid $dash-gray-border;
+                border-radius: 8px;
+            }
+
+            .transfer-details{
+                .form{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+
+                    .item{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 5px;
+
+                        input, select{
+                            width: 100%;
+                            padding: 10px;
+                            font-size: 16px;
+                            border: 1px solid $dash-gray-border;
+                            border-radius: 5px;
+                        }
+                    }
+
+                    .buttons{
+                        display: flex;
+                        flex-direction: row;
+                        gap: 10px;
+
+                        .cancel, .transfer{
+                            text-decoration: none;
+                            width: 100%;
+                            padding: 10px;
+                            border-radius: 5px;
+                            font-size: 16px;
+                            font-weight: 600;
+                            display: flex;
+                            justify-content: center;
+                            transition: all .2s;
+                        }
+    
+                        .cancel{
+                            color: $text-black;
+                            background-color: $dash-white;
+                            border: 1px solid $dash-gray-border;
+                        
+                            &:hover{
+                                background-color: rgba($dash-gray, .1);
+                            }
+                        }
+                        
+                        .transfer{
+                            color: $dash-text-white;
+                            background-color: $primary;
+                        
+                            &:hover{
+                                background-color: darken($primary, 10%);
+                            }
+                        }
+                    }
+                }
+            }
+
+            .transfer-summary{
+                .summary{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+
+                    .item{
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        font-size: 20px;
+
+                        .name{
+                            font-weight: 500;
+                            color: rgba($text-black, .6);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 #export-transactions-dialog{

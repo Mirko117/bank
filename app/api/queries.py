@@ -29,6 +29,10 @@ def calculate_total_balance_change():
 
 def calculate_monthly_income_and_change():
     '''Calculate monthly income and change for the current user'''
+    # TODO: Fix so it works for all currencies
+    #       Right now it shows wrong data if you exchange currencies
+    #       Also check if calculate_total_balance_change() function is having the same issue
+
     # Set timestamp for 30 days ago
     last_month_timestamp = int((datetime.now() - timedelta(days=30)).timestamp())
 
@@ -93,6 +97,11 @@ def get_all_currencies():
     all_currencies = [currency[0] for currency in all_currencies]
 
     return sorted(all_currencies)
+
+def get_user_currencies():
+    '''Get user's currencies'''
+    user_currencies = [balance.symbol for balance in current_user.balances]
+    return sorted(user_currencies)
 
 def get_exchange_rate(from_currency, to_currency):
     '''Get exchange rate from one currency to another'''

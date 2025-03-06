@@ -438,6 +438,81 @@ body {
 #shell #currencies-shell .row .currency-exchange .exchange-result .buttons-wrapper #cancel-exchange:hover {
   background-color: rgba(71, 85, 105, 0.1);
 }
+#shell #transfers-shell .row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+#shell #transfers-shell .row .transfer-details, #shell #transfers-shell .row .transfer-summary {
+  width: 100%;
+  background-color: #fff;
+  padding: 30px;
+  border: 1px solid #B9B9B9;
+  border-radius: 8px;
+}
+#shell #transfers-shell .row .transfer-details .form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+#shell #transfers-shell .row .transfer-details .form .item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+#shell #transfers-shell .row .transfer-details .form .item input, #shell #transfers-shell .row .transfer-details .form .item select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #B9B9B9;
+  border-radius: 5px;
+}
+#shell #transfers-shell .row .transfer-details .form .buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+#shell #transfers-shell .row .transfer-details .form .buttons .cancel, #shell #transfers-shell .row .transfer-details .form .buttons .transfer {
+  text-decoration: none;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  transition: all 0.2s;
+}
+#shell #transfers-shell .row .transfer-details .form .buttons .cancel {
+  color: #020817;
+  background-color: #fff;
+  border: 1px solid #B9B9B9;
+}
+#shell #transfers-shell .row .transfer-details .form .buttons .cancel:hover {
+  background-color: rgba(71, 85, 105, 0.1);
+}
+#shell #transfers-shell .row .transfer-details .form .buttons .transfer {
+  color: #fff;
+  background-color: #3A72EC;
+}
+#shell #transfers-shell .row .transfer-details .form .buttons .transfer:hover {
+  background-color: #1554de;
+}
+#shell #transfers-shell .row .transfer-summary .summary {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+#shell #transfers-shell .row .transfer-summary .summary .item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 20px;
+}
+#shell #transfers-shell .row .transfer-summary .summary .item .name {
+  font-weight: 500;
+  color: rgba(2, 8, 23, 0.6);
+}
 
 #export-transactions-dialog {
   display: flex;

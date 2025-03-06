@@ -394,6 +394,141 @@ class DashboardExchangeCurrenciesEndpoint(Resource):
             response = make_response({"status": "error", "message": "An error occurred"}, 500)
             return response
 
+@dashboard_ns.route('/get-transfer-fee')
+class DashboardGetTransferFeeEndpoint(Resource):
+    def get(self):
+        if not current_user.is_authenticated:
+            response = make_response({"status": "error", "message": "Unauthorized"}, 401)
+            return response
+        
+        try:
+            amount = request.args.get("amount")
+            currency = request.args.get("currency")
+
+            if not amount:
+                response = make_response({"status": "error", "message": "Amount required"}, 400)
+                return response
+
+            if not is_valid_number_format(amount):
+                response = make_response({"status": "error", "message": "Invalid amount format. Use 0000.00 or 0000,00"}, 400)
+                return response
+            
+            if not currency:
+                response = make_response({"status": "error", "message": "Currency required"}, 400)
+                return response
+            
+            if currency not in get_user_currencies():
+                response = make_response({"status": "error", "message": "Currency not found"}, 404)
+                return response
+            
+            amount = Decimal(amount.replace(",", "."))
+
+            if amount <= 0:
+                response = make_response({"status": "error", "message": "Invalid amount"}, 400)
+                return response
+            
+            # Convert amount to EUR
+            exchange_rate = get_exchange_rate(currency, "EUR")
+            amount = amount * exchange_rate
+
+            if amount > 1000:
+                fee = 0.005 # 0.5%
+            else:
+                fee = 0
+
+            response = make_response({"status": "success", "fee": fee}, 200)
+            return response
+
+        except Exception as e:
+            response = make_response({"status": "error", "message": "An error occurred"}, 500)
+            return response
+
+@dashboard_ns.route('/make-transfer')
+class DashboardMakeTransferEndpoint(Resource):
+    def post(self):
+        # TODO: Add tests for this endpoint
+        if not current_user.is_authenticated:
+            response = make_response({"status": "error", "message": "Unauthorized"}, 401)
+            return response
+        
+        recipient = request.form.get('recipient')
+        amount = request.form.get('amount')
+        currency = request.form.get('currency')
+        description = request.form.get('description')
+
+        if not recipient or not amount or not currency:
+            response = make_response({"status": "error", "message": "Recipient, amount and currency required"}, 400)
+            return response
+
+        recipient_query = User.query.filter_by(username=recipient).first()
+
+        if recipient_query is None:
+            response = make_response({"status": "error", "message": "Recipient not found"}, 404)
+            return response
+        
+        if recipient_query.id == current_user.id:
+            response = make_response({"status": "error", "message": "Cannot transfer to yourself"}, 400)
+            return response
+        
+        if currency not in get_user_currencies():
+            response = make_response({"status": "error", "message": "Currency not found"}, 404)
+            return response
+        
+        if not is_valid_number_format(amount):
+            response = make_response({"status": "error", "message": "Invalid amount format. Use 0000.00 or 0000,00"}, 400)
+            return response
+        
+        amount = Decimal(amount.replace(",", "."))
+
+        if amount <= 0:
+            response = make_response({"status": "error", "message": "Invalid amount"}, 400)
+            return response
+
+        if current_user.get_balance(currency) < amount:
+            response = make_response({"status": "error", "message": "Insufficient funds"}, 400)
+            return response
+        
+        # Convert amount to EUR
+        exchange_rate = get_exchange_rate(currency, "EUR")
+        amount_eur = amount * exchange_rate
+
+        if amount_eur > 1000:
+            fee = 0.005 # 0.5%
+        else:
+            fee = 0
+        
+        if not description:
+            description = f"Transfer from {current_user.username} to {recipient_query.username}"
+
+        try:
+            # Create transaction
+            transaction = Transaction(
+                name="Transfer",
+                user_id=current_user.id,
+                receiver_id=recipient_query.id,
+                amount=amount,
+                currency = currency,
+                status="success",
+                transaction_type="transfer",
+                description=description
+            )
+
+            # Update balances
+            current_user.remove_balance(amount, currency)
+            recipient_query.add_balance(amount, currency)
+
+            db.session.add(transaction)
+            db.session.commit()
+
+            response = make_response({"status": "success", "message": "Transfer successful"}, 200)
+            return response
+
+        except Exception as e:
+            db.session.rollback()
+            response = make_response({"status": "error", "message": "An error occurred"}, 500)
+            return response
+
+
 # Add namespaces to API
 api.add_namespace(api_ns, path='/')
 api.add_namespace(dashboard_ns, path='/dashboard')

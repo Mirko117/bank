@@ -266,5 +266,100 @@ function loadShellEventListeners(){
             });
         });
     }
+
+    // Currency input listener
+    $("#transfers-shell .transfer-details #currency").on("change", function(e){
+        e.preventDefault();
+        handleTransferSumarry();
+    });
+
+    // Amount input listener
+    $("#transfers-shell .transfer-details #amount").on("change", function(e){
+        e.preventDefault();
+        handleTransferSumarry();
+    });
+
+    // Recipient input listener
+    $("#transfers-shell .transfer-details #recipient").on("change", function(e){
+        e.preventDefault();
+        handleTransferSumarry();
+    });
+
+    // Handle transfer summary when user inputs data
+    function handleTransferSumarry(){
+        var currency = $("#transfers-shell .transfer-details #currency").val();
+        var amount = $("#transfers-shell .transfer-details #amount").val();
+        var recipient = $("#transfers-shell .transfer-details #recipient").val();
+
+        if(currency){
+            $("#transfers-shell .transfer-summary .currency").text(currency);
+        }
+        else{
+            $("#transfers-shell .transfer-summary .currency").text("-");
+        }
+
+        if(amount){
+            $("#transfers-shell .transfer-summary .amount").text(parseFloat(amount).toFixed(2));
+        }
+        else{
+            $("#transfers-shell .transfer-summary .amount").text("-");
+        }
+
+        if(recipient){
+            $("#transfers-shell .transfer-summary .recipient").text(recipient);
+        }
+        else{
+            $("#transfers-shell .transfer-summary .recipient").text("-");
+        }
+
+        if(amount && currency && recipient){
+            $.ajax({
+                type: "GET",
+                url: "/api/dashboard/get-transfer-fee",
+                data: { amount: amount, currency: currency },
+                success: function (response) {
+                    var fee = parseFloat(response.fee);
+                    var total = parseFloat(amount) + (parseFloat(amount) * fee);
+
+                    var fee_percentage = fee * 100;
+
+                    fee = fee.toFixed(2);
+                    total = total.toFixed(2);
+                    
+                    $("#transfers-shell .transfer-summary .fee").text(fee_percentage + "%");
+                    $("#transfers-shell .transfer-summary .total").text(total + " " + currency);
+
+                },
+                error: function (response) {
+                    showDialog(response.responseJSON.message, "Error");
+                }
+            });
+        }
+        else{
+            $("#transfers-shell .transfer-summary .total").text("-");
+        }
+    }
+
+    // When transfer button is clicked
+    $("#transfers-shell .transfer-details .buttons .transfer").on("click", function(e){
+        e.preventDefault();
+
+        var currency = $("#transfers-shell .transfer-details #currency").val();
+        var amount = $("#transfers-shell .transfer-details #amount").val();
+        var recipient = $("#transfers-shell .transfer-details #recipient").val();
+        var description = $("#transfers-shell .transfer-details #description").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/api/dashboard/make-transfer",
+            data: { currency: currency, amount: amount, recipient: recipient, description: description },
+            success: function (response) {
+                showDialog(response.message, "Success", reload=true);
+            },
+            error: function (response) {
+                showDialog(response.responseJSON.message, "Error");
+            }
+        });
+    });
 }
 
