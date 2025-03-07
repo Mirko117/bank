@@ -59,6 +59,7 @@ class DashboardGetPageEndpoint(Resource):
                 rendered_shell = render_template(f"dashboard/shells/{shell}.html", t=get_user_translations(),
                                                  user=current_user)
         except Exception as e:
+            print(e)
             response = make_response({"status": "error", "message": "Shell not found"}, 404)
             return response   
 

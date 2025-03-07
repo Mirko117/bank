@@ -1,22 +1,7 @@
 # Web Bank
-
-## Description
-
-This project will have two components: physical and virtual.
-
-The virtual component will be the bank's website, where users will be able to log into their accounts, view their balance, transfer money and perform other banking tasks. The website will be hosted on a Linux server.
-
-The physical component will be the POS terminal, built using an ESP32 microcontroller. It will feature an RFID sensor, keypad, and display screen, with the potential addition of a buzzer and/or LED indicator. The microcontroller will have an internet connection to send requests to the server.
-
-## Image of the architecture
-
-<div align="center">
-    <img src="images/Architecture.png">
-</div>
-
 ## How to run
 
-1. Install needed pip libraries by running:
+1. Install needed pip libraries by running (using virtualenv is suggested):
 
     ```bash
     pip install -r requirements.txt
@@ -35,7 +20,7 @@ The physical component will be the POS terminal, built using an ESP32 microcontr
 
     ```
 
-- If you want to use SQLite it also should work by adding
+- If you want to use SQLite:
 
     ```makefile
     DATABASE_URL="sqlite:///web_bank_db.sqlite3"
@@ -52,7 +37,6 @@ The physical component will be the POS terminal, built using an ESP32 microcontr
 
 - Apply the database migrations by running:
     ```bash
-    flask db migrate
     flask db upgrade
     ```
 
@@ -74,6 +58,7 @@ The physical component will be the POS terminal, built using an ESP32 microcontr
 You can run tests by typing `pytest` in terminal.
 
 ### Mock data for testing UI
+Run:
 ```bash
 python scripts/generate_mock_data.py
 ```
