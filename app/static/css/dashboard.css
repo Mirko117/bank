@@ -513,6 +513,60 @@ body {
   font-weight: 500;
   color: rgba(2, 8, 23, 0.6);
 }
+#shell #settings-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+#shell #settings-shell .block {
+  width: 100%;
+  background-color: #fff;
+  padding: 30px;
+  border: 1px solid #B9B9B9;
+  border-radius: 8px;
+}
+#shell #settings-shell .block .form-group .field {
+  margin-top: 20px;
+}
+#shell #settings-shell .block .form-group .field .row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+#shell #settings-shell .block .form-group .field .row .cancel, #shell #settings-shell .block .form-group .field .row .save {
+  text-decoration: none;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  transition: all 0.2s;
+}
+#shell #settings-shell .block .form-group .field .row .cancel {
+  color: #020817;
+  background-color: #fff;
+  border: 1px solid #B9B9B9;
+}
+#shell #settings-shell .block .form-group .field .row .cancel:hover {
+  background-color: rgba(71, 85, 105, 0.1);
+}
+#shell #settings-shell .block .form-group .field .row .save {
+  color: #fff;
+  background-color: #3A72EC;
+}
+#shell #settings-shell .block .form-group .field .row .save:hover {
+  background-color: #1554de;
+}
+#shell #settings-shell .block .form-group .field input, #shell #settings-shell .block .form-group .field select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #B9B9B9;
+  border-radius: 5px;
+  margin-top: 5px;
+}
 
 #export-transactions-dialog {
   display: flex;

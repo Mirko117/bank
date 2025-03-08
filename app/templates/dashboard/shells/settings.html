@@ -1,1 +1,81 @@
-<h1>Settings</h1>
+<div id="settings-shell">
+    <div class="block">
+        <h2>{{ t["settings"]["personal-info"] }}</h2>
+        <div id="personal-info" class="form-group">
+            <div class="field">
+                <div class="row">
+                    <label for="first-name">{{ t["settings"]["first-name"] }}</label>
+                    <label for="last-name">{{ t["settings"]["last-name"] }}</label>
+                </div>
+                <div class="row">
+                    <input type="text" class="form-control" id="first-name" placeholder='{{ t["settings"]["first-name"] }}' value="{{ user.first_name }}">
+                    <input type="text" class="form-control" id="last-name" placeholder='{{ t["settings"]["last-name"] }}' value="{{ user.last_name }}">
+                </div>
+            </div>
+            <div class="field">
+                <label for="username">{{ t["settings"]["username"] }}</label>
+                <input type="text" class="form-control" id="username" placeholder='{{ t["settings"]["username"] }}' value="{{ user.username }}">
+            </div>
+            <div class="field">
+                <label for="email">{{ t["settings"]["email"] }}</label>
+                <input type="text" class="form-control" id="email" placeholder='{{ t["settings"]["email"] }}' value="{{ user.email }}">
+            </div>
+            <div class="field buttons-field hidden">
+                <div class="row">
+                    <a href="#" class="cancel">{{ t["settings"]["cancel"] }}</a>
+                    <a href="#" class="save">{{ t["settings"]["save"] }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block">
+        <h2>{{ t["settings"]["change-password"] }}</h2>
+        <div id="change-password" class="form-group">
+            <div class="field">
+                <label for="current-password">{{ t["settings"]["current-password"] }}</label>
+                <input type="password" class="form-control" id="current-password" placeholder='{{ t["settings"]["current-password"] }}'>
+            </div>
+            <div class="field">
+                <label for="new-password">{{ t["settings"]["new-password"] }}</label>
+                <input type="password" class="form-control" id="new-password" placeholder='{{ t["settings"]["new-password"] }}'>
+            </div>
+            <div class="field">
+                <label for="confirm-password">{{ t["settings"]["confirm-password"] }}</label>
+                <input type="password" class="form-control" id="confirm-password" placeholder='{{ t["settings"]["confirm-password"] }}'>
+            </div>
+            <div class="field buttons-field hidden">
+                <div class="row">
+                    <a href="#" class="cancel">{{ t["settings"]["cancel"] }}</a>
+                    <a href="#" class="save">{{ t["settings"]["change"] }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block">
+        <h2>{{ t["settings"]["settings"] }}</h2>
+        <div id="settings" class="form-group">
+            <div class="field">
+                <label for="language">{{ t["settings"]["language"] }}</label>
+                <select class="form-control" id="language">
+                    <!-- TODO: Add dinamically -->
+                    <option value="en" {% if user.settings.language == 'en' %}selected{% endif %}>English</option>
+                    <option value="sl" {% if user.settings.language == 'sl' %}selected{% endif %}>Slovesščina</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="default-currency">{{ t["settings"]["default-currency"] }}</label>
+                <select class="form-control" id="default-currency">
+                    {% for balance in user.balances %}
+                        <option value="{{ balance.symbol }}" {% if user.settings.default_currency == balance.symbol %}selected{% endif %}>{{ balance.symbol }}</option>
+                    {% endfor %}
+                </select>
+                <div class="field buttons-field hidden">
+                    <div class="row">
+                        <a href="#" class="cancel">{{ t["settings"]["cancel"] }}</a>
+                        <a href="#" class="save">{{ t["settings"]["save"] }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

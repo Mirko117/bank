@@ -69,6 +69,8 @@ function showDialog(text, title, relaod = false) {
 // It's because the shell is loaded dynamically, so the event listeners need to be loaded dynamically too
 function loadShellEventListeners(){
 
+    /// Dashboard shell
+
     // Clear the quick transfer input fields when the cancel button is clicked
     $("#dashboard-shell .quick-transfer .cancel").on("click", function(e) {
         e.preventDefault();
@@ -97,6 +99,8 @@ function loadShellEventListeners(){
             }
         });
     });
+
+    /// Transactions shell
 
     // When the search input is typed in, filter the transactions table
     $("#transactions-shell .search-wrapper .search").on("keyup", function(e){
@@ -128,6 +132,8 @@ function loadShellEventListeners(){
         });
 
     });
+
+    /// Currencies shell
 
     // When add currency button is clicked
     $("#currencies-shell .all-currencies .add-currency").on("click", function(e) {
@@ -267,6 +273,8 @@ function loadShellEventListeners(){
         });
     }
 
+    /// Transfers shell
+
     // Currency input listener
     $("#transfers-shell .transfer-details #currency").on("change", function(e){
         e.preventDefault();
@@ -353,6 +361,95 @@ function loadShellEventListeners(){
             type: "POST",
             url: "/api/dashboard/make-transfer",
             data: { currency: currency, amount: amount, recipient: recipient, description: description },
+            success: function (response) {
+                showDialog(response.message, "Success", reload=true);
+            },
+            error: function (response) {
+                showDialog(response.responseJSON.message, "Error");
+            }
+        });
+    });
+
+    /// Settings shell
+
+    // Personal Information
+
+    // Handle any input change
+    $("#settings-shell #personal-info").on("input", function(e){
+        e.preventDefault();
+        $("#settings-shell #personal-info .buttons-field").removeClass("hidden");
+    });
+
+    // When save button is clicked
+    $("#settings-shell #personal-info .buttons-field .save").on("click", function(e){
+        e.preventDefault();
+
+        var first_name = $("#settings-shell #personal-info #first-name").val();
+        var last_name = $("#settings-shell #personal-info #last-name").val();
+        var username = $("#settings-shell #personal-info #username").val();
+        var email = $("#settings-shell #personal-info #email").val();
+
+        $.ajax({
+            type: "PATCH",
+            url: "/api/dashboard/save-personal-info",
+            data: { first_name: first_name, last_name: last_name, username: username, email: email },
+            success: function (response) {
+                showDialog(response.message, "Success", reload=true);
+            },
+            error: function (response) {
+                showDialog(response.responseJSON.message, "Error");
+            }
+        });
+    });
+
+    // Change Password
+
+    // Handle any input change
+    $("#settings-shell #change-password").on("input", function(e){
+        e.preventDefault();
+        $("#settings-shell #change-password .buttons-field").removeClass("hidden");
+    });
+
+    // When save button is clicked
+    $("#settings-shell #change-password .buttons-field .save").on("click", function(e){
+        e.preventDefault();
+
+        var current_password = $("#settings-shell #change-password #current-password").val();
+        var new_password = $("#settings-shell #change-password #new-password").val();
+        var confirm_password = $("#settings-shell #change-password #confirm-password").val();
+        console.log(current_password, new_password, confirm_password);
+        $.ajax({
+            type: "PATCH",
+            url: "/api/dashboard/change-password",
+            data: { current_password: current_password, new_password: new_password, confirm_password: confirm_password },
+            success: function (response) {
+                showDialog(response.message, "Success", reload=true);
+            },
+            error: function (response) {
+                showDialog(response.responseJSON.message, "Error");
+            }
+        });
+    });
+
+    // Settings
+
+    // Handle any input change
+    $("#settings-shell #settings").on("input", function(e){
+        e.preventDefault();
+        $("#settings-shell #settings .buttons-field").removeClass("hidden");
+    });
+
+    // When save button is clicked
+    $("#settings-shell #settings .buttons-field .save").on("click", function(e){
+        e.preventDefault();
+
+        var language = $("#settings-shell #settings #language").val();
+        var default_currency = $("#settings-shell #settings #default-currency").val();
+
+        $.ajax({
+            type: "PATCH",
+            url: "/api/dashboard/save-settings",
+            data: { language: language, default_currency: default_currency },
             success: function (response) {
                 showDialog(response.message, "Success", reload=true);
             },

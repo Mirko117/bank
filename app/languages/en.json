@@ -1,5 +1,6 @@
 {
     "lang": "en",
+    "lang-full": "English",
 
     "auth": {
         "username-required": "Username is required",
@@ -127,5 +128,24 @@
         "transfer": "Transfer",
         "fee": "Fee",
         "total": "Total"
-    }   
+    },
+
+    "settings": {
+        "settings": "Settings",
+        "personal-info": "Personal Information",
+        "first-name": "First Name",
+        "last-name": "Last Name",
+        "username": "Username",
+        "email": "Email",
+        "password": "Password",
+        "current-password": "Current Password",
+        "change-password": "Change Password",
+        "new-password": "New Password",
+        "confirm-password": "Confirm Password",
+        "language": "Language",
+        "default-currency": "Default Currency",
+        "save": "Save",
+        "change": "Change",
+        "cancel": "Cancel"
+    }
 }

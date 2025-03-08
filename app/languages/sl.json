@@ -1,5 +1,6 @@
 {
     "lang": "sl",
+    "lang-full": "Slovenščina",
 
     "auth": {
         "username-required": "Uporabniško ime je obvezno",
@@ -127,5 +128,24 @@
         "transfer": "Nakaži",
         "fee": "Provizija",
         "total": "Skupaj"
+    },
+
+    "settings": {
+        "settings": "Nastavitve",
+        "personal-info": "Osebni podatki",
+        "first-name": "Ime",
+        "last-name": "Priimek",
+        "username": "Uporabniško ime",
+        "email": "E-pošta",
+        "password": "Geslo",
+        "current-password": "Trenutno geslo",
+        "change-password": "Spremeni geslo",
+        "new-password": "Novo geslo",
+        "confirm-password": "Potrdi geslo",
+        "language": "Jezik",
+        "default-currency": "Privzeta valuta",
+        "save": "Shrani",
+        "change": "Spremeni",
+        "cancel": "Prekliči"
     }
 }

@@ -3,9 +3,10 @@ from flask_restx import Api, Resource, Namespace
 from flask_login import current_user
 from io import BytesIO
 from decimal import Decimal, ROUND_DOWN
+import validators
 import pandas as pd
 import json
-from app.functions import get_user_translations, is_valid_number_format, unix_to_datetime, format_money
+from app.functions import get_user_translations, is_valid_number_format, unix_to_datetime, format_money, check_language
 from app.models import db, Transaction, User, Balance
 from app.api.queries import *
 
@@ -33,7 +34,7 @@ class DashboardGetPageEndpoint(Resource):
             return response
 
         try:
-            valid_shells = ["dashboard", "transactions", "currencies", "transfers", "analytics", "settings"]
+            valid_shells = ["dashboard", "transactions", "currencies", "transfers", "settings"]
 
             if shell not in valid_shells:
                 response = make_response({"status": "error", "message": "Shell not found"}, 404)
@@ -59,7 +60,6 @@ class DashboardGetPageEndpoint(Resource):
                 rendered_shell = render_template(f"dashboard/shells/{shell}.html", t=get_user_translations(),
                                                  user=current_user)
         except Exception as e:
-            print(e)
             response = make_response({"status": "error", "message": "Shell not found"}, 404)
             return response   
 
@@ -529,6 +529,144 @@ class DashboardMakeTransferEndpoint(Resource):
             response = make_response({"status": "error", "message": "An error occurred"}, 500)
             return response
 
+@dashboard_ns.route('/save-personal-info')
+class DashboardSavePersonalInfoEndpoint(Resource):
+    def patch(self):
+        if not current_user.is_authenticated:
+            response = make_response({"status": "error", "message": "Unauthorized"}, 401)
+            return response
+        
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        username = request.form.get('username')
+        email = request.form.get('email')
+
+        if not first_name or not last_name or not username or not email:
+            response = make_response({"status": "error", "message": "All fields are required"}, 400)
+            return response
+        
+        if len(first_name) < 3 or len(last_name) < 3 or len(username) < 3:
+            response = make_response({"status": "error", "message": "Name and username must be at least 3 characters long"}, 400)
+            return response
+        
+        if any(char.isdigit() for char in first_name) or any(char.isdigit() for char in last_name):
+            response = make_response({"status": "error", "message": "Name cannot contain numbers"}, 400)
+            return response
+        
+        if not validators.email(email):
+            response = make_response({"status": "error", "message": "Invalid email"}, 400)
+            return response
+        
+        if User.query.filter_by(username=username).first() and username != current_user.username:
+            response = make_response({"status": "error", "message": "Username already exists"}, 400)
+            return response
+        
+        if User.query.filter_by(email=email).first() and email != current_user.email:
+            response = make_response({"status": "error", "message": "Email already exists"}, 400)
+            return response
+        
+        try:
+            if first_name != current_user.first_name:
+                current_user.first_name = first_name
+            if last_name != current_user.last_name:
+                current_user.last_name = last_name
+            if username != current_user.username:
+                current_user.username = username
+            if email != current_user.email:
+                current_user.email = email
+
+            db.session.commit()
+            
+            response = make_response({"status": "success", "message": "Personal info updated"}, 200)
+            return response
+        
+        except Exception as e:
+            db.session.rollback()
+            response = make_response({"status": "error", "message": "An error occurred"}, 500)
+            return response
+
+
+@dashboard_ns.route('/change-password')
+class DashboardChangePasswordEndpoint(Resource):
+    def patch(self):
+        if not current_user.is_authenticated:
+            response = make_response({"status": "error", "message": "Unauthorized"}, 401)
+            return response
+        
+        current_password = request.form.get('current_password')
+        new_password = request.form.get('new_password')
+        confirm_password = request.form.get('confirm_password')
+
+        if not current_password or not new_password or not confirm_password:
+            response = make_response({"status": "error", "message": "All fields are required"}, 400)
+            return response
+        
+        if new_password != confirm_password:
+            response = make_response({"status": "error", "message": "Passwords do not match"}, 400)
+            return response
+        
+        if len(new_password) <= 6:
+            response = make_response({"status": "error", "message": "Password must be at least 6 characters long"}, 400)
+            return response
+        
+        if not any(char.isdigit() for char in new_password):
+            response = make_response({"status": "error", "message": "Password must contain at least one number"}, 400)
+            return response
+        
+        if not current_user.check_password(current_password):
+            response = make_response({"status": "error", "message": "Invalid current password"}, 400)
+            return response
+        
+        try:
+            current_user.set_password(new_password)
+
+            db.session.commit()
+
+            response = make_response({"status": "success", "message": "Password changed"}, 200)
+            return response
+        
+        except Exception as e:
+            db.session.rollback()
+            response = make_response({"status": "error", "message": "An error occurred"}, 500)
+            return response
+
+@dashboard_ns.route('/save-settings')
+class DashboardSaveSettingsEndpoint(Resource):
+    def patch(self):
+        if not current_user.is_authenticated:
+            response = make_response({"status": "error", "message": "Unauthorized"}, 401)
+            return response
+        
+        language = request.form.get('language')
+        default_currency = request.form.get('default_currency')
+
+        if not language or not default_currency:
+            response = make_response({"status": "error", "message": "All fields are required"}, 400)
+            return response
+        
+        if not check_language(language):
+            response = make_response({"status": "error", "message": "Invalid language"}, 400)
+            return response
+        
+        if default_currency not in get_user_currencies():
+            response = make_response({"status": "error", "message": "Invalid currency"}, 400)
+            return response
+        
+        try:
+            if language != current_user.settings.language:
+                current_user.settings.language = language
+            if default_currency != current_user.settings.default_currency:
+                current_user.settings.default_currency = default_currency
+
+            db.session.commit()
+
+            response = make_response({"status": "success", "message": "Settings updated"}, 200)
+            return response
+        
+        except Exception as e:
+            db.session.rollback()
+            response = make_response({"status": "error", "message": "An error occurred"}, 500)
+            return response
 
 # Add namespaces to API
 api.add_namespace(api_ns, path='/')
