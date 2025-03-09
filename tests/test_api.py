@@ -37,7 +37,7 @@ def app():
         db.session.add(receiver)
         
         # Add balances
-        user.add_balance(1000.00, 'EUR')
+        user.add_balance(1100.00, 'EUR')
         user.add_balance(500.00, 'USD')
         
         # Add exchange rates
@@ -178,6 +178,16 @@ class TestDashboardMakeQuickTransferEndpoint:
         data = json.loads(response.data)
         assert data['status'] == 'error'
         assert data['message'] == 'Insufficient funds'
+
+    def test_quick_transfer_more_that_1000_eur(self, auth_client):
+        response = auth_client.post('/api/dashboard/quick-transfer', data={
+            'recipient': 'receiver',
+            'amount': '1001.00'
+        })
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert 'Amount must be less than 1000 EUR' in data['message']
 
     def test_quick_transfer_success(self, auth_client):
         response = auth_client.post('/api/dashboard/quick-transfer', data={
@@ -486,3 +496,520 @@ class TestDashboardExchangeCurrenciesEndpointPOST:
         data = json.loads(response.data)
         assert data['status'] == 'success'
         assert data['message'] == 'Exchange successful'
+
+# Tests for DashboardGetTransferFeeEndpoint
+class TestDashboardGetTransferFeeEndpoint:
+    def test_get_transfer_fee_unauthorized(self, client):
+        response = client.get('/api/dashboard/get-transfer-fee')
+        assert response.status_code == 401
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Unauthorized'
+
+    def test_get_transfer_fee_missing_params(self, auth_client):
+        response = auth_client.get('/api/dashboard/get-transfer-fee')
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Amount required'
+
+    def test_get_transfer_fee_missing_currency(self, auth_client):
+        response = auth_client.get('/api/dashboard/get-transfer-fee?amount=100')
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Currency required'
+
+    def test_get_transfer_fee_invalid_amount_format(self, auth_client):
+        response = auth_client.get('/api/dashboard/get-transfer-fee?amount=invalid&currency=EUR')
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert 'Invalid amount format' in data['message']
+
+    def test_get_transfer_fee_negative_amount(self, auth_client):
+        response = auth_client.get('/api/dashboard/get-transfer-fee?amount=-100&currency=EUR')
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert 'Invalid amount' in data['message']
+
+    def test_get_transfer_fee_invalid_currency(self, auth_client, monkeypatch):
+        def mock_get_user_currencies():
+            return ['EUR', 'USD']
+        
+        from app.api import routes
+        monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
+        
+        response = auth_client.get('/api/dashboard/get-transfer-fee?amount=100&currency=GBP')
+        assert response.status_code == 404
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Currency not found'
+
+    def test_get_transfer_fee_small_amount(self, auth_client, monkeypatch):
+        def mock_get_user_currencies():
+            return ['EUR', 'USD']
+        
+        def mock_get_exchange_rate(from_curr, to_curr):
+            return Decimal('1.0')  # Same currency, rate is 1.0
+        
+        from app.api import routes
+        monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
+        monkeypatch.setattr(routes, 'get_exchange_rate', mock_get_exchange_rate)
+        
+        response = auth_client.get('/api/dashboard/get-transfer-fee?amount=100&currency=EUR')
+        assert response.status_code == 200
+        data = json.loads(response.data)
+        assert data['status'] == 'success'
+        assert data['fee'] == 0  # No fee for small amounts
+
+    def test_get_transfer_fee_large_amount(self, auth_client, monkeypatch):
+        def mock_get_user_currencies():
+            return ['EUR', 'USD']
+        
+        def mock_get_exchange_rate(from_curr, to_curr):
+            return Decimal('1.0')  # Same currency, rate is 1.0
+        
+        from app.api import routes
+        monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
+        monkeypatch.setattr(routes, 'get_exchange_rate', mock_get_exchange_rate)
+        
+        response = auth_client.get('/api/dashboard/get-transfer-fee?amount=1500&currency=EUR')
+        assert response.status_code == 200
+        data = json.loads(response.data)
+        assert data['status'] == 'success'
+        assert data['fee'] == 0.005  # 0.5% fee for large amounts
+
+# Tests for DashboardMakeTransferEndpoint
+class TestDashboardMakeTransferEndpoint:
+    def test_make_transfer_unauthorized(self, client):
+        response = client.post('/api/dashboard/make-transfer')
+        assert response.status_code == 401
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Unauthorized'
+
+    def test_make_transfer_missing_params(self, auth_client):
+        response = auth_client.post('/api/dashboard/make-transfer')
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Recipient, amount and currency required'
+
+    def test_make_transfer_recipient_not_found(self, auth_client):
+        response = auth_client.post('/api/dashboard/make-transfer', data={
+            'recipient': 'nonexistent',
+            'amount': '100.00',
+            'currency': 'EUR'
+        })
+        assert response.status_code == 404
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Recipient not found'
+
+    def test_make_transfer_to_self(self, auth_client):
+        response = auth_client.post('/api/dashboard/make-transfer', data={
+            'recipient': 'testuser',
+            'amount': '100.00',
+            'currency': 'EUR'
+        })
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Cannot transfer to yourself'
+
+    def test_make_transfer_invalid_currency(self, auth_client, monkeypatch):
+        def mock_get_user_currencies():
+            return ['EUR', 'USD']
+        
+        from app.api import routes
+        monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
+        
+        response = auth_client.post('/api/dashboard/make-transfer', data={
+            'recipient': 'receiver',
+            'amount': '100.00',
+            'currency': 'GBP'
+        })
+        assert response.status_code == 404
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Currency not found'
+
+    def test_make_transfer_invalid_amount_format(self, auth_client):
+        response = auth_client.post('/api/dashboard/make-transfer', data={
+            'recipient': 'receiver',
+            'amount': 'invalid',
+            'currency': 'EUR'
+        })
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert 'Invalid amount format' in data['message']
+
+    def test_make_transfer_negative_amount(self, auth_client):
+        response = auth_client.post('/api/dashboard/make-transfer', data={
+            'recipient': 'receiver',
+            'amount': '-100.00',
+            'currency': 'EUR'
+        })
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert 'Invalid amount' in data['message']
+
+    def test_make_transfer_insufficient_funds(self, auth_client):
+        response = auth_client.post('/api/dashboard/make-transfer', data={
+            'recipient': 'receiver',
+            'amount': '2000.00',
+            'currency': 'EUR'
+        })
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Insufficient funds'
+
+    def test_make_transfer_success(self, auth_client, monkeypatch):
+        def mock_get_user_currencies():
+            return ['EUR', 'USD']
+        
+        def mock_get_exchange_rate(from_curr, to_curr):
+            return Decimal('1.0')
+        
+        from app.api import routes
+        monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
+        monkeypatch.setattr(routes, 'get_exchange_rate', mock_get_exchange_rate)
+        
+        response = auth_client.post('/api/dashboard/make-transfer', data={
+            'recipient': 'receiver',
+            'amount': '100.00',
+            'currency': 'EUR',
+            'description': 'Test transfer'
+        })
+        assert response.status_code == 200
+        data = json.loads(response.data)
+        assert data['status'] == 'success'
+        assert data['message'] == 'Transfer successful'
+
+    def test_make_transfer_with_fee(self, auth_client, app, monkeypatch):
+        def mock_get_user_currencies():
+            return ['EUR', 'USD']
+        
+        def mock_get_exchange_rate(from_curr, to_curr):
+            if from_curr == 'EUR' and to_curr == 'EUR':
+                return Decimal('1.0')
+            else:
+                return Decimal('0.9')
+        
+        from app.api import routes
+        monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
+        monkeypatch.setattr(routes, 'get_exchange_rate', mock_get_exchange_rate)
+        
+        # Get initial balances
+        with app.app_context():
+            sender = User.query.filter_by(username='testuser').first()
+            receiver = User.query.filter_by(username='receiver').first()
+            sender_initial = float(sender.get_balance('EUR'))
+            receiver_initial = float(receiver.get_balance('EUR') or 0)
+        
+        # Make a transfer of 500 EUR which should incur a fee
+        response = auth_client.post('/api/dashboard/make-transfer', data={
+            'recipient': 'receiver',
+            'amount': '500.00',
+            'currency': 'EUR',
+            'description': 'Test transfer with fee'
+        })
+        
+        assert response.status_code == 200
+        data = json.loads(response.data)
+        assert data['status'] == 'success'
+        
+        # Check balances after transfer
+        with app.app_context():
+            sender = User.query.filter_by(username='testuser').first()
+            receiver = User.query.filter_by(username='receiver').first()
+            sender_after = float(sender.get_balance('EUR'))
+            receiver_after = float(receiver.get_balance('EUR') or 0)
+            
+            # Verify the sender was charged the full amount plus fee
+            assert sender_initial - sender_after == 500.00
+            
+            # Verify the receiver got the amount (without the fee)
+            assert receiver_after - receiver_initial == 500.00
+
+class TestDashboardSavePersonalInfoEndpoint:
+    def test_save_personal_info_unauthorized(self, client):
+        response = client.patch('/api/dashboard/save-personal-info')
+        assert response.status_code == 401
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Unauthorized'
+
+    def test_save_personal_info_missing_params(self, auth_client):
+        response = auth_client.patch('/api/dashboard/save-personal-info')
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'All fields are required'
+
+    def test_save_personal_info_invalid_name_length(self, auth_client):
+        response = auth_client.patch('/api/dashboard/save-personal-info', data={
+            'first_name': 'ab',  # Too short
+            'last_name': 'User',
+            'username': 'testuser',
+            'email': 'test@example.com'
+        })
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert 'must be at least 3 characters' in data['message']
+
+    def test_save_personal_info_name_with_numbers(self, auth_client):
+        response = auth_client.patch('/api/dashboard/save-personal-info', data={
+            'first_name': 'Test1',  # Contains number
+            'last_name': 'User',
+            'username': 'testuser',
+            'email': 'test@example.com'
+        })
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Name cannot contain numbers'
+
+    def test_save_personal_info_invalid_email(self, auth_client):
+        response = auth_client.patch('/api/dashboard/save-personal-info', data={
+            'first_name': 'Test',
+            'last_name': 'User',
+            'username': 'testuser',
+            'email': 'invalid-email'  # Invalid email format
+        })
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Invalid email'
+
+    def test_save_personal_info_existing_username(self, auth_client, app):
+        # Create another user with a different username
+        with app.app_context():
+            another_user = User(
+                username='anotheruser',
+                first_name='Another',
+                last_name='User',
+                email='another@example.com',
+                role='user'
+            )
+            another_user.set_password('password')
+            db.session.add(another_user)
+            db.session.commit()
+        
+        # Try to change to the existing username
+        response = auth_client.patch('/api/dashboard/save-personal-info', data={
+            'first_name': 'Test',
+            'last_name': 'User',
+            'username': 'anotheruser',  # Already exists
+            'email': 'test@example.com'
+        })
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Username already exists'
+
+    def test_save_personal_info_existing_email(self, auth_client, app):
+        # Create another user with a different email
+        with app.app_context():
+            if not User.query.filter_by(email='another@example.com').first():
+                another_user = User(
+                    username='anotheruser',
+                    first_name='Another',
+                    last_name='User',
+                    email='another@example.com',
+                    role='user'
+                )
+                another_user.set_password('password')
+                db.session.add(another_user)
+                db.session.commit()
+        
+        # Try to change to the existing email
+        response = auth_client.patch('/api/dashboard/save-personal-info', data={
+            'first_name': 'Test',
+            'last_name': 'User',
+            'username': 'testuser',
+            'email': 'another@example.com'  # Already exists
+        })
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Email already exists'
+
+    def test_save_personal_info_success(self, auth_client):
+        response = auth_client.patch('/api/dashboard/save-personal-info', data={
+            'first_name': 'Updated',
+            'last_name': 'User',
+            'username': 'testuser',
+            'email': 'test@example.com'
+        })
+        assert response.status_code == 200
+        data = json.loads(response.data)
+        assert data['status'] == 'success'
+        assert data['message'] == 'Personal info updated'
+
+class TestDashboardChangePasswordEndpoint:
+    def test_change_password_unauthorized(self, client):
+        response = client.patch('/api/dashboard/change-password')
+        assert response.status_code == 401
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Unauthorized'
+
+    def test_change_password_missing_params(self, auth_client):
+        response = auth_client.patch('/api/dashboard/change-password')
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'All fields are required'
+
+    def test_change_password_not_matching(self, auth_client):
+        response = auth_client.patch('/api/dashboard/change-password', data={
+            'current_password': 'password',
+            'new_password': 'newpass123',
+            'confirm_password': 'newpass456'  # Doesn't match new password
+        })
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Passwords do not match'
+
+    def test_change_password_too_short(self, auth_client):
+        response = auth_client.patch('/api/dashboard/change-password', data={
+            'current_password': 'password',
+            'new_password': 'pass1',  # Too short
+            'confirm_password': 'pass1'
+        })
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Password must be at least 6 characters long'
+
+    def test_change_password_no_numbers(self, auth_client):
+        response = auth_client.patch('/api/dashboard/change-password', data={
+            'current_password': 'password',
+            'new_password': 'newpassword',  # No numbers
+            'confirm_password': 'newpassword'
+        })
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Password must contain at least one number'
+
+    def test_change_password_incorrect_current(self, auth_client):
+        response = auth_client.patch('/api/dashboard/change-password', data={
+            'current_password': 'wrongpassword',  # Incorrect current password
+            'new_password': 'newpass123',
+            'confirm_password': 'newpass123'
+        })
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Invalid current password'
+
+    def test_change_password_success(self, auth_client, app):
+        response = auth_client.patch('/api/dashboard/change-password', data={
+            'current_password': 'password',
+            'new_password': 'newpass123',
+            'confirm_password': 'newpass123'
+        })
+        assert response.status_code == 200
+        data = json.loads(response.data)
+        assert data['status'] == 'success'
+        assert data['message'] == 'Password changed'
+        
+        # Verify the password was actually changed
+        with app.app_context():
+            user = User.query.filter_by(username='testuser').first()
+            assert user.check_password('newpass123')
+
+class TestDashboardSaveSettingsEndpoint:
+    def test_save_settings_unauthorized(self, client):
+        response = client.patch('/api/dashboard/save-settings')
+        assert response.status_code == 401
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Unauthorized'
+
+    def test_save_settings_missing_params(self, auth_client):
+        response = auth_client.patch('/api/dashboard/save-settings')
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'All fields are required'
+
+    def test_save_settings_invalid_language(self, auth_client, monkeypatch):
+        def mock_check_language(language):
+            return language in ['en', 'sl']
+        
+        from app.api import routes
+        monkeypatch.setattr(routes, 'check_language', mock_check_language)
+        
+        response = auth_client.patch('/api/dashboard/save-settings', data={
+            'language': 'invalid',  # Invalid language
+            'default_currency': 'EUR'
+        })
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Invalid language'
+
+    def test_save_settings_invalid_currency(self, auth_client, monkeypatch):
+        def mock_check_language(language):
+            return language in ['en', 'sl']
+        
+        def mock_get_user_currencies():
+            return ['EUR', 'USD']
+        
+        from app.api import routes
+        monkeypatch.setattr(routes, 'check_language', mock_check_language)
+        monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
+        
+        response = auth_client.patch('/api/dashboard/save-settings', data={
+            'language': 'en',
+            'default_currency': 'GBP'  # Invalid currency
+        })
+        assert response.status_code == 400
+        data = json.loads(response.data)
+        assert data['status'] == 'error'
+        assert data['message'] == 'Invalid currency'
+
+    def test_save_settings_success(self, auth_client, app, monkeypatch):
+        def mock_check_language(language):
+            return language in ['en', 'sl']
+        
+        def mock_get_user_currencies():
+            return ['EUR', 'USD']
+        
+        from app.api import routes
+        monkeypatch.setattr(routes, 'check_language', mock_check_language)
+        monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
+        
+        # First ensure settings exist for the user
+        with app.app_context():
+            user = User.query.filter_by(username='testuser').first()
+            if not hasattr(user, 'settings') or user.settings is None:
+                from app.models import Settings
+                settings = Settings(user_id=user.id, language='en', default_currency='EUR')
+                db.session.add(settings)
+                db.session.commit()
+        
+        response = auth_client.patch('/api/dashboard/save-settings', data={
+            'language': 'sl',
+            'default_currency': 'USD'
+        })
+        assert response.status_code == 200
+        data = json.loads(response.data)
+        assert data['status'] == 'success'
+        assert data['message'] == 'Settings updated'
+        
+        # Verify settings were updated
+        with app.app_context():
+            user = User.query.filter_by(username='testuser').first()
+            assert user.settings.language == 'sl'
+            assert user.settings.default_currency == 'USD'

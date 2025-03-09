@@ -6,6 +6,7 @@ from decimal import Decimal, ROUND_DOWN
 import validators
 import pandas as pd
 import json
+import xml.etree.ElementTree as ET
 from app.functions import get_user_translations, is_valid_number_format, unix_to_datetime, format_money, check_language
 from app.models import db, Transaction, User, Balance
 from app.api.queries import *
@@ -110,6 +111,14 @@ class DashboardMakeQuickTransferEndpoint(Resource):
             response = make_response({"status": "error", "message": "Insufficient funds"}, 400)
             return response
         
+        # Convert amount to EUR
+        exchange_rate = get_exchange_rate(current_user.settings.default_currency, "EUR")
+        amount_eur = amount * exchange_rate
+
+        if amount_eur > 1000:
+            response = make_response({"status": "error", "message": "Amount must be less than 1000 EUR"}, 400)
+            return response
+        
         try:
             # Create transaction
             transaction = Transaction(
@@ -177,14 +186,19 @@ class DashboardExportTransactionsEndpoint(Resource):
             transactions = current_user.transactions.order_by(Transaction.timestamp.desc()).all()
             
             if file_type == "xml":
-                transactions_data = ""
+                root = ET.Element("transactions")
                 for transaction in transactions:
-                    transactions_data += f"<transaction><date>{unix_to_datetime(transaction.timestamp)}</date><name>{transaction.name}</name><description>{transaction.description}</description><amount>{transaction.amount}</amount><currency>{transaction.currency}</currency></transaction>"
-                
-                xml_content = f"<transactions>{transactions_data}</transactions>"
+                    trans = ET.SubElement(root, "transaction")
+                    ET.SubElement(trans, "date").text = unix_to_datetime(transaction.timestamp)
+                    ET.SubElement(trans, "name").text = transaction.name
+                    ET.SubElement(trans, "description").text = transaction.description
+                    ET.SubElement(trans, "amount").text = str(transaction.amount)
+                    ET.SubElement(trans, "currency").text = transaction.currency
+                    
+                xml_content = ET.tostring(root, encoding="utf-8")
                 
                 output = BytesIO()
-                output.write(xml_content.encode("utf-8"))
+                output.write(xml_content)
                 output.seek(0)
 
                 return send_file(output, as_attachment=True, download_name="MiBank_transactions.xml", mimetype="application/xml")
@@ -356,13 +370,17 @@ class DashboardExchangeCurrenciesEndpoint(Resource):
             exchange_rate = get_exchange_rate(from_currency, to_currency)
             result = amount * exchange_rate
 
-            result = (result * Decimal("0.99")).quantize(Decimal("0.00"), rounding=ROUND_DOWN)  # 1% fee
+            fee = Decimal("0.01") # 1%
+            amount_fee = amount * fee
+
+            result = (result * (Decimal("1") - fee)).quantize(Decimal("0.00"), rounding=ROUND_DOWN)  # 1% fee
 
             # Create transaction
             transaction1 = Transaction(
                 name="Currency exchange",
                 user_id=current_user.id,
                 amount=amount,
+                fee=amount_fee,
                 currency=from_currency,
                 status="success",
                 transaction_type="exchange",
@@ -494,9 +512,12 @@ class DashboardMakeTransferEndpoint(Resource):
         amount_eur = amount * exchange_rate
 
         if amount_eur > 1000:
-            fee = 0.005 # 0.5%
+            fee = Decimal("0.005") # 0.5%
         else:
-            fee = 0
+            fee = Decimal("0")
+
+        fee_amount = amount * fee
+        total_amount = amount + fee_amount
         
         if not description:
             description = f"Transfer from {current_user.username} to {recipient_query.username}"
@@ -507,7 +528,8 @@ class DashboardMakeTransferEndpoint(Resource):
                 name="Transfer",
                 user_id=current_user.id,
                 receiver_id=recipient_query.id,
-                amount=amount,
+                amount=total_amount,
+                fee=fee_amount,
                 currency = currency,
                 status="success",
                 transaction_type="transfer",
@@ -515,7 +537,7 @@ class DashboardMakeTransferEndpoint(Resource):
             )
 
             # Update balances
-            current_user.remove_balance(amount, currency)
+            current_user.remove_balance(total_amount, currency)
             recipient_query.add_balance(amount, currency)
 
             db.session.add(transaction)

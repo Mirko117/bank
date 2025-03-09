@@ -61,6 +61,7 @@ class Transaction(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     amount = db.Column(db.Numeric(15, 2), nullable=False)
+    fee = db.Column(db.Numeric(15, 2), nullable=False, default=0.0)
     currency = db.Column(db.String(3), nullable=False, default='EUR')  # 'EUR', 'USD', etc.
     status = db.Column(db.String(50), default='pending', nullable=False)  # 'pending', 'success', 'failed', etc.
     transaction_type = db.Column(db.String(50), nullable=False)  # 'deposit', 'withdrawal', etc.
