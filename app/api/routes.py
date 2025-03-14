@@ -18,6 +18,7 @@ api_ns = Namespace("api", description="Main operations")
 
 # Create namespace for dashboard
 dashboard_ns = Namespace("dashboard", description="Dashboard operations")
+admin_dashboard_ns = Namespace("admin-dashboard", description="Admin dashboard operations")
 
 ### TODO: Add translations to API responses ###
 
@@ -690,6 +691,82 @@ class DashboardSaveSettingsEndpoint(Resource):
             response = make_response({"status": "error", "message": "An error occurred"}, 500)
             return response
 
+# ADMIN
+
+@admin_dashboard_ns.route('/get-shell')
+class AdminDashboardGetPageEndpoint(Resource):
+    def get(self):
+        if not current_user.is_authenticated or current_user.role != "admin":
+            response = make_response({"status": "error", "message": "Unauthorized"}, 401)
+            return response
+        
+        shell = request.args.get('shell')
+        
+        if not shell:
+            response = make_response({"status": "error", "message": "No shell provided"}, 400)
+            return response
+
+        try:
+            valid_shells = ["admin-dashboard", "admin-user-transactions"]
+
+            if shell not in valid_shells:
+                response = make_response({"status": "error", "message": "Shell not found"}, 404)
+                return response
+            
+            # Render the shell
+            if shell == "dashboard":
+                rendered_shell = render_template("dashboard/shells/dashboard.html", t=get_user_translations())
+                
+            else:
+                rendered_shell = render_template(f"dashboard/shells/{shell}.html", t=get_user_translations(),
+                                                 user=current_user)
+        except Exception as e:
+            response = make_response({"status": "error", "message": "Shell not found"}, 404)
+            return response   
+
+        if not rendered_shell:
+            response = make_response({"status": "error", "message": "Shell not found"}, 404)
+            return response
+
+        # Return the rendered shell
+        response = make_response({"status": "success", "shell": rendered_shell}, 200)
+        return response
+
+@admin_dashboard_ns.route('/get-user-transactions-table')
+class AdminDashboardGetUserTransactionsTableEndpoint(Resource):
+    def get(self):
+        if not current_user.is_authenticated or current_user.role != "admin":
+            response = make_response({"status": "error", "message": "Unauthorized"}, 401)
+            return response
+        
+        username = request.args.get('username')
+
+        if not username:
+            response = make_response({"status": "error", "message": "Usernmae required"}, 400)
+            return response
+        
+        user = User.query.filter_by(username=username).first()
+
+        if user is None:
+            response = make_response({"status": "error", "message": "User not found"}, 404)
+            return response
+        
+        try:
+            transactions = user.transactions.order_by(Transaction.timestamp.desc()).all()
+
+            table = render_template("api/user_transactions_table.html", t=get_user_translations(),
+                                    user=user, transactions=transactions)
+
+            response = make_response({"status": "success", "table": table}, 200)
+            return response
+
+        except Exception as e:
+            response = make_response({"status": "error", "message": "An error occurred"}, 500)
+            return response
+
+
+
 # Add namespaces to API
 api.add_namespace(api_ns, path='/')
 api.add_namespace(dashboard_ns, path='/dashboard')
+api.add_namespace(admin_dashboard_ns, path='/admin-dashboard')

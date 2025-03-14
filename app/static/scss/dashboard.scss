@@ -128,6 +128,10 @@ $sidebar-height: 100%;
     padding: 20px;
     overflow-y: auto;
 
+    .loading{
+        text-align: center;
+    }
+
     #dashboard-shell{
         .balance-summary{
             display: flex;
@@ -632,6 +636,82 @@ $sidebar-height: 100%;
                         border: 1px solid $dash-gray-border;
                         border-radius: 5px;
                         margin-top: 5px;
+                    }
+                }
+            }
+        }
+    }
+
+    // ADMIN
+    #admin-user-transactions{
+        width: 100%;
+        background-color: $dash-white;
+        padding: $boxes-padding;
+        border: 1px solid $dash-gray-border;
+        border-radius: 8px;
+
+        .actions{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            .search-wrapper{
+                .search{
+                    width: 300px;
+                    padding: 10px;
+                    font-size: 16px;
+                    border: 1px solid $dash-gray-border;
+                    border-radius: 5px;
+                }
+
+                #search-username-button{
+                    text-decoration: none;
+                    padding: 10px;
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: $text-black;
+                    border: 1px solid $dash-gray-border;
+                    border-radius: 5px;
+                    transition: all .2s;
+
+                    &:hover{
+                        background-color: rgba($dash-gray, .1);
+                    }
+
+                    &:visited{
+                        color: $text-black;
+                    }
+                }
+            }
+        }
+
+        #table{
+            table.transactions{
+                width: 100%;
+                margin-top: 20px;
+                border-collapse: collapse;
+    
+                thead{
+                    tr{
+                        td{
+                            padding: 10px 0;
+                            font-size: 18px;
+                            color: rgba($text-black, .6);
+                        }
+                    }
+                }
+    
+                tbody{
+                    tr{
+                        transition: all .2s;
+                        td{
+                            border-top: 1px solid $dash-gray-border;
+                            padding: 10px 0;
+                        }
+    
+                        &:hover{
+                            background-color: rgba($dash-gray, .1);
+                        }
                     }
                 }
             }

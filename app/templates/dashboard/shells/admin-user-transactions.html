@@ -1,0 +1,11 @@
+<div id="admin-user-transactions">
+    <h2>{{ t["transactions"]["transaction-history"] }}</h2>
+    <div class="actions">
+        <div class="search-wrapper">
+            <input type="text" id="search-username" class="search" placeholder="{{ t['admin-user-transactions']['enter-username'] }}">
+            <a href="#" id="search-username-button">{{ t["admin-user-transactions"]["search"] }}</a>
+            <input type="text" id="search-transactions" class="search hidden" placeholder='{{ t["admin-user-transactions"]["search"] }}'>
+        </div>
+    </div>
+    <div id="table"></div>
+</div>

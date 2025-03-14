@@ -152,6 +152,9 @@ body {
   padding: 20px;
   overflow-y: auto;
 }
+#shell .loading {
+  text-align: center;
+}
 #shell #dashboard-shell .balance-summary {
   display: flex;
   flex-direction: row;
@@ -566,6 +569,61 @@ body {
   border: 1px solid #B9B9B9;
   border-radius: 5px;
   margin-top: 5px;
+}
+#shell #admin-user-transactions {
+  width: 100%;
+  background-color: #fff;
+  padding: 30px;
+  border: 1px solid #B9B9B9;
+  border-radius: 8px;
+}
+#shell #admin-user-transactions .actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+#shell #admin-user-transactions .actions .search-wrapper .search {
+  width: 300px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #B9B9B9;
+  border-radius: 5px;
+}
+#shell #admin-user-transactions .actions .search-wrapper #search-username-button {
+  text-decoration: none;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #020817;
+  border: 1px solid #B9B9B9;
+  border-radius: 5px;
+  transition: all 0.2s;
+}
+#shell #admin-user-transactions .actions .search-wrapper #search-username-button:hover {
+  background-color: rgba(71, 85, 105, 0.1);
+}
+#shell #admin-user-transactions .actions .search-wrapper #search-username-button:visited {
+  color: #020817;
+}
+#shell #admin-user-transactions #table table.transactions {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+#shell #admin-user-transactions #table table.transactions thead tr td {
+  padding: 10px 0;
+  font-size: 18px;
+  color: rgba(2, 8, 23, 0.6);
+}
+#shell #admin-user-transactions #table table.transactions tbody tr {
+  transition: all 0.2s;
+}
+#shell #admin-user-transactions #table table.transactions tbody tr td {
+  border-top: 1px solid #B9B9B9;
+  padding: 10px 0;
+}
+#shell #admin-user-transactions #table table.transactions tbody tr:hover {
+  background-color: rgba(71, 85, 105, 0.1);
 }
 
 #export-transactions-dialog {

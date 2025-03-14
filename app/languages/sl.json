@@ -43,7 +43,7 @@
 
     "hero": {
         "title": "Varno in Zanesljivo Bankarstvo",
-        "subtitle": "Doživite prihodnost bančništva z IME Bank. Uživajte v brezhibnih digitalnih storitvah, vodilni varnosti v panogi in prilagojeni podpori.",
+        "subtitle": "Doživite prihodnost bančništva z MiBank. Uživajte v brezhibnih digitalnih storitvah, vodilni varnosti v panogi in prilagojeni podpori.",
         "log-in": "Prijava",
         "register": "Registracija",
         "image-alt": "Bančna kartica"
@@ -79,6 +79,9 @@
         "transfers": "Prenosi",
         "analytics": "Analitika",
         "settings": "Nastavitve",
+
+        "admin-dashboard": "Admin Nadzorna plošča",
+        "admin-user-transactions": "Transakcije Uporabnika",
 
         "total-balance": "Skupno stanje",
         "from-last-month": "od prejšnjega meseca",
@@ -147,5 +150,10 @@
         "save": "Shrani",
         "change": "Spremeni",
         "cancel": "Prekliči"
+    },
+
+    "admin-user-transactions": {
+        "enter-username": "Vnesite uporabniško ime",
+        "search": "Išči"
     }
 }

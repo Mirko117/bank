@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='{{ t["lang"] }}'>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,12 +21,36 @@
     <!-- Favicon -->
     <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
 
-    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/admin_dashboard.js') }}"></script>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 
-    <title>Admin</title>
+    <title>{{ t["title"]["dashboard"] }}</title>
+</head>
 <body>
-    <h1>hi admin</h1>
+    <div id="navbar">
+        <h1 class="page-name">{{ t["dashboard"]["admin-dashboard"] }}</h1>
+
+        <div class="options">
+            <a href="#" class="option">
+                <img src="{{ url_for('static', filename='images/dashboard/solar_user-outline.svg') }}" alt="Account">
+                {{ user.username }}
+            </a>
+            <a href="#" class="option">
+                <img src="{{ url_for('static', filename='images/dashboard/mynaui_bell.svg') }}" alt="Notifications">
+            </a>
+            <a href="/auth/logout" class="option">
+                <img src="{{ url_for('static', filename='images/dashboard/logout-rounded.svg') }}" alt="Log Out">
+            </a>
+        </div>
+    </div>
+
+    <div id="sidebar">
+        <img src="{{ url_for('static', filename='images/logo/logo-blue-tr.png') }}" alt="MiBank">
+        <a href="#" class="selected" data-shell="admin-dashboard">{{ t["dashboard"]["admin-dashboard"] }}</a>
+        <a href="#" data-shell="admin-user-transactions">{{ t["dashboard"]["admin-user-transactions"] }}</a>
+    </div>
+
+    <div id="shell"></div>
 </body>
 </html>

@@ -30,4 +30,4 @@ def admin():
     if current_user.is_authenticated:
         if current_user.role == 'user':
             return redirect(url_for('dashboard.user'))
-        return render_template('dashboard/admin.html')
+        return render_template('dashboard/admin.html', t=get_user_translations(), user=current_user)

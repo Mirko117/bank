@@ -8,6 +8,9 @@ $(document).ready(function() {
         $("#sidebar a").removeClass("selected");
         this.classList.add("selected");
 
+        // Add loading spinner
+        $("#shell").html("<div class='loading'><img src='/static/images/loading.gif'></div>");
+
         var shell = this.getAttribute("data-shell");
         var data = { shell: shell };
         var text = this.text;
