@@ -706,7 +706,7 @@ class AdminDashboardGetPageEndpoint(Resource):
             return response
 
         try:
-            valid_shells = ["admin-transfers", "admin-user-transactions"]
+            valid_shells = ["admin-transfers", "admin-user-transactions", "settings"]
 
             if shell not in valid_shells:
                 response = make_response({"status": "error", "message": "Shell not found"}, 404)
