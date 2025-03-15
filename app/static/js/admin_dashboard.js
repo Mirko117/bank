@@ -29,11 +29,11 @@ $(document).ready(function() {
         });
     });
 
-    // When the page loads, load the dashboard shell
+    // When the page loads, load the transfers shell
     $.ajax({
         type: "GET",
         url: "/api/admin-dashboard/get-shell",
-        data: { shell: "admin-dashboard" },
+        data: { shell: "admin-transfers" },
         success: function (response) {
             $("#shell").html(response.shell);
             loadShellEventListeners();
@@ -67,12 +67,109 @@ function showDialog(text, title, relaod = false) {
 }
 
 function loadShellEventListeners() {
+
+    /// Admin Transfers Shell
+
+    // Currency input listener
+    $("#admin-transfers-shell .transfer-details #currency").on("change", function(e){
+        e.preventDefault();
+        handleTransferSumarry();
+    });
+
+    // Amount input listener
+    $("#admin-transfers-shell .transfer-details #amount").on("change", function(e){
+        e.preventDefault();
+        handleTransferSumarry();
+    });
+
+    // Recipient input listener
+    $("#admin-transfers-shell .transfer-details #recipient").on("change", function(e){
+        e.preventDefault();
+        handleTransferSumarry();
+    });
+
+    // Handle transfer summary when user inputs data
+    function handleTransferSumarry(){
+        var currency = $("#admin-transfers-shell .transfer-details #currency").val();
+        var amount = $("#admin-transfers-shell .transfer-details #amount").val();
+        var recipient = $("#admin-transfers-shell .transfer-details #recipient").val();
+
+        if(currency){
+            $("#admin-transfers-shell .transfer-summary .currency").text(currency);
+        }
+        else{
+            $("#admin-transfers-shell .transfer-summary .currency").text("-");
+        }
+
+        if(amount){
+            $("#admin-transfers-shell .transfer-summary .amount").text(parseFloat(amount).toFixed(2));
+        }
+        else{
+            $("#admin-transfers-shell .transfer-summary .amount").text("-");
+        }
+
+        if(recipient){
+            $("#admin-transfers-shell .transfer-summary .recipient").text(recipient);
+        }
+        else{
+            $("#admin-transfers-shell .transfer-summary .recipient").text("-");
+        }
+
+        if(amount && currency && recipient){
+            $.ajax({
+                type: "GET",
+                url: "/api/admin-dashboard/get-transfer-fee",
+                data: { amount: amount, currency: currency },
+                success: function (response) {
+                    var fee = parseFloat(response.fee);
+                    var total = parseFloat(amount) - (parseFloat(amount) * fee);
+
+                    var fee_percentage = fee * 100;
+
+                    fee = fee.toFixed(2);
+                    total = total.toFixed(2);
+                    
+                    $("#admin-transfers-shell .transfer-summary .fee").text(fee_percentage + "%");
+                    $("#admin-transfers-shell .transfer-summary .total").text(total + " " + currency);
+
+                },
+                error: function (response) {
+                    showDialog(response.responseJSON.message, "Error");
+                }
+            });
+        }
+        else{
+            $("#admin-transfers-shell .transfer-summary .total").text("-");
+        }
+    }
+
+    // When transfer button is clicked
+    $("#admin-transfers-shell .transfer-details .buttons .transfer").on("click", function(e){
+        e.preventDefault();
+
+        var currency = $("#admin-transfers-shell .transfer-details #currency").val();
+        var amount = $("#admin-transfers-shell .transfer-details #amount").val();
+        var recipient = $("#admin-transfers-shell .transfer-details #recipient").val();
+        var description = $("#admin-transfers-shell .transfer-details #description").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/api/admin-dashboard/make-transfer",
+            data: { currency: currency, amount: amount, recipient: recipient, description: description },
+            success: function (response) {
+                showDialog(response.message, "Success", reload=true);
+            },
+            error: function (response) {
+                showDialog(response.responseJSON.message, "Error");
+            }
+        });
+    });
     
-    /// Admin User Transactions
+    /// Admin User Transactions Shell
 
     // When admin clicks search button
-    $("#admin-user-transactions .actions #search-username-button").on("click", function() {
-        var username = $("#admin-user-transactions .actions #search-username").val();
+    $("#admin-user-transactions-shell .actions #search-username-button").on("click", function() {
+        var username = $("#admin-user-transactions-shell .actions #search-username").val();
         var data = { username: username };
 
         $.ajax({
@@ -80,9 +177,9 @@ function loadShellEventListeners() {
             url: "/api/admin-dashboard/get-user-transactions-table",
             data: data,
             success: function (response) {
-                $("#admin-user-transactions .actions #search-transactions").removeClass("hidden");
+                $("#admin-user-transactions-shell .actions #search-transactions").removeClass("hidden");
 
-                $("#admin-user-transactions #table").html(response.table);
+                $("#admin-user-transactions-shell #table").html(response.table);
             },
             error: function (response) {
                 showDialog(response.responseJSON.message, "Error");
@@ -91,12 +188,12 @@ function loadShellEventListeners() {
     });
 
     // When the search input is typed in, filter the transactions table
-    $("#admin-user-transactions .actions #search-transactions").on("keyup", function(e){
+    $("#admin-user-transactions-shell .actions #search-transactions").on("keyup", function(e){
         e.preventDefault();
 
         var search = $(this).val().toLowerCase();
 
-        $("#admin-user-transactions table.transactions tbody tr").filter(function() {
+        $("#admin-user-transactions-shell table.transactions tbody tr").filter(function() {
             $(this).toggle($(this).text().toLowerCase().indexOf(search) > -1);
         });
     });

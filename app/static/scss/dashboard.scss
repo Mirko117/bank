@@ -481,7 +481,7 @@ $sidebar-height: 100%;
         }
     }
 
-    #transfers-shell{
+    #transfers-shell, #admin-transfers-shell{
         .row{
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -643,7 +643,7 @@ $sidebar-height: 100%;
     }
 
     // ADMIN
-    #admin-user-transactions{
+    #admin-user-transactions-shell{
         width: 100%;
         background-color: $dash-white;
         padding: $boxes-padding;

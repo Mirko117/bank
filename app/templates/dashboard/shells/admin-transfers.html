@@ -1,0 +1,61 @@
+<div id="admin-transfers-shell">
+    <div class="row">
+        <div class="transfer-details">
+            <h2>{{ t["transfers"]["details"] }}</h2>
+            <div class="form">
+                <div class="item">
+                    <label for="currency">{{ t["transfers"]["currency"] }}</label>
+                    <select name="currency" id="currency">
+                        <option value=""></option>
+                        {% for currency in all_currencies %}
+                            <option value="{{ currency }}">{{ currency }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="item">
+                    <label for="amount">{{ t["transfers"]["amount"] }}</label>
+                    <input type="number" name="amount" id="amount">
+                </div>
+                <div class="item">
+                    <label for="recipient">{{ t["transfers"]["recipient"] }}</label>
+                    <input type="text" name="recipient" id="recipient">
+                </div>
+                <div class="item">
+                    <label for="description">{{ t["transfers"]["description"] }}</label>
+                    <input type="text" name="description" id="description">
+                </div>
+                <div class="buttons">
+                    <a href="#" class="cancel">{{ t["transfers"]["cancel"] }}</a>
+                    <a href="#" class="transfer">{{ t["transfers"]["transfer"] }}</a>
+                </div>
+
+            </div>
+        </div>
+        <div class="transfer-summary">
+            <h2>{{ t["transfers"]["summary"] }}</h2>
+            <div class="summary">
+                <div class="item">
+                    <p class="name">{{ t["transfers"]["currency"] }}</p>
+                    <p class="currency">-</p>
+                </div>
+                <div class="item">
+                    <p class="name">{{ t["transfers"]["amount"] }}</p>
+                    <p class="amount">-</p>
+                </div>
+                <div class="item">
+                    <p class="name">{{ t["transfers"]["recipient"] }}</p>
+                    <p class="recipient">-</p>
+                </div>
+                <div class="item">
+                    <p class="name">{{ t["transfers"]["fee"] }}</p>
+                    <p class="fee">-</p>
+                </div>
+                <hr>
+                <div class="item">
+                    <p class="name">{{ t["transfers"]["total"] }}</p>
+                    <p class="total">-</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

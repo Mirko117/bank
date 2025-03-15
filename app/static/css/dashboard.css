@@ -441,41 +441,41 @@ body {
 #shell #currencies-shell .row .currency-exchange .exchange-result .buttons-wrapper #cancel-exchange:hover {
   background-color: rgba(71, 85, 105, 0.1);
 }
-#shell #transfers-shell .row {
+#shell #transfers-shell .row, #shell #admin-transfers-shell .row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
-#shell #transfers-shell .row .transfer-details, #shell #transfers-shell .row .transfer-summary {
+#shell #transfers-shell .row .transfer-details, #shell #transfers-shell .row .transfer-summary, #shell #admin-transfers-shell .row .transfer-details, #shell #admin-transfers-shell .row .transfer-summary {
   width: 100%;
   background-color: #fff;
   padding: 30px;
   border: 1px solid #B9B9B9;
   border-radius: 8px;
 }
-#shell #transfers-shell .row .transfer-details .form {
+#shell #transfers-shell .row .transfer-details .form, #shell #admin-transfers-shell .row .transfer-details .form {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-#shell #transfers-shell .row .transfer-details .form .item {
+#shell #transfers-shell .row .transfer-details .form .item, #shell #admin-transfers-shell .row .transfer-details .form .item {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
-#shell #transfers-shell .row .transfer-details .form .item input, #shell #transfers-shell .row .transfer-details .form .item select {
+#shell #transfers-shell .row .transfer-details .form .item input, #shell #transfers-shell .row .transfer-details .form .item select, #shell #admin-transfers-shell .row .transfer-details .form .item input, #shell #admin-transfers-shell .row .transfer-details .form .item select {
   width: 100%;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #B9B9B9;
   border-radius: 5px;
 }
-#shell #transfers-shell .row .transfer-details .form .buttons {
+#shell #transfers-shell .row .transfer-details .form .buttons, #shell #admin-transfers-shell .row .transfer-details .form .buttons {
   display: flex;
   flex-direction: row;
   gap: 10px;
 }
-#shell #transfers-shell .row .transfer-details .form .buttons .cancel, #shell #transfers-shell .row .transfer-details .form .buttons .transfer {
+#shell #transfers-shell .row .transfer-details .form .buttons .cancel, #shell #transfers-shell .row .transfer-details .form .buttons .transfer, #shell #admin-transfers-shell .row .transfer-details .form .buttons .cancel, #shell #admin-transfers-shell .row .transfer-details .form .buttons .transfer {
   text-decoration: none;
   width: 100%;
   padding: 10px;
@@ -486,33 +486,33 @@ body {
   justify-content: center;
   transition: all 0.2s;
 }
-#shell #transfers-shell .row .transfer-details .form .buttons .cancel {
+#shell #transfers-shell .row .transfer-details .form .buttons .cancel, #shell #admin-transfers-shell .row .transfer-details .form .buttons .cancel {
   color: #020817;
   background-color: #fff;
   border: 1px solid #B9B9B9;
 }
-#shell #transfers-shell .row .transfer-details .form .buttons .cancel:hover {
+#shell #transfers-shell .row .transfer-details .form .buttons .cancel:hover, #shell #admin-transfers-shell .row .transfer-details .form .buttons .cancel:hover {
   background-color: rgba(71, 85, 105, 0.1);
 }
-#shell #transfers-shell .row .transfer-details .form .buttons .transfer {
+#shell #transfers-shell .row .transfer-details .form .buttons .transfer, #shell #admin-transfers-shell .row .transfer-details .form .buttons .transfer {
   color: #fff;
   background-color: #3A72EC;
 }
-#shell #transfers-shell .row .transfer-details .form .buttons .transfer:hover {
+#shell #transfers-shell .row .transfer-details .form .buttons .transfer:hover, #shell #admin-transfers-shell .row .transfer-details .form .buttons .transfer:hover {
   background-color: #1554de;
 }
-#shell #transfers-shell .row .transfer-summary .summary {
+#shell #transfers-shell .row .transfer-summary .summary, #shell #admin-transfers-shell .row .transfer-summary .summary {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-#shell #transfers-shell .row .transfer-summary .summary .item {
+#shell #transfers-shell .row .transfer-summary .summary .item, #shell #admin-transfers-shell .row .transfer-summary .summary .item {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   font-size: 20px;
 }
-#shell #transfers-shell .row .transfer-summary .summary .item .name {
+#shell #transfers-shell .row .transfer-summary .summary .item .name, #shell #admin-transfers-shell .row .transfer-summary .summary .item .name {
   font-weight: 500;
   color: rgba(2, 8, 23, 0.6);
 }
@@ -570,26 +570,26 @@ body {
   border-radius: 5px;
   margin-top: 5px;
 }
-#shell #admin-user-transactions {
+#shell #admin-user-transactions-shell {
   width: 100%;
   background-color: #fff;
   padding: 30px;
   border: 1px solid #B9B9B9;
   border-radius: 8px;
 }
-#shell #admin-user-transactions .actions {
+#shell #admin-user-transactions-shell .actions {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
-#shell #admin-user-transactions .actions .search-wrapper .search {
+#shell #admin-user-transactions-shell .actions .search-wrapper .search {
   width: 300px;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #B9B9B9;
   border-radius: 5px;
 }
-#shell #admin-user-transactions .actions .search-wrapper #search-username-button {
+#shell #admin-user-transactions-shell .actions .search-wrapper #search-username-button {
   text-decoration: none;
   padding: 10px;
   font-size: 16px;
@@ -599,30 +599,30 @@ body {
   border-radius: 5px;
   transition: all 0.2s;
 }
-#shell #admin-user-transactions .actions .search-wrapper #search-username-button:hover {
+#shell #admin-user-transactions-shell .actions .search-wrapper #search-username-button:hover {
   background-color: rgba(71, 85, 105, 0.1);
 }
-#shell #admin-user-transactions .actions .search-wrapper #search-username-button:visited {
+#shell #admin-user-transactions-shell .actions .search-wrapper #search-username-button:visited {
   color: #020817;
 }
-#shell #admin-user-transactions #table table.transactions {
+#shell #admin-user-transactions-shell #table table.transactions {
   width: 100%;
   margin-top: 20px;
   border-collapse: collapse;
 }
-#shell #admin-user-transactions #table table.transactions thead tr td {
+#shell #admin-user-transactions-shell #table table.transactions thead tr td {
   padding: 10px 0;
   font-size: 18px;
   color: rgba(2, 8, 23, 0.6);
 }
-#shell #admin-user-transactions #table table.transactions tbody tr {
+#shell #admin-user-transactions-shell #table table.transactions tbody tr {
   transition: all 0.2s;
 }
-#shell #admin-user-transactions #table table.transactions tbody tr td {
+#shell #admin-user-transactions-shell #table table.transactions tbody tr td {
   border-top: 1px solid #B9B9B9;
   padding: 10px 0;
 }
-#shell #admin-user-transactions #table table.transactions tbody tr:hover {
+#shell #admin-user-transactions-shell #table table.transactions tbody tr:hover {
   background-color: rgba(71, 85, 105, 0.1);
 }
 
