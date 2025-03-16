@@ -1,0 +1,54 @@
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    networks:
+      - mibank-network
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  flask:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: flask_app
+    restart: always
+    networks:
+      - mibank-network
+    depends_on:
+      - postgres
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - FLASK_ENV=${FLASK_ENV}
+      - DATABASE_URL=${DATABASE_URL}
+      - EXCHANGE_RATE_API_KEY=${EXCHANGE_RATE_API_KEY}
+    ports:
+      - "5000:5000"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
+    restart: always
+    networks:
+      - mibank-network
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - flask
+
+volumes:
+  postgres-data:
+
+networks:
+  mibank-network:
+    driver: bridge
