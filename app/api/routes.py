@@ -6,14 +6,21 @@ from decimal import Decimal, ROUND_DOWN
 import validators
 import pandas as pd
 import json
+import os
 import xml.etree.ElementTree as ET
 from app.functions import get_user_translations, is_valid_number_format, unix_to_datetime, format_money, check_language
 from app.models import db, Transaction, User, Balance
 from app.api.queries import *
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Create blueprint, API and namespace for API
 api_bp = Blueprint('api', __name__)
-api = Api(api_bp, title="Main API", version="1.0", description="Endpoints for main API")
+if os.getenv("FLASK_ENV") == "production":
+    api = Api(api_bp, title="Main API", version="1.0", description="Endpoints for main API", doc=False)
+else:
+    api = Api(api_bp, title="Main API", version="1.0", description="Endpoints for main API")
 api_ns = Namespace("api", description="Main operations")
 
 # Create namespace for dashboard

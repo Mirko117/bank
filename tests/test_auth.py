@@ -49,11 +49,7 @@ class TestRegistration:
         })
         assert response.status_code == 201
 
-        # Original code:
-        # assert response.json['status'] == 'User created successfully, please check your email for username'
-        # Changed it because there is +username in the response rn for testing purposes
-        # This will be removed in production
-        assert 'User created successfully, please check your email for username' in response.json['status'] 
+        assert 'User created successfully. Your username is:' in response.json['status'] 
     
     @pytest.mark.parametrize('field, value, status_code, message', [
         ('name', '', 400, 'Name is required'),

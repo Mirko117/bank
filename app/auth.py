@@ -98,10 +98,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
 
-        # TODO: Send email to user with his username
-
-        # REMOVE: +username is for testing purposes, will be removed in production
-        return jsonify({"status": t["auth"]["registration-successful"] + " " + username, "title": t["auth"]["title-success"]}), 201
+        return jsonify({"status": t["auth"]["registration-successful"] + username, "title": t["auth"]["title-success"], "redirect": "/auth/login?username=" + username}), 201
 
     return render_template('auth/register.html', t=get_translations())
 

@@ -20,7 +20,7 @@
         "password-number": "Password must contain a number",
         "password-mismatch": "Passwords do not match",
         "email-exists": "Email already exists",
-        "registration-successful": "User created successfully, please check your email for username",
+        "registration-successful": "User created successfully. Your username is: ",
 
         "title-error": "Error",
         "title-success": "Success"

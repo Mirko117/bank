@@ -20,7 +20,7 @@
         "password-number": "Geslo mora vsebovati številko",
         "password-mismatch": "Gesli se ne ujemata",
         "email-exists": "E-pošta že obstaja",
-        "registration-successful": "Uporabnik uspešno ustvarjen, preverite e-pošto za uporabniško ime",
+        "registration-successful": "Uporabnik uspešno ustvarjen. Vaše uporabniško ime je: ",
 
         "title-error": "Napaka",
         "title-success": "Uspeh"

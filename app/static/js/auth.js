@@ -1,6 +1,7 @@
 $(document).ready(function(){
     registrationAjax();
     loginAjax();
+    loginAutofillUsername();
 });
 
 function registrationAjax(){
@@ -15,7 +16,7 @@ function registrationAjax(){
             data: formData,
             success: function(response){
                 if(response.status.includes("User created")){
-                    authDialog(response.status, response.title, '/auth/login');
+                    authDialog(response.status, response.title, response.redirect);
                 } else {
                     authDialog(response.status, response.title);
                 }
@@ -50,6 +51,14 @@ function loginAjax(){
             }
         });
     });
+}
+
+function loginAutofillUsername(){
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username');
+    if(username){
+        $('#login .wrapper form input[name="username"]').val(username);
+    }
 }
 
 
