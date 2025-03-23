@@ -1,5 +1,6 @@
 section#hero{
-    height: calc(100vh - $web-nav-height);
+    min-height: calc(100vh - $web-nav-height);
+    padding-top: 20px;
     background-color: $primary;
     display: flex;
     justify-content: center;

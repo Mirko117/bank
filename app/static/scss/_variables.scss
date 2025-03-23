@@ -25,6 +25,17 @@ $dash-red: #DC2626;
 
 
 /// DASHBOARD LAYOUT DIMENSIONS
+$sidebar-width: 250px;
+$sidebar-height: 100%;
+$navbar-height: 70px;
+$navbar-width: calc(100% - #{$sidebar-width});
+
+// It's not 50px wide/high, its smaller by 50px
+$sidebar-width-smaller: 75px;
+$navbar-height-smaller: 20px;
+
+$sidebar-height-phone: calc(#{$navbar-height} - #{$navbar-height-smaller});
+
 
 // Padding for boxes on the dashboard
 $boxes-padding: 30px;

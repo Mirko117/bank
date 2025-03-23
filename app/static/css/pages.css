@@ -44,7 +44,8 @@ body {
 }
 
 section#hero {
-  height: calc(100vh - 48px);
+  min-height: calc(100vh - 48px);
+  padding-top: 20px;
   background-color: #3A72EC;
   display: flex;
   justify-content: center;
@@ -153,7 +154,8 @@ section#hero .container .right {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 48px);
+  min-height: calc(100vh - 48px);
+  padding: 20px;
 }
 .auth .container .wrapper {
   padding: 20px;
@@ -190,6 +192,14 @@ section#hero .container .right {
 .auth .container .wrapper button:hover {
   background-color: #2361ea;
   transition: all 0.3s;
+}
+@media screen and (max-width: 768px) {
+  .auth .container .wrapper {
+    font-size: 14px;
+  }
+  .auth .container .wrapper button {
+    font-size: 14px;
+  }
 }
 
 nav {

@@ -58,8 +58,8 @@ body {
 #navbar {
   position: fixed;
   top: 0;
-  left: 300px;
-  width: calc(100% - 300px);
+  left: 250px;
+  width: calc(100% - 250px);
   max-height: 70px;
   border-bottom: 1px solid #B9B9B9;
   background-color: #fff;
@@ -111,7 +111,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 300px;
+  width: 250px;
   height: 100%;
   border-right: 1px solid #B9B9B9;
   background-color: #fff;
@@ -147,7 +147,7 @@ body {
 }
 
 #shell {
-  margin-left: 300px;
+  margin-left: 250px;
   margin-top: 70px;
   padding: 20px;
   overflow-y: auto;
@@ -653,4 +653,285 @@ body {
 #add-currency-dialog #select-currency {
   margin-top: 12px;
   padding: 5px;
+}
+
+@media screen and (max-width: 1200px) {
+  #shell h2 {
+    font-size: 28px;
+    margin-bottom: 20px !important;
+  }
+  #shell #dashboard-shell .balance-summary .total-balance,
+  #shell #dashboard-shell .balance-summary .monthly-income,
+  #shell #dashboard-shell .other .recent-transactions,
+  #shell #dashboard-shell .other .quick-transfer,
+  #shell #transactions-shell,
+  #shell #currencies-shell .all-currencies,
+  #shell #currencies-shell .row .currency-exchange,
+  #shell #transfers-shell .row .transfer-details,
+  #shell #transfers-shell .row .transfer-summary,
+  #shell #admin-transfers-shell .row .transfer-details,
+  #shell #admin-transfers-shell .row .transfer-summary,
+  #shell #settings-shell .block {
+    padding: calc(30px - 10px);
+  }
+  #shell #dashboard-shell .balance-summary .total-balance .balance, #shell #dashboard-shell .balance-summary .monthly-income .balance {
+    font-size: 28px;
+  }
+  #shell #dashboard-shell .balance-summary .total-balance .text-small, #shell #dashboard-shell .balance-summary .monthly-income .text-small {
+    font-size: 14px;
+  }
+  #shell #transactions-shell table.transactions tbody tr td, #shell #admin-user-transactions-shell table.transactions tbody tr td {
+    font-size: 12px;
+  }
+  #shell #currencies-shell .row .currency-exchange .exchange-fields .field input, #shell #currencies-shell .row .currency-exchange .exchange-fields .field select {
+    font-size: 12px;
+    padding: 5px;
+  }
+  #shell #currencies-shell .row .currency-exchange .exchange-result .result-wrapper {
+    font-size: 14px;
+    padding: 5px;
+  }
+  #shell #currencies-shell .row .currency-exchange .exchange-result .buttons-wrapper a {
+    padding: 8px;
+    font-size: 12px;
+  }
+}
+@media screen and (max-width: 992px) {
+  #sidebar {
+    width: calc(250px - 75px);
+    padding: 15px 20px;
+  }
+  #sidebar img {
+    height: 25px;
+  }
+  #sidebar a {
+    padding: 10px;
+    font-size: 16px;
+  }
+  #navbar {
+    left: calc(250px - 75px);
+    width: calc(calc(100% - 250px) + 75px);
+    max-height: calc(70px - 20px);
+  }
+  #navbar .options a.option {
+    font-size: 16px;
+    padding: 8px;
+  }
+  #navbar .options a.option img {
+    height: 15px;
+    width: 15px;
+  }
+  #shell {
+    margin-left: calc(250px - 75px);
+    margin-top: calc(70px - 20px);
+    padding: 10px;
+  }
+  #shell h2 {
+    font-size: 24px;
+  }
+  #shell #dashboard-shell .balance-summary .total-balance,
+  #shell #dashboard-shell .balance-summary .monthly-income,
+  #shell #dashboard-shell .other .recent-transactions,
+  #shell #dashboard-shell .other .quick-transfer,
+  #shell #transactions-shell,
+  #shell #currencies-shell .all-currencies,
+  #shell #currencies-shell .row .currency-exchange,
+  #shell #transfers-shell .row .transfer-details,
+  #shell #transfers-shell .row .transfer-summary,
+  #shell #admin-transfers-shell .row .transfer-details,
+  #shell #admin-transfers-shell .row .transfer-summary,
+  #shell #settings-shell .block {
+    padding: calc(30px - 15px);
+  }
+  #shell #dashboard-shell .balance-summary .total-balance .balance, #shell #dashboard-shell .balance-summary .monthly-income .balance {
+    font-size: 24px;
+  }
+  #shell #dashboard-shell .other .recent-transactions .transactions .transaction .name-wrapper .name {
+    font-size: 16px;
+  }
+  #shell #dashboard-shell .other .recent-transactions .transactions .transaction .name-wrapper .date {
+    font-size: 12px;
+  }
+  #shell #dashboard-shell .other .recent-transactions .transactions .transaction .amount {
+    font-size: 14px;
+  }
+  #shell #dashboard-shell .other .quick-transfer .heading {
+    font-size: 16px;
+  }
+  #shell #dashboard-shell .other .quick-transfer input {
+    font-size: 14px;
+    padding: 6px;
+  }
+  #shell #dashboard-shell .other .quick-transfer .buttons-wrapper {
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  #shell #dashboard-shell .other .quick-transfer .buttons-wrapper .cancel, #shell #dashboard-shell .other .quick-transfer .buttons-wrapper .transfer {
+    padding: 8px;
+    font-size: 14px;
+  }
+  #shell #transactions-shell .actions .search-wrapper .search, #shell #admin-user-transactions-shell .actions .search-wrapper .search {
+    width: 200px;
+    padding: 8px;
+    font-size: 14px;
+  }
+  #shell #transactions-shell .actions .export, #shell #admin-user-transactions-shell .actions .export {
+    padding: 8px;
+    font-size: 14px;
+  }
+  #shell #transactions-shell .actions .export img, #shell #admin-user-transactions-shell .actions .export img {
+    height: 15px;
+    width: 15px;
+  }
+  #shell #transactions-shell table.transactions thead tr td, #shell #admin-user-transactions-shell table.transactions thead tr td {
+    font-size: 14px;
+  }
+  #shell #admin-user-transactions-shell .actions .search-wrapper .search {
+    width: 200px;
+    padding: 8px;
+    font-size: 14px;
+  }
+  #shell #admin-user-transactions-shell .actions .search-wrapper #search-username-button {
+    padding: 8px;
+    font-size: 14px;
+  }
+  #shell #admin-user-transactions-shell #table table.transactions thead tr td {
+    font-size: 14px;
+  }
+  #shell #currencies-shell .all-currencies .currency {
+    padding: 8px;
+  }
+  #shell #currencies-shell .row {
+    grid-template-columns: 2fr 1fr;
+  }
+  #shell #currencies-shell .row .currency-exchange .exchange-result .result-wrapper {
+    font-size: 16px;
+    padding: 8px;
+  }
+  #shell #currencies-shell .row .currency-exchange .exchange-result .buttons-wrapper a {
+    padding: 10px;
+    font-size: 14px;
+  }
+  #shell #transfers-shell .row .transfer-details .form .item input, #shell #transfers-shell .row .transfer-details .form .item select, #shell #admin-transfers-shell .row .transfer-details .form .item input, #shell #admin-transfers-shell .row .transfer-details .form .item select {
+    font-size: 14px;
+    padding: 8px;
+  }
+  #shell #transfers-shell .row .transfer-details .form .buttons .cancel, #shell #transfers-shell .row .transfer-details .form .buttons .transfer, #shell #admin-transfers-shell .row .transfer-details .form .buttons .cancel, #shell #admin-transfers-shell .row .transfer-details .form .buttons .transfer {
+    padding: 8px;
+    font-size: 14px;
+  }
+  #shell #transfers-shell .row .transfer-summary .summary .item, #shell #admin-transfers-shell .row .transfer-summary .summary .item {
+    font-size: 16px;
+  }
+  #shell #settings-shell {
+    gap: 10px;
+  }
+  #shell #settings-shell .block .form-group .field input, #shell #settings-shell .block .form-group .field select {
+    font-size: 14px;
+    padding: 8px;
+  }
+  #shell #settings-shell .block .form-group .row .cancel, #shell #settings-shell .block .form-group .row .save {
+    padding: 8px;
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 768px) {
+  #sidebar {
+    top: calc(70px - 20px);
+    left: 0;
+    width: 100%;
+    max-height: calc(70px - 20px);
+    flex-direction: row;
+    border-right: none;
+    border-bottom: 1px solid #B9B9B9;
+    padding: 10px;
+    gap: 10px;
+  }
+  #sidebar h1.page-name {
+    display: none;
+  }
+  #sidebar img {
+    display: none;
+  }
+  #sidebar a {
+    padding: 10px;
+    text-align: center;
+    margin: 0;
+  }
+  #navbar {
+    left: 0;
+    width: 100%;
+  }
+  #navbar h1 {
+    display: none;
+  }
+  #navbar img {
+    display: block !important;
+    height: 25px;
+  }
+  #shell {
+    margin-left: 0;
+    margin-top: calc(calc(70px - 20px) + 70px - 20px);
+  }
+}
+@media screen and (max-width: 576px) {
+  #sidebar {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-height: calc(70px - 20px + 10px);
+  }
+  #shell {
+    margin-top: calc(calc(70px - 20px) + 70px - 20px + 10px);
+  }
+  #shell #dashboard-shell .balance-summary {
+    flex-direction: column;
+    gap: 10px;
+  }
+  #shell #dashboard-shell .other {
+    flex-direction: column;
+    gap: 10px;
+  }
+  #shell #dashboard-shell .other .quick-transfer {
+    width: 100%;
+  }
+  #shell #transactions-shell, #shell #admin-user-transactions-shell {
+    overflow-x: auto;
+  }
+  #shell #transactions-shell .actions, #shell #admin-user-transactions-shell .actions {
+    flex-direction: column;
+    gap: 5px;
+  }
+  #shell #transactions-shell .actions .search-wrapper, #shell #transactions-shell .actions .search-wrapper input,
+  #shell #transactions-shell .actions .export, #shell #admin-user-transactions-shell .actions .search-wrapper, #shell #admin-user-transactions-shell .actions .search-wrapper input,
+  #shell #admin-user-transactions-shell .actions .export {
+    width: 100% !important;
+  }
+  #shell #transactions-shell table.transactions, #shell #admin-user-transactions-shell table.transactions {
+    min-width: 500px;
+  }
+  #shell #admin-user-transactions-shell .actions .search-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  #shell #admin-user-transactions-shell .actions .search-wrapper .search {
+    width: 100%;
+  }
+  #shell #admin-user-transactions-shell .actions .search-wrapper a#search-username-button {
+    width: 100px;
+  }
+  #shell #currencies-shell .all-currencies {
+    grid-template-columns: 1fr;
+  }
+  #shell #currencies-shell .row {
+    grid-template-columns: 1fr;
+  }
+  #shell #currencies-shell .row .currency-exchange .exchange-result .buttons-wrapper a {
+    padding: 10px;
+    font-size: 14px;
+    margin: auto 0;
+  }
+  #shell #transfers-shell .row, #shell #admin-transfers-shell .row {
+    grid-template-columns: 1fr;
+  }
 }

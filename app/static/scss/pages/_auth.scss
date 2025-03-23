@@ -3,7 +3,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: calc(100vh - $web-nav-height);
+        min-height: calc(100vh - $web-nav-height);
+        padding: 20px;
                 
         .wrapper{
             padding: 20px;
@@ -44,6 +45,14 @@
                 &:hover{
                     background-color: darken($primary, 5%);
                     transition: all .3s;
+                }
+            }
+
+            @media screen and (max-width: 768px){
+                font-size: 14px;
+
+                button{
+                    font-size: 14px;
                 }
             }
         }
