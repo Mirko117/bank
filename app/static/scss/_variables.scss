@@ -6,6 +6,7 @@ $text-black: #020817;
 $web-light-gray: #F1F5F9;
 $web-bg-white: #fff;
 $web-small-text: #5E6D82;
+$web-weak-accent: rgba(#C4D4F9, .5);
 
 // HERO SECTION
 $web-section-hero-white: #fff;
@@ -35,7 +36,6 @@ $sidebar-width-smaller: 75px;
 $navbar-height-smaller: 20px;
 
 $sidebar-height-phone: calc(#{$navbar-height} - #{$navbar-height-smaller});
-
 
 // Padding for boxes on the dashboard
 $boxes-padding: 30px;

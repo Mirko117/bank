@@ -41,12 +41,99 @@
         "log-in": "Login"
     },
 
-    "hero": {
-        "title": "Secure and Reliable Banking",
-        "subtitle": "Experience the future of banking with MiBnak. Enjoy seamless digital services, industry-leading security, and personalized support.",
-        "log-in": "Log In",
-        "register": "Register",
-        "image-alt": "Bank card"
+    "index": {
+        "hero":{
+            "title": "Secure and Reliable Banking",
+            "subtitle": "Experience the future of banking with MiBnak. Enjoy seamless digital services, industry-leading security, and personalized support.",
+            "log-in": "Log In",
+            "register": "Register",
+            "image-alt": "Bank card"
+        },
+
+        "features":{
+            "field1-alt": "Wallet",
+            "field1-title": "Secure Transactions",
+            "field1-text": "Our platform uses the latest security technologies to ensure that your transactions are safe and secure.",
+
+            "field2-alt": "Graph",
+            "field2-title": "Transaction History",
+            "field2-text": "Keep track of your transactions and manage your finances with our easy-to-use dashboard.",
+
+            "field3-alt": "Phone",
+            "field3-title": "Mobile Banking",
+            "field3-text": "Access your account on the go with our mobile support. Check your balance, make transfers, and more."
+        },
+
+        "converter":{
+            "subtitle": "Currency Converter",
+            "title": "Convert Currencies Easily",
+            "main-text": "Quickly and securely convert between different currencies with our advanced currency converter. Stay on top of exchange rates and make informed financial decisions.",
+
+            "field1-title": "Real-Time Rates",
+            "field1-text": "Access up-to-date exchange rates for over 150 currencies.",
+
+            "field2-title": "Seamless Conversion",
+            "field2-text": "Convert between currencies with just a few clicks.",
+
+            "field3-title": "Low Fees",
+            "field3-text": "Enjoy low fees on currency exchanges and transfers.",
+
+            "field4-title": "Secure Transactions",
+            "field4-text": "Our platform uses the latest security technologies to ensure that your transactions are safe and secure."
+        },
+
+        "key-features":{
+            "subtitle": "Key Features",
+            "title": "Banking Made Simple",
+            "main-text": "MiBank Bank offers a range of features to help you manage your finances and make the most of your money. From secure transactions to real-time currency conversion, we have you covered.",
+
+            "field1-title": "Mobile Banking",
+            "field1-text": "Manage your accounts, transfer funds, and pay bills anytime, anywhere.",
+
+            "field2-title": "Secure Payments",
+            "field2-text": "Enjoy seamless and secure digital payments with our advanced fraud protection.",
+
+            "field3-title": "Personalized Insights",
+            "field3-text": "Get personalized insights and recommendations to help you make informed financial decisions.",
+
+            "field4-title": "24/7 Support",
+            "field4-text": "Our dedicated customer service team is available whenever you need us.",
+        
+            "image-alt": "Mobile Banking"
+        },
+
+        "people-first":{
+            "subtitle": "People First",
+            "title": "Putting People First",
+            "main-text": "At MiBank Bank, we're committed to building a financial ecosystem that empowers our customers to achieve their goals. Our core values of integrity, innovation, and community guide everything we do.",
+
+            "list1": "Transparent and ethical practices",
+            "list2": "Continuous innovation and improvement",
+            "list3": "Commitment to community and sustainability"
+        },
+
+        "customers":{
+            "title": "What Our Customers Say",
+            "main-text": "Hear from real people who have experienced the benefits of our modern banking services.",
+
+            "customer1": {
+                "image-alt": "Customer 1",
+                "text": "Seamless banking experience, highly recommended!",
+                "name": "John Doe"
+            },
+
+            "customer2": {
+                "image-alt": "Customer 2",
+                "text": "Incredibly user-friendly and secure. Love it!",
+                "name": "Jane Smith"
+            },
+
+            "customer3": {
+                "image-alt": "Customer 3",
+                "text": "Hands down the best banking app I've used.",
+                "name": "Alice Johnson"
+            }
+        }
     },
 
     "register": {

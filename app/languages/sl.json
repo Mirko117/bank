@@ -41,12 +41,99 @@
         "log-in": "Prijava"
     },
 
-    "hero": {
-        "title": "Varno in Zanesljivo Bankarstvo",
-        "subtitle": "Doživite prihodnost bančništva z MiBank. Uživajte v brezhibnih digitalnih storitvah, vodilni varnosti v panogi in prilagojeni podpori.",
-        "log-in": "Prijava",
-        "register": "Registracija",
-        "image-alt": "Bančna kartica"
+    "index": {
+        "hero":{
+            "title": "Varno in zanesljivo bančništvo",
+            "subtitle": "Doživite prihodnost bančništva z MiBnak. Uživajte v brezhibnih digitalnih storitvah, vodilni varnosti v industriji in prilagojeni podpori.",
+            "log-in": "Prijava",
+            "register": "Registracija",
+            "image-alt": "Bančna kartica"
+        },
+
+        "features":{
+            "field1-alt": "Denarnica",
+            "field1-title": "Varne transakcije",
+            "field1-text": "Naša platforma uporablja najnovejše varnostne tehnologije, ki zagotavljajo varnost vaših transakcij.",
+
+            "field2-alt": "Graf",
+            "field2-title": "Zgodovina transakcij",
+            "field2-text": "Spremljajte svoje transakcije in upravljajte svoje finance z našo preprosto nadzorno ploščo.",
+
+            "field3-alt": "Telefon",
+            "field3-title": "Mobilno bančništvo",
+            "field3-text": "Dostopajte do svojega računa na poti z našo mobilno podporo. Preverite stanje, opravite prenose in še več."
+        },
+
+        "converter":{
+            "subtitle": "Pretvornik valut",
+            "title": "Enostavno pretvarjanje valut",
+            "main-text": "Hitro in varno pretvarjajte med različnimi valutami z našim naprednim pretvornikom valut. Bodite na tekočem z menjalnimi tečaji in sprejemajte informirane finančne odločitve.",
+
+            "field1-title": "Tečaji v realnem času",
+            "field1-text": "Dostop do najnovejših menjalnih tečajev za več kot 150 valut.",
+
+            "field2-title": "Preprosta pretvorba",
+            "field2-text": "Pretvarjajte med valutami z le nekaj kliki.",
+
+            "field3-title": "Nizke provizije",
+            "field3-text": "Uživajte v nizkih provizijah za menjavo valut in prenose.",
+
+            "field4-title": "Varne transakcije",
+            "field4-text": "Naša platforma uporablja najnovejše varnostne tehnologije, ki zagotavljajo varnost vaših transakcij."
+        },
+
+        "key-features":{
+            "subtitle": "Ključne značilnosti",
+            "title": "Poenostavljeno bančništvo",
+            "main-text": "MiBank ponuja vrsto funkcij, ki vam pomagajo upravljati vaše finance in kar najbolje izkoristiti vaš denar. Od varnih transakcij do pretvorbe valut v realnem času, poskrbeli smo za vse.",
+
+            "field1-title": "Mobilno bančništvo",
+            "field1-text": "Upravljajte račune, prenašajte sredstva in plačujte račune kadarkoli in kjerkoli.",
+
+            "field2-title": "Varna plačila",
+            "field2-text": "Uživajte v nemotenih in varnih digitalnih plačilih z našo napredno zaščito pred goljufijami.",
+
+            "field3-title": "Prilagojeni vpogledi",
+            "field3-text": "Pridobite prilagojene vpoglede in priporočila, ki vam pomagajo pri sprejemanju informiranih finančnih odločitev.",
+
+            "field4-title": "24/7 podpora",
+            "field4-text": "Naša ekipa za podporo strankam je na voljo, kadarkoli nas potrebujete.",
+        
+            "image-alt": "Mobilno bančništvo"
+        },
+
+        "people-first":{
+            "subtitle": "Ljudje na prvem mestu",
+            "title": "Postavljamo ljudi na prvo mesto",
+            "main-text": "V MiBank smo zavezani k izgradnji finančnega ekosistema, ki omogoča našim strankam doseči njihove cilje. Naše temeljne vrednote integritete, inovacij in skupnosti usmerjajo vse, kar počnemo.",
+
+            "list1": "Transparentne in etične prakse",
+            "list2": "Neprestane inovacije in izboljšave",
+            "list3": "Zavezanost skupnosti in trajnosti"
+        },
+
+        "customers":{
+            "title": "Kaj pravijo naše stranke",
+            "main-text": "Prisluhnite resničnim ljudem, ki so izkusili prednosti naših sodobnih bančnih storitev.",
+
+            "customer1": {
+                "image-alt": "Stranka 1",
+                "text": "Odlična bančna izkušnja, toplo priporočam!",
+                "name": "Janez Novak"
+            },
+
+            "customer2": {
+                "image-alt": "Stranka 2",
+                "text": "Neverjetno uporabniku prijazno in varno. Obožujem!",
+                "name": "Maja Kovač"
+            },
+
+            "customer3": {
+                "image-alt": "Stranka 3",
+                "text": "Daleč najboljša bančna aplikacija, ki sem jo kdaj uporabljal.",
+                "name": "Aleš Horvat"
+            }
+        }
     },
 
     "register": {

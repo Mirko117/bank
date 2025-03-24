@@ -59,6 +59,182 @@ section#hero{
     }
 }
 
+section#features{
+    background-color: $web-light-gray;
+    padding: 100px 0;
+
+    .container{
+        .items-wrapper{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+
+            .item{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+
+                img{
+                    height: 40px;
+                    width: 40px;
+                    margin-bottom: 10px;
+                }
+
+                p{
+                    font-size: 1.6rem;
+                    color: $web-small-text;
+                }
+            }
+        }
+    }
+}
+
+section#converter, section#key-features{
+    padding: 100px 0;
+
+    .container{
+        .items-wrapper{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+
+            .inner-wrapper{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                .item{
+                    max-width: 500px;
+
+                    p.main-text{
+                        color: $web-small-text;
+                        font-size: 2rem;
+                    }
+    
+                    .grid{
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 20px;
+                        margin-top: 30px;
+    
+                        p{
+                            font-size: 1.6rem;
+                            color: $web-small-text;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+section#people-first{
+    padding: 100px 0;
+    background-color: $web-light-gray;
+
+    .container{
+        .items-wrapper{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+
+            .inner-wrapper{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                .item{
+                    max-width: 500px;
+
+                    p.main-text{
+                        color: $web-small-text;
+                        font-size: 2rem;
+                    }
+    
+                    .grid{
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 20px;
+                        margin-top: 30px;
+    
+                        p{
+                            font-size: 1.6rem;
+                            color: $web-small-text;
+                        }
+                    }
+
+                    img{
+                        max-width: 500px;
+                        max-height: 500px;
+                    }
+
+                    .list{
+                        margin-top: 30px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 5px;
+
+                        .list-item{
+                            display: flex;
+                            flex-direction: row;
+                            gap: 10px;
+                            
+                            p{
+                                font-size: 1.6rem;
+                                font-weight: 300;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+section#customers{
+    padding: 100px 0;
+
+    .container{
+        .wrapper{
+            text-align: center;
+
+            p{
+                color: $web-small-text;
+            }
+
+            .flex{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+                margin-top: 30px;
+
+                .item{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 30px;
+                    padding: 30px 40px;
+                    background-color: $web-light-gray;
+                    border-radius: 10px;
+                    max-width: 250px;
+
+                    .name{
+                        color: $text-black;
+                    }
+                }
+            }
+        }
+    }
+}
 
 // BREAKPOINTS
 
@@ -72,9 +248,20 @@ section#hero{
             }
         }
     }
+
+    section#key-features, section#people-first {
+        .container .items-wrapper .inner-wrapper .item img.big-image{
+            max-width: 400px;
+            max-height: 400px;
+        }
+    }
 }
 
 @media (max-width: 992px){
+    html{
+        font-size: 55% !important;
+    }
+
     section#hero{
         .container{
             .left{
@@ -95,9 +282,16 @@ section#hero{
 
             .right{
                 img {
-                    height: 350px;
+                    max-height: 350px;
                 }
             }
+        }
+    }
+
+    section#key-features, section#people-first {
+        .container .items-wrapper .inner-wrapper .item img.big-image{
+            max-width: 250px;
+            max-height: 250px;
         }
     }
 }
@@ -129,7 +323,29 @@ section#hero{
 
             .right{
                 img {
-                    height: 300px;
+                    max-height: 300px;
+                }
+            }
+        }
+    }
+
+    section#converter, section#key-features, section#people-first{
+        .container{
+            .items-wrapper{
+                grid-template-columns: 1fr;
+            }
+        }
+    }
+
+    section#customers{
+        .container{
+            .wrapper{
+                .flex{
+                    flex-direction: column;
+
+                    .item{
+                        max-width: 300px;
+                    }
                 }
             }
         }
@@ -137,6 +353,9 @@ section#hero{
 }
 
 @media (max-width: 576px){
+    html{
+        font-size: 40%;
+    }
     section#hero{
         .container{
             .left{
@@ -160,6 +379,14 @@ section#hero{
                 img {
                     height: 250px;
                 }
+            }
+        }
+    }
+    section#features{
+        .container{
+            .items-wrapper{
+                flex-direction: column;
+                gap: 20px;
             }
         }
     }
