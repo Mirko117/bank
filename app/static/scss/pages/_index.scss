@@ -127,6 +127,75 @@ section#converter, section#key-features{
                             color: $web-small-text;
                         }
                     }
+
+                    #currency-exchange{
+                        background-color: $web-light-gray;
+                        padding: 20px;
+                        border: 1px solid $web-weak-accent;
+                        border-radius: 8px;
+                        display: flex;
+                        flex-direction: column;
+
+                        h2{
+                            font-size: 4rem;
+                        }
+
+                        .exchange-fields{
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-between;
+
+                            .field{
+                                display: flex;
+                                flex-direction: column;
+
+                                input, select{
+                                    padding: 10px;
+                                    border: 1px solid $web-weak-accent;
+                                    border-radius: 8px;
+                                    margin-top: 10px;
+                                }
+
+                                input{
+                                    width: 100%;
+                                }
+                            }
+                        }
+
+                        .exchange-result{
+                            margin-top: 20px;
+                            display: flex;
+                            flex-direction: column;
+
+                            p{
+                                display: flex;
+                                flex-direction: row;
+                                justify-content: space-between;
+                            }
+                        }
+
+                        .exchange-button-wrapper{
+                            display: flex;
+                            justify-content: start;
+                            align-items: center;
+
+                            a#exchange-button{
+                                background-color: $primary;
+                                color: $web-white;
+                                padding: 10px 20px;
+                                border-radius: 8px;
+                                margin-top: 20px;
+                                text-align: center;
+                                text-decoration: none;
+                                font-size: 1.6rem;
+                                transition: all .3s;
+
+                                &:hover{
+                                    background-color: darken($primary, 5%);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -333,6 +402,20 @@ section#customers{
         .container{
             .items-wrapper{
                 grid-template-columns: 1fr;
+            }
+        }
+    }
+
+    section#converter{
+        .container{
+            .items-wrapper{
+                gap: 50px;
+
+                .inner-wrapper{
+                    .item{
+                        width: 100%;
+                    }
+                }
             }
         }
     }

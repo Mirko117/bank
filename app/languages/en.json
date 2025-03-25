@@ -36,9 +36,12 @@
     "navbar": {
         "home": "Home",
         "languages": "Languages",
-        "services": "Services",
-        "contact": "Contact",
+        "register": "Register",
         "log-in": "Login"
+    },
+
+    "footer":{
+        "rights": "MiBank © 2025. All rights reserved."
     },
 
     "index": {
@@ -79,7 +82,15 @@
             "field3-text": "Enjoy low fees on currency exchanges and transfers.",
 
             "field4-title": "Secure Transactions",
-            "field4-text": "Our platform uses the latest security technologies to ensure that your transactions are safe and secure."
+            "field4-text": "Our platform uses the latest security technologies to ensure that your transactions are safe and secure.",
+        
+            "exchange-title": "Curerncy Exchange",
+            "amount": "Amount",
+            "from": "From",
+            "to": "To",
+            "exchange": "Exchange",
+            "exchange-rate": "Exchange Rate",
+            "result": "You'll recieve (incl. 1% fee)"
         },
 
         "key-features":{

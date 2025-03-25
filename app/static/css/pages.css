@@ -6,7 +6,6 @@
 
 body {
   font-family: "Inter", sans-serif;
-  font-size: 1.6rem;
   color: #020817;
 }
 
@@ -153,6 +152,64 @@ section#converter .container .items-wrapper .inner-wrapper .item .grid p, sectio
   font-size: 1.6rem;
   color: #5E6D82;
 }
+section#converter .container .items-wrapper .inner-wrapper .item #currency-exchange, section#key-features .container .items-wrapper .inner-wrapper .item #currency-exchange {
+  background-color: #F1F5F9;
+  padding: 20px;
+  border: 1px solid rgba(196, 212, 249, 0.5);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+section#converter .container .items-wrapper .inner-wrapper .item #currency-exchange h2, section#key-features .container .items-wrapper .inner-wrapper .item #currency-exchange h2 {
+  font-size: 4rem;
+}
+section#converter .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-fields, section#key-features .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-fields {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+section#converter .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-fields .field, section#key-features .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-fields .field {
+  display: flex;
+  flex-direction: column;
+}
+section#converter .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-fields .field input, section#converter .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-fields .field select, section#key-features .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-fields .field input, section#key-features .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-fields .field select {
+  padding: 10px;
+  border: 1px solid rgba(196, 212, 249, 0.5);
+  border-radius: 8px;
+  margin-top: 10px;
+}
+section#converter .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-fields .field input, section#key-features .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-fields .field input {
+  width: 100%;
+}
+section#converter .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-result, section#key-features .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-result {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+section#converter .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-result p, section#key-features .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-result p {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+section#converter .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-button-wrapper, section#key-features .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-button-wrapper {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+section#converter .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-button-wrapper a#exchange-button, section#key-features .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-button-wrapper a#exchange-button {
+  background-color: #3A72EC;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.6rem;
+  transition: all 0.3s;
+}
+section#converter .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-button-wrapper a#exchange-button:hover, section#key-features .container .items-wrapper .inner-wrapper .item #currency-exchange .exchange-button-wrapper a#exchange-button:hover {
+  background-color: #2361ea;
+}
 
 section#people-first {
   padding: 100px 0;
@@ -293,6 +350,12 @@ section#customers .container .wrapper .flex .item .name {
   section#converter .container .items-wrapper, section#key-features .container .items-wrapper, section#people-first .container .items-wrapper {
     grid-template-columns: 1fr;
   }
+  section#converter .container .items-wrapper {
+    gap: 50px;
+  }
+  section#converter .container .items-wrapper .inner-wrapper .item {
+    width: 100%;
+  }
   section#customers .container .wrapper .flex {
     flex-direction: column;
   }
@@ -378,6 +441,10 @@ html {
   font-size: 62.5%;
 }
 
+body {
+  font-size: 1.6rem;
+}
+
 nav {
   background-color: #fff;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
@@ -443,6 +510,14 @@ nav #logo {
 
 #menu-button {
   display: none;
+}
+
+footer {
+  background-color: #F1F5F9;
+  padding: 20px 0;
+}
+footer .container .footer-wrapper p {
+  text-align: center;
 }
 
 h2 {

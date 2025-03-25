@@ -36,9 +36,12 @@
     "navbar": {
         "home": "Domov",
         "languages": "Jeziki",
-        "services": "Storitve",
-        "contact": "Kontakt",
+        "register": "Registracija",
         "log-in": "Prijava"
+    },
+
+    "footer":{
+        "rights": "MiBank © 2025. Vse pravice pridržane."
     },
 
     "index": {
@@ -79,7 +82,15 @@
             "field3-text": "Uživajte v nizkih provizijah za menjavo valut in prenose.",
 
             "field4-title": "Varne transakcije",
-            "field4-text": "Naša platforma uporablja najnovejše varnostne tehnologije, ki zagotavljajo varnost vaših transakcij."
+            "field4-text": "Naša platforma uporablja najnovejše varnostne tehnologije, ki zagotavljajo varnost vaših transakcij.",
+        
+            "exchange-title": "Menjava valut",
+            "amount": "Znesek",
+            "from": "Iz",
+            "to": "V",
+            "exchange": "Zamenjaj",
+            "exchange-rate": "Menjalni tečaj",
+            "result": "Prejeli boste (vključno z 1% provizijo)"
         },
 
         "key-features":{

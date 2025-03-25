@@ -12,6 +12,10 @@ html{
     font-size: 62.5%;
 }
 
+body{
+    font-size: 1.6rem;
+}
+
 nav{
     background-color: $web-bg-white;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
@@ -83,6 +87,19 @@ nav{
 
 #menu-button{
     display: none;
+}
+
+footer{
+    background-color: $web-light-gray;
+    padding: 20px 0;
+
+    .container{
+        .footer-wrapper{
+            p{
+                text-align: center;
+            }
+        }
+    }
 }
 
 h2{

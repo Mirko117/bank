@@ -37,8 +37,7 @@
             </li>
             <li><a href="/">{{ t['navbar']['home'] }}</a></li>
             <li><a href="#" id="show-languages-sidebar">{{ t['navbar']['languages'] }}</a></li>
-            <li><a href="#">{{ t['navbar']['services'] }}</a></li>
-            <li><a href="#">{{ t['navbar']['contact'] }}</a></li>
+            <li><a href="/auth/register">{{ t['navbar']['register'] }}</a></li>
             <li><a href="/auth/login">{{ t['navbar']['log-in'] }}</a></li>
 
             <li class="hidden">
@@ -60,8 +59,7 @@
                 </li>
                 <li><a href="/" class="hide-on-mobile group">{{ t['navbar']['home'] }}</a></li>
                 <li><a href="#" class="hide-on-mobile group" id="show-languages">{{ t['navbar']['languages'] }}</a></li>
-                <li><a href="#" class="hide-on-mobile group">{{ t['navbar']['services'] }}</a></li>
-                <li><a href="#" class="hide-on-mobile group">{{ t['navbar']['contact'] }}</a></li>
+                <li><a href="/auth/register" class="hide-on-mobile group">{{ t['navbar']['register'] }}</a></li>
                 <li><a href="/auth/login" class="hide-on-mobile group">{{ t['navbar']['log-in'] }}</a></li>
 
                 <li>
@@ -80,5 +78,12 @@
         </div>
     </nav>
     {% block body %}{% endblock %}
+    <footer>
+        <div class="container">
+            <div class="footer-wrapper">
+                <p>{{ t['footer']['rights'] }}</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

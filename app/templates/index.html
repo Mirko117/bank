@@ -52,7 +52,7 @@
                         <p class="subtitle">{{ t["index"]["converter"]["subtitle"] }}</p>
                         <h2>{{ t["index"]["converter"]["title"] }}</h2>
                         <p class="main-text">{{ t["index"]["converter"]["main-text"] }}</p>
-    
+
                         <div class="grid">
                             <div class="grid-item">
                                 <h3>{{ t["index"]["converter"]["field1-title"] }}</h3>
@@ -73,9 +73,48 @@
                         </div>
                     </div>
                 </div>
-                <div class="item">
-                    <div class="inner-wrapper">
-
+                <div class="inner-wrapper">
+                    <div class="item">
+                        <div id="currency-exchange">
+                            <h2>{{ t["index"]["converter"]["exchange-title"] }}</h2>
+                            <div class="exchange-fields">
+                                <div class="field">
+                                    <p>{{ t["index"]["converter"]["amount"] }}</p>
+                                    <input type="number" class="amount" placeholder="0">
+                                </div>
+                                <div class="field">
+                                    <p>{{ t["index"]["converter"]["from"] }}</p>
+                                    <select class="from">
+                                        <option value=""></option>
+                                        {% for currency in all_currencies %}
+                                            <option value="{{ currency }}">{{ currency }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <p>{{ t["index"]["converter"]["to"] }}</p>
+                                    <select class="to">
+                                        <option value=""></option>
+                                        {% for currency in all_currencies %}
+                                            <option value="{{ currency }}">{{ currency }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="exchange-result hidden">
+                                <p class="exchange-rate">
+                                    <span>{{ t["index"]["converter"]["exchange-rate"] }}:</span>
+                                    <span class="exchange-rate"></span>
+                                </p>
+                                <p class="result">
+                                    <span>{{ t["index"]["converter"]["result"] }}:</span>
+                                    <span class="result"></span>
+                                </p>
+                            </div>
+                            <div class="exchange-button-wrapper">
+                                <a href="#" id="exchange-button">{{  t["index"]["converter"]["exchange"] }}</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
