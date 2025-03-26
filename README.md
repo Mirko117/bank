@@ -12,11 +12,21 @@
 - In the project directory, create a `.env` file with the following content:
 
     ```makefile
+    # Flask
     SECRET_KEY="your_secret_key"
     FLASK_ENV="production" # or deveopment
+
+    # Database
     DATABASE_URL="postgresql://username:password@localhost/
     web_bank_db"
+
+    # API keys
     EXCHANGE_RATE_API_KEY="api_key"
+
+    # Docker
+    POSTGRES_DB="postgres_db"
+    POSTGRES_USER="postgres_user"
+    POSTGRES_PASSWORD="postgres_password"
 
     ```
 
@@ -52,13 +62,42 @@
 
 - Open a browser and navigate to `http://localhost:5000` to view the web bank.
 
-## Testing
+## Docker
+If you'd like to run it using Docker:
+```bash
+docker-compose up --build -d
+```
+## SSL
+```bash
+sudo apt install certbot
 
-### Tests
+docker-compose down
+
+sudo certbot certonly --standalone -d mibank.si -d www.mibank.si
+
+mkdir ./ssl # in project root folder
+
+sudo cp /etc/letsencrypt/live/mibank.si/fullchain.pem ./ssl/
+
+sudo cp /etc/letsencrypt/live/mibank.si/privkey.pem ./ssl/
+
+sudo chown -R $USER:$USER ./ssl/
+```
+Change `mibank.si` to yout domain, also change it in `nginx.conf`
+
+## Testing
 You can run tests by typing `pytest` in terminal.
 
+## Scripts
+
 ### Mock data for testing UI
-Run:
+It will generate random users with random data. I used it for testing UI.
 ```bash
 python scripts/generate_mock_data.py
+```
+
+### Set admin
+It will set user as admin.
+```
+python scripts/set_admin.py username
 ```
