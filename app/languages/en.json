@@ -2,6 +2,12 @@
     "lang": "en",
     "lang-full": "English",
 
+    "meta": {
+        "description": "MiBank is a modern banking platform that offers secure and reliable digital services. Experience the future of banking with MiBank.",
+        "keywords": "MiBank, banking, bank, digital banking, secure banking, currency converter, mobile banking, online banking, financial services",
+        "author": "MiBank"
+    },
+
     "auth": {
         "username-required": "Username is required",
         "password-required": "Password is required",
@@ -47,7 +53,7 @@
     "index": {
         "hero":{
             "title": "Secure and Reliable Banking",
-            "subtitle": "Experience the future of banking with MiBnak. Enjoy seamless digital services, industry-leading security, and personalized support.",
+            "subtitle": "Experience the future of banking with MiBank. Enjoy seamless digital services, industry-leading security, and personalized support.",
             "log-in": "Log In",
             "register": "Register",
             "image-alt": "Bank card"

@@ -2,6 +2,12 @@
     "lang": "sl",
     "lang-full": "Slovenščina",
 
+    "meta": {
+        "description": "MiBank je sodobna bančna platforma, ki ponuja varne in zanesljive digitalne storitve. Doživite prihodnost bančništva z MiBank.",
+        "keywords": "MiBank, bančništvo, banka, digitalno bančništvo, varno bančništvo, pretvornik valut, mobilno bančništvo, spletno bančništvo, finančne storitve",
+        "author": "MiBank"
+    },
+
     "auth": {
         "username-required": "Uporabniško ime je obvezno",
         "password-required": "Geslo je obvezno",
@@ -47,7 +53,7 @@
     "index": {
         "hero":{
             "title": "Varno in zanesljivo bančništvo",
-            "subtitle": "Doživite prihodnost bančništva z MiBnak. Uživajte v brezhibnih digitalnih storitvah, vodilni varnosti v industriji in prilagojeni podpori.",
+            "subtitle": "Doživite prihodnost bančništva z MiBank. Uživajte v brezhibnih digitalnih storitvah, vodilni varnosti v industriji in prilagojeni podpori.",
             "log-in": "Prijava",
             "register": "Registracija",
             "image-alt": "Bančna kartica"
