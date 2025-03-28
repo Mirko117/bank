@@ -1,0 +1,90 @@
+
+Table "users" {
+  "id" INT [pk, increment]
+  "username" VARCHAR(150) [unique, not null]
+  "first_name" VARCHAR(150) [not null]
+  "last_name" VARCHAR(150) [not null]
+  "email" VARCHAR(150) [unique, not null]
+  "password_hash" VARCHAR(200) [not null]
+  "role" VARCHAR(50) [not null, default: 'user']
+  "created_at" INT [not null]
+}
+
+Table "transactions" {
+  "id" INT [pk, increment]
+  "name" VARCHAR(150) [not null, default: '.']
+  "user_id" INT
+  "receiver_id" INT
+  "amount" DECIMAL(15,2) [not null]
+  "fee" DECIMAL(15,2) [not null, default: 0.0]
+  "currency" VARCHAR(3) [not null, default: 'EUR']
+  "status" VARCHAR(50) [not null, default: 'pending']
+  "transaction_type" VARCHAR(50) [not null]
+  "description" TEXT
+  "timestamp" INT [not null]
+}
+
+Table "balances" {
+  "id" INT [pk, increment]
+  "user_id" INT [not null]
+  "symbol" VARCHAR(3) [not null, default: 'EUR']
+  "amount" DECIMAL(15,2) [not null, default: 0.0]
+}
+
+Table "balance_history" {
+  "id" INT [pk, increment]
+  "user_id" INT [not null]
+  "symbol" VARCHAR(3) [not null, default: 'EUR']
+  "amount" DECIMAL(15,2) [not null, default: 0.0]
+  "timestamp" INT [not null]
+}
+
+Table "exchange_rates" {
+  "id" INT [pk, increment]
+  "symbol" VARCHAR(3) [unique, not null]
+  "rate" DECIMAL(15,4) [not null]
+}
+
+Table "exchange_rates_last_update" {
+  "id" INT [pk, increment]
+  "timestamp" INT [not null]
+}
+
+Table "cards" {
+  "id" INT [pk, increment]
+  "user_id" INT [not null]
+  "rfid_code" VARCHAR(100) [unique, not null]
+  "pin_hash" VARCHAR(200) [not null]
+  "status" VARCHAR(50) [not null, default: 'active']
+  "created_at" INT [not null]
+}
+
+Table "settings" {
+  "user_id" INT [pk]
+  "language" VARCHAR(2) [not null, default: 'en']
+  "default_currency" VARCHAR(3) [not null, default: 'EUR']
+}
+
+Table "logs" {
+  "id" INT [pk, increment]
+  "user_id" INT
+  "action_type" VARCHAR(100) [not null]
+  "description" TEXT
+  "status" VARCHAR(50) [not null, default: 'success']
+  "timestamp" INT [not null]
+}
+
+Ref:"users"."id" < "transactions"."user_id"
+
+Ref:"users"."id" < "transactions"."receiver_id"
+
+Ref:"users"."id" < "balances"."user_id"
+
+Ref:"users"."id" < "balance_history"."user_id"
+
+Ref:"users"."id" < "cards"."user_id"
+
+Ref:"users"."id" < "settings"."user_id" [delete: cascade]
+
+Ref:"users"."id" < "logs"."user_id" [delete: cascade]
+

@@ -88,6 +88,13 @@ section#features{
                     font-size: 1.6rem;
                     color: $web-small-text;
                 }
+
+                p.title{
+                    color: $text-black;
+                    font-size: 2rem;
+                    font-weight: 600;
+                    margin-bottom: 10px;
+                }
             }
         }
     }

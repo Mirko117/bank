@@ -120,6 +120,12 @@ section#features .container .items-wrapper .item p {
   font-size: 1.6rem;
   color: #5E6D82;
 }
+section#features .container .items-wrapper .item p.title {
+  color: #020817;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
 
 section#converter, section#key-features {
   padding: 100px 0;

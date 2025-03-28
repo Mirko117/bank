@@ -28,17 +28,17 @@
             <div class="items-wrapper">
                 <div class="item">
                     <img src="{{ url_for('static', filename='images/index/wallet-light.svg') }}" alt="{{ t['index']['features']['field1-alt'] }}">
-                    <h3>{{ t['index']['features']['field1-title'] }}</h3>
+                    <p class="title">{{ t['index']['features']['field1-title'] }}</p>
                     <p>{{ t['index']['features']['field1-text'] }}</p>
                 </div>
                 <div class="item">
                     <img src="{{ url_for('static', filename='images/index/finance-rounded.svg') }}" alt="{{ t['index']['features']['field2-alt'] }}">
-                    <h3>{{ t['index']['features']['field2-title'] }}</h3>
+                    <p class="title">{{ t['index']['features']['field2-title'] }}</p>
                     <p>{{ t['index']['features']['field2-text'] }}</p>
                 </div>
                 <div class="item">
                     <img src="{{ url_for('static', filename='images/index/phone.svg') }}" alt="{{ t['index']['features']['field3-alt'] }}">
-                    <h3>{{ t['index']['features']['field3-title'] }}</h3>
+                    <p class="title">{{ t['index']['features']['field3-title'] }}</p>
                     <p>{{ t['index']['features']['field3-text'] }}</p>
                 </div>
             </div>
@@ -79,12 +79,12 @@
                             <h2>{{ t["index"]["converter"]["exchange-title"] }}</h2>
                             <div class="exchange-fields">
                                 <div class="field">
-                                    <p>{{ t["index"]["converter"]["amount"] }}</p>
-                                    <input type="number" class="amount" placeholder="0">
+                                    <label for="amount">{{ t["index"]["converter"]["amount"] }}</p>
+                                    <input type="number" class="amount" id="amount" placeholder="0">
                                 </div>
                                 <div class="field">
-                                    <p>{{ t["index"]["converter"]["from"] }}</p>
-                                    <select class="from">
+                                    <label for="from">{{ t["index"]["converter"]["from"] }}</label>
+                                    <select class="from" id="from">
                                         <option value=""></option>
                                         {% for currency in all_currencies %}
                                             <option value="{{ currency }}">{{ currency }}</option>
@@ -92,8 +92,8 @@
                                     </select>
                                 </div>
                                 <div class="field">
-                                    <p>{{ t["index"]["converter"]["to"] }}</p>
-                                    <select class="to">
+                                    <label for="to">{{ t["index"]["converter"]["to"] }}</label>
+                                    <select class="to" id="to">
                                         <option value=""></option>
                                         {% for currency in all_currencies %}
                                             <option value="{{ currency }}">{{ currency }}</option>
