@@ -1,5 +1,12 @@
-# Web Bank
+# MiBank - Web Bank Application
+
+This application in my middle shool final project. It's a web bank application that allows users to manage their accounts, view transactions, and perform various banking operations. The application uses tools like Flask, Flask-SQLAlchemy, jQuery, PostgreSQL, Docker, Gunicorn, and Nginx.
+
+Website is hosted on [mibank.si](https://mibank.si).
+
 ## How to run
+
+### Local development
 
 1. Install needed pip libraries by running (using virtualenv is suggested):
 
@@ -62,12 +69,21 @@
 
 - Open a browser and navigate to `http://localhost:5000` to view the web bank.
 
-## Docker
-If you'd like to run it using Docker:
-```bash
-docker-compose up --build -d
-```
+### Docker environment
+1. Install Docker and Docker Compose on your machine.
+
+2. Create same `.env` file as in local development (see above). **Note**: Must use PostgreSQL.
+
+3. Build and run the Docker containers:
+
+    ```bash
+    sudo docker-compose up --build -d
+    ```
+
 ## SSL
+
+This is optional, but if you want to use SSL, you can use Cerbot with Let's Encrypt.
+
 ```bash
 sudo apt install certbot
 
@@ -89,6 +105,11 @@ Change `mibank.si` to yout domain, also change it in `nginx.conf`
 You can run tests by typing `pytest` in terminal.
 
 ## Scripts
+
+### Note: If you are using Docker, use next command to run scripts:
+```bash
+sudo docker exec -it flask_app sh -c "python3 SCRIPT"
+```
 
 ### Mock data for testing UI
 It will generate random users with random data. I used it for testing UI.
