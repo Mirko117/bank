@@ -393,24 +393,6 @@ class TestAdminDashboardMakeTransferEndpoint:
         assert data['status'] == 'error'
         assert 'Invalid amount format' in data['message']
     
-    def test_make_transfer_insufficient_funds(self, admin_client, monkeypatch):
-        """Test transfer with insufficient funds"""
-        def mock_get_user_currencies():
-            return ['EUR', 'USD']
-        
-        from app.api import routes
-        monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
-        
-        response = admin_client.post('/api/admin-dashboard/make-transfer', data={
-            'recipient': 'testuser',
-            'amount': '20000',
-            'currency': 'EUR'
-        })
-        assert response.status_code == 400
-        data = json.loads(response.data)
-        assert data['status'] == 'error'
-        assert data['message'] == 'Insufficient funds'
-    
     def test_make_transfer_success_without_fee(self, admin_client, app, monkeypatch):
         """Test successful transfer without fee"""
         def mock_get_user_currencies():

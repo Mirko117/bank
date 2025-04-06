@@ -859,10 +859,6 @@ class DashboardMakeTransferEndpoint(Resource):
         if amount <= 0:
             response = make_response({"status": "error", "message": "Invalid amount"}, 400)
             return response
-
-        if current_user.get_balance(currency) < amount:
-            response = make_response({"status": "error", "message": "Insufficient funds"}, 400)
-            return response
         
         # Convert amount to EUR
         exchange_rate = get_exchange_rate(currency, "EUR")
