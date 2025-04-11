@@ -33,7 +33,7 @@ def create_app(config_object='config.Config'):
     # Import blueprints
     from app.routes import main_bp
     from app.auth import auth_bp
-    from app.api.routes import api_bp
+    from app.api.api import api_bp
     from app.dashboard import dashboard_bp
 
     # Register blueprints

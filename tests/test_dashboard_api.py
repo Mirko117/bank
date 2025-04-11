@@ -293,7 +293,7 @@ class TestDashboardAddCurrencyEndpoint:
         def mock_get_new_currencies():
             return ['GBP']
         
-        from app.api import routes
+        from app.api import dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_new_currencies', mock_get_new_currencies)
         
         response = auth_client.post('/api/dashboard/add-currency', data={
@@ -309,7 +309,7 @@ class TestDashboardAddCurrencyEndpoint:
         def mock_get_new_currencies():
             return ['GBP']
         
-        from app.api import routes
+        from app.api import dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_new_currencies', mock_get_new_currencies)
         
         response = auth_client.post('/api/dashboard/add-currency', data={
@@ -361,7 +361,7 @@ class TestDashboardExchangeCurrenciesEndpointGET:
         def mock_get_all_currencies():
             return ['EUR', 'USD']
         
-        from app.api import routes
+        from app.api import dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_all_currencies', mock_get_all_currencies)
         
         response = auth_client.get('/api/dashboard/exchange-currencies?amount=100&from=EUR&to=INVALID')
@@ -386,7 +386,7 @@ class TestDashboardExchangeCurrenciesEndpointGET:
         def mock_get_exchange_rate(from_curr, to_curr):
             return Decimal('0.9')
         
-        from app.api import routes
+        from app.api import dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_all_currencies', mock_get_all_currencies)
         monkeypatch.setattr(routes, 'get_exchange_rate', mock_get_exchange_rate)
         
@@ -450,7 +450,7 @@ class TestDashboardExchangeCurrenciesEndpointPOST:
         def mock_get_all_currencies():
             return ['EUR', 'USD']
         
-        from app.api import routes
+        from app.api import dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_all_currencies', mock_get_all_currencies)
         
         response = auth_client.post('/api/dashboard/exchange-currencies', data={
@@ -483,7 +483,7 @@ class TestDashboardExchangeCurrenciesEndpointPOST:
         def mock_get_exchange_rate(from_curr, to_curr):
             return Decimal('0.9')
         
-        from app.api import routes
+        from app.api import dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_all_currencies', mock_get_all_currencies)
         monkeypatch.setattr(routes, 'get_exchange_rate', mock_get_exchange_rate)
         
@@ -538,7 +538,7 @@ class TestDashboardGetTransferFeeEndpoint:
         def mock_get_user_currencies():
             return ['EUR', 'USD']
         
-        from app.api import routes
+        from app.api import dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
         
         response = auth_client.get('/api/dashboard/get-transfer-fee?amount=100&currency=GBP')
@@ -554,7 +554,7 @@ class TestDashboardGetTransferFeeEndpoint:
         def mock_get_exchange_rate(from_curr, to_curr):
             return Decimal('1.0')  # Same currency, rate is 1.0
         
-        from app.api import routes
+        from app.api import dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
         monkeypatch.setattr(routes, 'get_exchange_rate', mock_get_exchange_rate)
         
@@ -571,7 +571,7 @@ class TestDashboardGetTransferFeeEndpoint:
         def mock_get_exchange_rate(from_curr, to_curr):
             return Decimal('1.0')  # Same currency, rate is 1.0
         
-        from app.api import routes
+        from app.api import dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
         monkeypatch.setattr(routes, 'get_exchange_rate', mock_get_exchange_rate)
         
@@ -623,7 +623,7 @@ class TestDashboardMakeTransferEndpoint:
         def mock_get_user_currencies():
             return ['EUR', 'USD']
         
-        from app.api import routes
+        from app.api import dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
         
         response = auth_client.post('/api/dashboard/make-transfer', data={
@@ -676,7 +676,7 @@ class TestDashboardMakeTransferEndpoint:
         def mock_get_exchange_rate(from_curr, to_curr):
             return Decimal('1.0')
         
-        from app.api import routes
+        from app.api import dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
         monkeypatch.setattr(routes, 'get_exchange_rate', mock_get_exchange_rate)
         
@@ -701,7 +701,7 @@ class TestDashboardMakeTransferEndpoint:
             else:
                 return Decimal('0.9')
         
-        from app.api import routes
+        from app.api import dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
         monkeypatch.setattr(routes, 'get_exchange_rate', mock_get_exchange_rate)
         
@@ -947,7 +947,7 @@ class TestDashboardSaveSettingsEndpoint:
         def mock_check_language(language):
             return language in ['en', 'sl']
         
-        from app.api import routes
+        from app.api import dashboard_routes as routes
         monkeypatch.setattr(routes, 'check_language', mock_check_language)
         
         response = auth_client.patch('/api/dashboard/save-settings', data={
@@ -966,7 +966,7 @@ class TestDashboardSaveSettingsEndpoint:
         def mock_get_user_currencies():
             return ['EUR', 'USD']
         
-        from app.api import routes
+        from app.api import dashboard_routes as routes
         monkeypatch.setattr(routes, 'check_language', mock_check_language)
         monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
         
@@ -986,7 +986,7 @@ class TestDashboardSaveSettingsEndpoint:
         def mock_get_user_currencies():
             return ['EUR', 'USD']
         
-        from app.api import routes
+        from app.api import dashboard_routes as routes
         monkeypatch.setattr(routes, 'check_language', mock_check_language)
         monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
         

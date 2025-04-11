@@ -154,7 +154,7 @@
     },
 
     "register": {
-        "title": "Crate an Account",
+        "title": "Create an Account",
         "subtitle": "Start using our services today. Fill out the form and register.",
         "name": "Name",
         "name-placeholder": "John",

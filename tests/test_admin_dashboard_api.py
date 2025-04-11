@@ -255,7 +255,7 @@ class TestAdminDashboardGetTransferFeeEndpoint:
         def mock_get_user_currencies():
             return ['EUR', 'USD']
         
-        from app.api import routes
+        from app.api import admin_dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
         
         response = admin_client.get('/api/admin-dashboard/get-transfer-fee?amount=1000&currency=INVALID')
@@ -273,7 +273,7 @@ class TestAdminDashboardGetTransferFeeEndpoint:
         def mock_get_user_currencies():
             return ['EUR', 'USD']
         
-        from app.api import routes
+        from app.api import admin_dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_exchange_rate', mock_get_exchange_rate)
         monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
         
@@ -292,7 +292,7 @@ class TestAdminDashboardGetTransferFeeEndpoint:
         def mock_get_user_currencies():
             return ['EUR', 'USD']
         
-        from app.api import routes
+        from app.api import admin_dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_exchange_rate', mock_get_exchange_rate)
         monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
         
@@ -356,7 +356,7 @@ class TestAdminDashboardMakeTransferEndpoint:
         def mock_get_user_currencies():
             return ['EUR', 'USD']
         
-        from app.api import routes
+        from app.api import admin_dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
         
         response = admin_client.post('/api/admin-dashboard/make-transfer', data={
@@ -401,7 +401,7 @@ class TestAdminDashboardMakeTransferEndpoint:
         def mock_get_exchange_rate(from_curr, to_curr):
             return Decimal('1.0')
         
-        from app.api import routes
+        from app.api import admin_dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
         monkeypatch.setattr(routes, 'get_exchange_rate', mock_get_exchange_rate)
         
@@ -449,7 +449,7 @@ class TestAdminDashboardMakeTransferEndpoint:
         def mock_get_exchange_rate(from_curr, to_curr):
             return Decimal('1.0')
         
-        from app.api import routes
+        from app.api import admin_dashboard_routes as routes
         monkeypatch.setattr(routes, 'get_user_currencies', mock_get_user_currencies)
         monkeypatch.setattr(routes, 'get_exchange_rate', mock_get_exchange_rate)
         
