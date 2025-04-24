@@ -65,6 +65,7 @@ class Transaction(db.Model):
     currency = db.Column(db.String(3), nullable=False, default='EUR')  # 'EUR', 'USD', etc.
     status = db.Column(db.String(50), default='pending', nullable=False)  # 'pending', 'success', 'failed', etc.
     transaction_type = db.Column(db.String(50), nullable=False)  # 'deposit', 'withdrawal', etc.
+    pos_terminal_id = db.Column(db.Integer, db.ForeignKey('pos_terminals.id'), nullable=True)
     description = db.Column(db.Text, nullable=True)
     timestamp = db.Column(db.Integer, default=lambda: int(time.time()), nullable=False)
 
@@ -130,6 +131,9 @@ class Card(db.Model):
 
     def check_pin(self, pin):
         return check_password_hash(self.pin_hash, pin)
+    
+    def is_active(self):
+        return self.status == 'active'
 
     def __repr__(self):
         return f'<Card {self.rfid_code}, {self.status}>'
@@ -156,6 +160,22 @@ class Log(db.Model):
 
     def __repr__(self):
         return f'<Log {self.id}, {self.action_type}, {self.status}>'
+    
+class PosTerminal(db.Model):
+    __tablename__ = 'pos_terminals'
+    id = db.Column(db.Integer, primary_key=True)
+    uuid = db.Column(db.String(100), unique=True, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    location = db.Column(db.String(100), nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    pos_status = db.Column(db.String(50), default='active', nullable=False)  # 'active', 'inactive', etc.
+    created_at = db.Column(db.Integer, default=lambda: int(time.time()), nullable=False)
+
+    def is_active(self):
+        return self.pos_status == 'active'
+
+    def __repr__(self):
+        return f'<PosTerminal {self.pos_uuid}, {self.pos_name}, {self.pos_location}>'
 
 
 # Automatically add settings when a user is created

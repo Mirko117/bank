@@ -22,6 +22,8 @@ Website is hosted on [mibank.si](https://mibank.si).
     # Flask
     SECRET_KEY="your_secret_key"
     FLASK_ENV="production" # or deveopment
+    FLASK_APP="manage.py"
+    POS_TERMINAL_ENABLED="True" # or False
 
     # Database
     DATABASE_URL="postgresql://username:password@localhost/
