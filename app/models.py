@@ -1,6 +1,6 @@
 from app import db
 from flask import session, has_request_context
-from sqlalchemy import event
+from sqlalchemy import event, text
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from decimal import Decimal
@@ -23,11 +23,11 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-    
+
     def get_balance(self, symbol):
         balance = self.balances.filter_by(symbol=symbol).first()
         return balance.amount if balance else Decimal(0.00)
-    
+
     def add_balance(self, amount, symbol):
         # Need to commit the session after calling this method
         balance = self.balances.filter_by(symbol=symbol).first()
@@ -42,7 +42,7 @@ class User(UserMixin, db.Model):
         balance = self.balances.filter_by(symbol=symbol).first()
         if balance:
             balance.amount -= Decimal(amount)
-    
+
     # Relationship to transactions
     transactions = db.relationship(
         'Transaction',
@@ -58,14 +58,14 @@ class Transaction(db.Model):
     __tablename__ = 'transactions'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), default=".", nullable=False) # 'Spotify', 'Netflix', etc.
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
-    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', name='fk_transactions_user_id'), nullable=True)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id', name='fk_transactions_receiver_id'), nullable=True)
     amount = db.Column(db.Numeric(15, 2), nullable=False)
-    fee = db.Column(db.Numeric(15, 2), nullable=False, default=0.0)
+    fee = db.Column(db.Numeric(15, 2), nullable=False, default=Decimal(0.0), server_default=text('0.0'))
     currency = db.Column(db.String(3), nullable=False, default='EUR')  # 'EUR', 'USD', etc.
     status = db.Column(db.String(50), default='pending', nullable=False)  # 'pending', 'success', 'failed', etc.
     transaction_type = db.Column(db.String(50), nullable=False)  # 'deposit', 'withdrawal', etc.
-    pos_terminal_id = db.Column(db.Integer, db.ForeignKey('pos_terminals.id'), nullable=True)
+    pos_terminal_id = db.Column(db.Integer, db.ForeignKey('pos_terminals.id', name='fk_transactions_pos_terminal_id'), nullable=True)
     description = db.Column(db.Text, nullable=True)
     timestamp = db.Column(db.Integer, default=lambda: int(time.time()), nullable=False)
 
@@ -76,7 +76,7 @@ class Transaction(db.Model):
 class Balance(db.Model):
     __tablename__ = 'balances'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', name='fk_balances_user_id'), nullable=False)
     symbol = db.Column(db.String(3), nullable=False, default='EUR')  # 'EUR', 'USD', etc.
     amount = db.Column(db.Numeric(15, 2), nullable=False, default=0.0)
     user = db.relationship('User', backref=db.backref('balances', lazy='dynamic'))
@@ -88,7 +88,7 @@ class Balance(db.Model):
 class BalanceHistory(db.Model):
     __tablename__ = 'balance_history'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', name='fk_balance_history_user_id'), nullable=False)
     symbol = db.Column(db.String(3), nullable=False, default='EUR')  # 'EUR', 'USD', etc.
     amount = db.Column(db.Numeric(15, 2), nullable=False, default=0.0)
     timestamp = db.Column(db.Integer, default=lambda: int(time.time()), nullable=False)
@@ -105,7 +105,7 @@ class ExchangeRate(db.Model):
 
     def __repr__(self):
         return f'<ExchangeRate {self.symbol}, {self.rate}>'
-    
+
 
 class ExchangeRateLastUpdate(db.Model):
     __tablename__ = 'exchange_rates_last_update'
@@ -119,7 +119,7 @@ class ExchangeRateLastUpdate(db.Model):
 class Card(db.Model):
     __tablename__ = 'cards'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', name='fk_cards_user_id'), nullable=False)
     rfid_code = db.Column(db.String(100), unique=True, nullable=False)
     pin_hash = db.Column(db.String(200), nullable=False)
     status = db.Column(db.String(50), default='active', nullable=False)  # 'active', 'blocked', etc.
@@ -131,7 +131,7 @@ class Card(db.Model):
 
     def check_pin(self, pin):
         return check_password_hash(self.pin_hash, pin)
-    
+
     def is_active(self):
         return self.status == 'active'
 
@@ -141,7 +141,7 @@ class Card(db.Model):
 
 class Settings(db.Model):
     __tablename__ = 'settings'
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE', name='fk_settings_user_id'), primary_key=True)
     language = db.Column(db.String(2), nullable=False, default='en')  # 'en', 'si'
     default_currency = db.Column(db.String(3), nullable=False, default='EUR')  # 'EUR', 'USD', etc.
     user = db.relationship('User', backref=db.backref('settings', uselist=False, cascade='all, delete-orphan'))
@@ -152,7 +152,7 @@ class Settings(db.Model):
 class Log(db.Model):
     __tablename__ = 'logs'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE', name='fk_logs_user_id'), nullable=True)
     action_type = db.Column(db.String(100), nullable=False) # 'login', 'logout', 'transaction', etc.
     description = db.Column(db.Text, nullable=True)
     status = db.Column(db.String(50), default='success', nullable=False)  # 'success', 'failed', etc.
@@ -160,14 +160,14 @@ class Log(db.Model):
 
     def __repr__(self):
         return f'<Log {self.id}, {self.action_type}, {self.status}>'
-    
+
 class PosTerminal(db.Model):
     __tablename__ = 'pos_terminals'
     id = db.Column(db.Integer, primary_key=True)
     uuid = db.Column(db.String(100), unique=True, nullable=False)
     name = db.Column(db.String(100), nullable=False)
     location = db.Column(db.String(100), nullable=False)
-    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE', name='fk_pos_terminals_owner_id'), nullable=False)
     pos_status = db.Column(db.String(50), default='active', nullable=False)  # 'active', 'inactive', etc.
     created_at = db.Column(db.Integer, default=lambda: int(time.time()), nullable=False)
 
@@ -175,7 +175,7 @@ class PosTerminal(db.Model):
         return self.pos_status == 'active'
 
     def __repr__(self):
-        return f'<PosTerminal {self.pos_uuid}, {self.pos_name}, {self.pos_location}>'
+        return f'<PosTerminal {self.uuid}, {self.name}, {self.location}>'
 
 
 # Automatically add settings when a user is created
@@ -187,7 +187,7 @@ def create_settings(mapper, connection, target):
         language = session.get('lang', 'en')
     else:
         language = 'en'
-    
+
     # Insert the default settings for the user
     # Replacement of the following code:
     # db.session.add(Settings(user_id=target.id, language=language, default_currency='EUR'))
@@ -216,7 +216,7 @@ def create_balance(mapper, connection, target):
 
 # Automatically add a balance history when a user is created
 @event.listens_for(User, 'after_insert')
-def create_balance_history(mapper, connection, target):
+def create_balance_history_on_user_creation(mapper, connection, target):
     # Insert the default balance history for the user
     connection.execute(
         BalanceHistory.__table__.insert().values(
@@ -226,10 +226,10 @@ def create_balance_history(mapper, connection, target):
         )
     )
 
-# Automatically add balanbe history when a balance is updated
+# Automatically add balance history when a balance is updated
 @event.listens_for(Balance, 'after_update')
-def create_balance_history(mapper, connection, target):
-    # Insert the default balance history for the user
+def create_balance_history_on_balance_update(mapper, connection, target):
+    # Insert the balance history for the user
     connection.execute(
         BalanceHistory.__table__.insert().values(
             user_id=target.user_id,
