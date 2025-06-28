@@ -1,7 +1,6 @@
 import variables
 from app import create_app
 
-
 FLASK_ENV = variables.FLASK_ENV
 
 if FLASK_ENV == 'development':
@@ -12,6 +11,10 @@ else:
     raise ValueError('FLASK_ENV not set properly')
 
 # Tetsing environment is run seperately
+
+# Initialize Celery
+from app.init_celery import celery_init_app
+celery = celery_init_app(app)
 
 if __name__ == '__main__':
     app.run()

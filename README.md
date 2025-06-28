@@ -23,11 +23,18 @@ Website is hosted on [mibank.si](https://mibank.si).
     SECRET_KEY="your_secret_key"
     FLASK_ENV="production" # or deveopment
     FLASK_APP="manage.py"
-    POS_TERMINAL_ENABLED="True" # or False
+    POS_TERMINAL_ENABLED="False" # or True
 
     # Database
     DATABASE_URL="postgresql://username:password@localhost/
     web_bank_db"
+
+    # Redis
+    REDIS_HOSTS="local:redis:6379"
+
+    # Celery
+    CELERY_BROKER_URL="redis://localhost:6379/0"
+    CELERY_RESULT_BACKEND="redis://localhost:6379/0"
 
     # API keys
     EXCHANGE_RATE_API_KEY="api_key"
@@ -123,4 +130,9 @@ python scripts/generate_mock_data.py
 It will set user as admin.
 ```
 python scripts/set_admin.py username
+```
+
+### Watch Celery tasks
+```bash
+celery -A manage.celery worker --loglevel INFO
 ```

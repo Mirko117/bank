@@ -20,3 +20,10 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     DEBUG = False
     TESTING = False
+
+# For Celery
+class CeleryConfig:
+    broker_url = variables.CELERY_BROKER_URL
+    result_backend = variables.CELERY_RESULT_BACKEND
+    task_ignore_result = True
+

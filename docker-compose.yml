@@ -15,6 +15,26 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
+  redis:
+    image: redis:latest
+    container_name: redis_cache
+    restart: always
+    networks:
+      - mibank-network
+    ports:
+      - "6379:6379"
+    
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: redis_commander
+    restart: always
+    networks:
+      - mibank-network
+    ports:
+      - "8081:8081"
+    environment:
+      - REDIS_HOSTS=${REDIS_HOSTS}
+
   flask:
     build:
       context: .

@@ -1,12 +1,14 @@
 from flask import Blueprint, render_template, session, jsonify, request, make_response
 from app.functions import get_translations, check_language, is_valid_number_format, format_money
 from app.api.queries import get_all_currencies, get_exchange_rate
+from app.tasks import update_exchange_rates
 from decimal import Decimal, ROUND_DOWN
 
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def index():
+    update_exchange_rates.delay()
     return render_template('index.html', t=get_translations(), 
                            all_currencies=get_all_currencies())
 
