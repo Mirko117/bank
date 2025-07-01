@@ -13,7 +13,7 @@ else:
 # Tetsing environment is run seperately
 
 # Initialize Celery
-from app.init_celery import celery_init_app
+from app.extensions import celery_init_app
 celery = celery_init_app(app)
 
 if __name__ == '__main__':

@@ -19,6 +19,9 @@ REDIS_HOSTS = os.getenv("REDIS_HOSTS")
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
 
+# Cache
+CACHE_REDIS_URL = os.getenv("CACHE_REDIS_URL")
+
 # API keys
 EXCHANGE_RATE_API_KEY = os.getenv("EXCHANGE_RATE_API_KEY")
 
@@ -26,5 +29,6 @@ EXCHANGE_RATE_API_KEY = os.getenv("EXCHANGE_RATE_API_KEY")
 if not all([SECRET_KEY, FLASK_ENV, FLASK_APP, 
             POS_TERMINAL_ENABLED is not None,
             DATABASE_URL, REDIS_HOSTS, CELERY_BROKER_URL,
-            CELERY_RESULT_BACKEND, EXCHANGE_RATE_API_KEY]):
+            CELERY_RESULT_BACKEND, EXCHANGE_RATE_API_KEY,
+            CACHE_REDIS_URL]):
     print("\033[91m[WARNING] One or more environment variables are not set. Please check your .env file. Code might not work as intended. If you see this while running tests, you can ignore it.\033[0m")

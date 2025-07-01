@@ -2,11 +2,12 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-
+from app.extensions import get_configured_cache
 
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
+cache = get_configured_cache()
 
 def create_app(config_object='config.Config'):
     app = Flask(__name__)
@@ -29,6 +30,7 @@ def create_app(config_object='config.Config'):
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
+    cache.init_app(app)
 
     # Import blueprints
     from app.routes import main_bp

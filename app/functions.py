@@ -1,5 +1,6 @@
 from flask import current_app, session
 from flask_login import current_user
+from app import cache
 from app.models import db, ExchangeRate, ExchangeRateLastUpdate
 from datetime import datetime
 import requests
@@ -45,4 +46,9 @@ def format_money(value, decimals=2):
 def unix_to_datetime(value, format='%Y-%m-%d %H:%M:%S'):
     '''Convert timestamp to datetime and format it'''
     return datetime.fromtimestamp(value).strftime(format)
+
+def delete_cache_on_balance_change(*args):
+    '''Delete balance related cache when balance changes '''
+    for user_id in args:
+        cache.delete(f"monthly_income_and_change_{user_id}")
 

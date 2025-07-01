@@ -7,7 +7,8 @@ import validators
 import pandas as pd
 import json
 import xml.etree.ElementTree as ET
-from app.functions import get_user_translations, is_valid_number_format, unix_to_datetime, format_money, check_language
+from app import cache
+from app.functions import get_user_translations, is_valid_number_format, unix_to_datetime, format_money, check_language, delete_cache_on_balance_change
 from app.models import db, Transaction, User, Balance
 from app.api.queries import *
 
@@ -39,7 +40,16 @@ class DashboardGetPageEndpoint(Resource):
             
             # Render the shell
             if shell == "dashboard":
-                monthly_income, monthly_change = calculate_monthly_income_and_change()
+
+                # Check if monthly income and change are cached
+                # If not, calculate and cache them
+                cached_data = cache.get(f"monthly_income_and_change_{current_user.id}")
+                if cached_data is None:
+                    monthly_income, monthly_change = calculate_monthly_income_and_change()
+                    cache.set(f"monthly_income_and_change_{current_user.id}", (monthly_income, monthly_change))
+                else:
+                    monthly_income, monthly_change = cached_data
+
                 recent_transactions = current_user.transactions.order_by(Transaction.timestamp.desc()).limit(4).all()
                 total_balance_change = calculate_total_balance_change()
                 rendered_shell = render_template("dashboard/shells/dashboard.html", t=get_user_translations(),
@@ -57,7 +67,6 @@ class DashboardGetPageEndpoint(Resource):
                 rendered_shell = render_template(f"dashboard/shells/{shell}.html", t=get_user_translations(),
                                                  user=current_user)
         except Exception as e:
-            print(e)
             response = make_response({"status": "error", "message": "Shell not found"}, 404)
             return response   
 
@@ -135,6 +144,9 @@ class DashboardMakeQuickTransferEndpoint(Resource):
 
             db.session.add(transaction)
             db.session.commit()
+
+            # Delete related cache
+            delete_cache_on_balance_change(current_user.id, recipient_query.id)
 
             response = make_response({"status": "success", "message": "Transfer successful"}, 200)
 
@@ -402,6 +414,9 @@ class DashboardExchangeCurrenciesEndpoint(Resource):
             db.session.add(transaction2)
             db.session.commit()
 
+            # Delete related cache
+            delete_cache_on_balance_change(current_user.id)
+
             response = make_response({"status": "success", "message": "Exchange successful"}, 200)
             return response
 
@@ -539,6 +554,9 @@ class DashboardMakeTransferEndpoint(Resource):
             db.session.add(transaction)
             db.session.commit()
 
+            # Delete related cache
+            delete_cache_on_balance_change(current_user.id, recipient_query.id)
+
             response = make_response({"status": "success", "message": "Transfer successful"}, 200)
             return response
 
@@ -675,6 +693,8 @@ class DashboardSaveSettingsEndpoint(Resource):
                 current_user.settings.language = language
             if default_currency != current_user.settings.default_currency:
                 current_user.settings.default_currency = default_currency
+                # Delete related cache
+                delete_cache_on_balance_change(current_user.id)
 
             db.session.commit()
 

@@ -2,7 +2,7 @@ from flask import request, render_template, make_response
 from flask_restx import Resource, Namespace
 from flask_login import current_user
 from decimal import Decimal, ROUND_DOWN
-from app.functions import get_user_translations, is_valid_number_format
+from app.functions import get_user_translations, is_valid_number_format, delete_cache_on_balance_change
 from app.models import db, Transaction, User
 from app.api.queries import *
 
@@ -207,6 +207,9 @@ class DashboardMakeTransferEndpoint(Resource):
 
             db.session.add(transaction)
             db.session.commit()
+
+            # Delete related cache
+            delete_cache_on_balance_change(recipient_query.id)
 
             response = make_response({"status": "success", "message": "Transfer successful"}, 200)
             return response
