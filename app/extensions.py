@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_caching import Cache
 from celery import Celery, Task
-import variables
+
 
 def celery_init_app(app: Flask) -> Celery:
     '''Initialize Celery with Flask application context.'''
@@ -16,11 +16,3 @@ def celery_init_app(app: Flask) -> Celery:
     app.extensions["celery"] = celery_app
     return celery_app
 
-def get_configured_cache() -> Cache:
-    '''Get a configured Flask-Caching instance.'''
-    cache = Cache(config={
-        "CACHE_TYPE": "RedisCache",
-        "CACHE_REDIS_URL": variables.CACHE_REDIS_URL,
-        "CACHE_DEFAULT_TIMEOUT": 300
-    })
-    return cache

@@ -36,6 +36,9 @@ Website is hosted on [mibank.si](https://mibank.si).
     CELERY_BROKER_URL="redis://localhost:6379/0"
     CELERY_RESULT_BACKEND="redis://localhost:6379/0"
 
+    # Cache
+    CACHE_REDIS_URL="redis://localhost:6379/0"
+
     # API keys
     EXCHANGE_RATE_API_KEY="api_key"
 
@@ -45,6 +48,8 @@ Website is hosted on [mibank.si](https://mibank.si).
     POSTGRES_PASSWORD="postgres_password"
 
     ```
+- If you get some sort of connectivity error, try changing `redis://localhost:6379/0` to `redis://redis_cache:6379/0`
+
 
 - If you want to use SQLite:
 
@@ -54,12 +59,10 @@ Website is hosted on [mibank.si](https://mibank.si).
 
 3. Set up the database
 
-- Ensure PostgreSQL is installed and running on your machine
-- Create a database for the project using the following command (if you plan to tun on sqlite3 you should skip this step):
+- If using Docker you can skip this step since the database will be initialized inside container.
 
-    ```
-    createdb web_bank_db
-    ```
+- Ensure PostgreSQL is installed and running on your machine.
+
 
 - Apply the database migrations by running:
     ```bash
@@ -73,6 +76,7 @@ Website is hosted on [mibank.si](https://mibank.si).
     ```bash
     python manage.py
     ```
+- **Note for Docker:** You can basically run applications in 2 modes, development and production. Production is imagined to be running on some sort of Linux Server and inside Docker containers. For that you will need Nginx reverse proxy. If you want to run it in development mode locally, you don't need Nginx container running, you only need Postgres (if working with Postgres, if not then you can simply use SQLite), Redis and Redis Commander. When you have all 3 containers set up then you can run command above.
 
 5. Access the website
 
@@ -81,7 +85,7 @@ Website is hosted on [mibank.si](https://mibank.si).
 ### Docker environment
 1. Install Docker and Docker Compose on your machine.
 
-2. Create same `.env` file as in local development (see above). **Note**: Must use PostgreSQL.
+2. Create same `.env` file as in local development (see above).
 
 3. Build and run the Docker containers:
 
@@ -115,9 +119,9 @@ You can run tests by typing `pytest` in terminal.
 
 ## Scripts
 
-### Note: If you are using Docker, use next command to run scripts:
+### Note for Docker: Use next command to run scripts:
 ```bash
-sudo docker exec -it flask_app sh -c "python3 SCRIPT"
+sudo docker exec -it flask_app sh -c "SCRIPT"
 ```
 
 ### Mock data for testing UI
