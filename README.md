@@ -1,6 +1,6 @@
 # MiBank - Web Bank Application
 
-This application in my middle shool final project. It's a web bank application that allows users to manage their accounts, view transactions, and perform various banking operations. The application uses tools like Flask, Flask-SQLAlchemy, jQuery, PostgreSQL, Docker, Gunicorn, and Nginx.
+This application is my middle school final project. It's a web bank application that allows users to manage their accounts, view transactions, and perform various banking operations. The application uses tools like **Flask and Flask extensions, jQuery, PostgreSQL, Docker, Redis, Celery, Gunicorn, and Nginx**.
 
 Website is hosted on [mibank.si](https://mibank.si).
 
@@ -21,16 +21,15 @@ Website is hosted on [mibank.si](https://mibank.si).
     ```makefile
     # Flask
     SECRET_KEY="your_secret_key"
-    FLASK_ENV="production" # or deveopment
+    FLASK_ENV="production" # or development
     FLASK_APP="manage.py"
     POS_TERMINAL_ENABLED="False" # or True
 
     # Database
-    DATABASE_URL="postgresql://username:password@localhost/
-    web_bank_db"
+    DATABASE_URL="postgresql://username:password@localhost/web_bank_db"
 
     # Redis
-    REDIS_HOSTS="local:redis:6379"
+    REDIS_HOSTS="localhost:6379"
 
     # Celery
     CELERY_BROKER_URL="redis://localhost:6379/0"
@@ -50,7 +49,6 @@ Website is hosted on [mibank.si](https://mibank.si).
     ```
 - If you get some sort of connectivity error, try changing `redis://localhost:6379/0` to `redis://redis_cache:6379/0`
 
-
 - If you want to use SQLite:
 
     ```makefile
@@ -62,7 +60,6 @@ Website is hosted on [mibank.si](https://mibank.si).
 - If using Docker you can skip this step since the database will be initialized inside container.
 
 - Ensure PostgreSQL is installed and running on your machine.
-
 
 - Apply the database migrations by running:
     ```bash
@@ -95,7 +92,7 @@ Website is hosted on [mibank.si](https://mibank.si).
 
 ## SSL
 
-This is optional, but if you want to use SSL, you can use Cerbot with Let's Encrypt.
+This is optional, but if you want to use SSL, you can use Certbot with Let's Encrypt.
 
 ```bash
 sudo apt install certbot
@@ -112,7 +109,7 @@ sudo cp /etc/letsencrypt/live/mibank.si/privkey.pem ./ssl/
 
 sudo chown -R $USER:$USER ./ssl/
 ```
-Change `mibank.si` to yout domain, also change it in `nginx.conf`
+Change `mibank.si` to your domain, also change it in `nginx.conf`
 
 ## Testing
 You can run tests by typing `pytest` in terminal.
@@ -132,7 +129,7 @@ python scripts/generate_mock_data.py
 
 ### Set admin
 It will set user as admin.
-```
+```bash
 python scripts/set_admin.py username
 ```
 
