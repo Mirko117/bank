@@ -2,8 +2,6 @@
 
 This application is my middle school final project. It's a web bank application that allows users to manage their accounts, view transactions, and perform various banking operations. The application uses tools like **Flask and Flask extensions, jQuery, PostgreSQL, Docker, Redis, Celery, Gunicorn, and Nginx**.
 
-Website is hosted on [mibank.si](https://mibank.si).
-
 ## How to run
 
 ### Local development
