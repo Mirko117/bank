@@ -14,7 +14,7 @@ jobs:
             fail-fast: false
             matrix:
                 os: [ubuntu-latest, windows-latest]
-                python-version: [3.12.3]
+                python-version: [3.12.12]
         
         name: Python ${{ matrix.python-version }} on ${{ matrix.os }}
         runs-on: ${{ matrix.os }}
@@ -34,9 +34,9 @@ jobs:
                 python -m pip install --upgrade pip
                 pip install -r requirements.txt
 
-            - name: Add .env file
+            - name: Add .env.local file
               run: |
-                echo "SECRET_KEY='secret_key_for_testing'" > .env
+                echo "SECRET_KEY='secret_key_for_testing'" > .env.local
 
             - name: Run tests
               run: |

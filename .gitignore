@@ -1,7 +1,8 @@
 __pycache__/
 .pytest_cache/
 
-.env
+.env.local
+.env.docker
 venv/
 
 /scripts/users_and_passwords.txt

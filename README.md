@@ -14,38 +14,7 @@ This application is my middle school final project. It's a web bank application 
 
 2. Set up environment variables:
 
-- In the project directory, create a `.env` file with the following content:
-
-    ```makefile
-    # Flask
-    SECRET_KEY="your_secret_key"
-    FLASK_ENV="production" # or development
-    FLASK_APP="manage.py"
-    POS_TERMINAL_ENABLED="False" # or True
-
-    # Database
-    DATABASE_URL="postgresql://username:password@localhost/web_bank_db"
-
-    # Redis
-    REDIS_HOSTS="localhost:6379"
-
-    # Celery
-    CELERY_BROKER_URL="redis://localhost:6379/0"
-    CELERY_RESULT_BACKEND="redis://localhost:6379/0"
-
-    # Cache
-    CACHE_REDIS_URL="redis://localhost:6379/0"
-
-    # API keys
-    EXCHANGE_RATE_API_KEY="api_key"
-
-    # Docker
-    POSTGRES_DB="postgres_db"
-    POSTGRES_USER="postgres_user"
-    POSTGRES_PASSWORD="postgres_password"
-
-    ```
-- If you get some sort of connectivity error, try changing `redis://localhost:6379/0` to `redis://redis_cache:6379/0`
+This project uses two .env files. They should be called `.env.local` and `.env.docker`. In the projects root you have examples of how they shuuld look and what they should contain. Main difference between then is that when running docker, you need to point to other services that are running by using that services names as host (e.g. `postgres` for PostgreSQL, `redis` for Redis), but for the local development (when running `python manage.py`) variables need to point to `localhost` instead. 
 
 - If you want to use SQLite:
 
@@ -71,7 +40,7 @@ This application is my middle school final project. It's a web bank application 
     ```bash
     python manage.py
     ```
-- **Note for Docker:** You can basically run applications in 2 modes, development and production. Production is imagined to be running on some sort of Linux Server and inside Docker containers. For that you will need Nginx reverse proxy. If you want to run it in development mode locally, you don't need Nginx container running, you only need Postgres (if working with Postgres, if not then you can simply use SQLite), Redis and Redis Commander. When you have all 3 containers set up then you can run command above.
+- **Note for Docker:** You can basically run applications in 2 modes, development and production. Production is imagined to be running on some sort of Linux Server and inside Docker containers. For that you will need Nginx reverse proxy. If you want to run it in development mode locally, you don't need Nginx container running, you only Postgres (if working with Postgres, if not then you can simply use SQLite), Redis, Redis Commander and Celery. When you have all 4 containers set up then you can run command above.
 
 5. Access the website
 
@@ -80,13 +49,9 @@ This application is my middle school final project. It's a web bank application 
 ### Docker environment
 1. Install Docker and Docker Compose on your machine.
 
-2. Create same `.env` file as in local development (see above).
+2. Create same `.env` files as told above.
 
-3. Build and run the Docker containers:
-
-    ```bash
-    sudo docker-compose up --build -d
-    ```
+3. For setting up docker, you can use commands from Makefile, run `make up` to start all conainers and then you can run `make local` to stop Nginx and Flask container so you can run Flask directly.
 
 ## SSL
 
@@ -107,7 +72,7 @@ sudo cp /etc/letsencrypt/live/mibank.si/privkey.pem ./ssl/
 
 sudo chown -R $USER:$USER ./ssl/
 ```
-Change `mibank.si` to your domain, also change it in `nginx.conf`
+Change `mibank.si` to your domain, also change it in `nginx.ssl.conf`
 
 ## Testing
 You can run tests by typing `pytest` in terminal.

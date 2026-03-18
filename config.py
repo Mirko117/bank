@@ -11,7 +11,7 @@ class Config:
     CACHE_TYPE = "RedisCache"
     CACHE_REDIS_URL = variables.CACHE_REDIS_URL
     CACHE_DEFAULT_TIMEOUT = 300
-    CACHE_KEY_PREFIX = "bank_"
+    CACHE_KEY_PREFIX = ""
 
 
 # For pytest
