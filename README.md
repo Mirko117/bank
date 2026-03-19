@@ -1,6 +1,24 @@
-# MiBank - Web Bank Application
+# MiBank – Web Banking Application
 
-This application is my middle school final project. It's a web bank application that allows users to manage their accounts, view transactions, and perform various banking operations. The application uses tools like **Flask and Flask extensions, jQuery, PostgreSQL, Docker, Redis, Celery, Gunicorn, and Nginx**.
+A full-stack banking simulation web app built with **Flask, PostgreSQL, Redis, Celery, Docker, Gunicorn, and Nginx.**
+
+## Project Overview
+
+MiBank allows users to:
+- Register/login and manage accounts
+- View transaction history
+- Perform transfers
+- Track currency data
+- Provides an admin dashboard for user management
+
+This project demonstrates:
+- Monolithic web architecture with async task processing (Celery + Redis)
+- Containerized local/prod workflows with Docker Compose
+- Relational data modeling and migrations (PostgreSQL + Flask-Migrate)
+- Reverse proxy deployment setup (Nginx + Gunicorn)
+
+### Demo
+- Screenshots, sitemap, architecture, and DB schema: [docs/demo.md](./docs/demo.md)
 
 ## How to run
 
@@ -14,7 +32,7 @@ This application is my middle school final project. It's a web bank application 
 
 2. Set up environment variables:
 
-This project uses two .env files. They should be called `.env.local` and `.env.docker`. In the projects root you have examples of how they shuuld look and what they should contain. Main difference between then is that when running docker, you need to point to other services that are running by using that services names as host (e.g. `postgres` for PostgreSQL, `redis` for Redis), but for the local development (when running `python manage.py`) variables need to point to `localhost` instead. 
+This project uses two .env files. They should be called `.env.local` and `.env.docker`. In the projects root you have examples of how they should look and what they should contain. Main difference between then is that when running docker, you need to point to other services that are running by using that services names as host (e.g. `postgres` for PostgreSQL, `redis` for Redis), but for the local development (when running `python manage.py`) variables need to point to `localhost` instead. 
 
 - If you want to use SQLite:
 
@@ -51,7 +69,7 @@ This project uses two .env files. They should be called `.env.local` and `.env.d
 
 2. Create same `.env` files as told above.
 
-3. For setting up docker, you can use commands from Makefile, run `make up` to start all conainers and then you can run `make local` to stop Nginx and Flask container so you can run Flask directly.
+3. For setting up docker, you can use commands from Makefile, run `make up` to start all containers and then you can run `make local` to stop Nginx and Flask container so you can run Flask directly.
 
 ## SSL
 
